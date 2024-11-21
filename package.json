@@ -1,0 +1,33 @@
+{
+  "name": "orangeproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npx ts-node src/helper/init.ts",
+    "test": "cucumber-js test || true",
+    "now": "npx cucumber-js  --tags @now",
+    "posttest": "npx ts-node src/helper/report.ts",
+    "test:failed": "cucumber-js -p rerun @rerun.txt",
+    "prettier": "npx prettier --write .",
+    "lint:check": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix",
+    "auth:setup": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" node global-setup.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.1.0",
+    "@playwright/test": "^1.49.0",
+    "@types/cucumber": "^7.0.3",
+    "@types/node": "^22.9.1",
+    "multiple-cucumber-html-reporter": "^3.8.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "fs-extra": "^11.2.0"
+  }
+}
