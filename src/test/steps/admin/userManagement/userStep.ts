@@ -1,6 +1,6 @@
 import { Given, When, Then } from "@cucumber/cucumber";
-import AdminMenuPage from "../pages/adminPage";
-import { pageFixture } from "../../hooks/pageFixture";
+import AdminMenuPage from "../../../pages/admin/userManagement/userPage";
+import { pageFixture } from "../../../../hooks/pageFixture";
 
 
 Given("User navigates to page", { timeout: 30000 }, async () => {
