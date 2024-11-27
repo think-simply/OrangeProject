@@ -1,1 +1,1 @@
-src/test/features/admin.feature:7
+src/test/features/admin/userManagement/user.feature:7
