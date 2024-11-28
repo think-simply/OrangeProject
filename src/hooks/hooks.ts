@@ -37,9 +37,5 @@ After(async function (this: any, { pickle, result }) {
     });
   }
   
-  if (pickle.tags.some(tag => tag.name === '@guest')) {
-    await Context?.close();
-  } else {
-    await adminContext?.close();
-  }
+  await this.page.close();
 });
