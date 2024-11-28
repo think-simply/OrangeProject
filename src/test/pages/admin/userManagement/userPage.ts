@@ -1,6 +1,7 @@
 import { Page, Locator, expect } from "@playwright/test";
 import dotenv from 'dotenv';
 dotenv.config();
+const axios = require('axios');
 
 export default class AdminMenuPage {
     readonly page: Page;
@@ -38,6 +39,7 @@ export default class AdminMenuPage {
     readonly statusLabel: Locator;
     readonly adminRoleOption: Locator;
     readonly newAdminUser: Locator;
+    readonly userResult: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -75,6 +77,7 @@ export default class AdminMenuPage {
         this.employeeNameColumn = page.locator('//div[text()="Employee Name"]')
         this.statusColumn = page.locator('//div[text()="Status"]')
         this.actionColumn = page.locator('//div[text()="Actions"]')
+        this.userResult = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']")
 
     }
     async visit() {
@@ -152,24 +155,22 @@ export default class AdminMenuPage {
     }
 
     async searchUserName() {
-        //employee: string, username: string, pass: string, confirm: string
         await this.adminMenu.click();
-        await this.addBtn.click();
-        await this.userRole.click();
-        await this.adminRoleOption.click();
-        await this.status.click();
-        await this.statusOption.click();
-        await this.employeeName.fill("t");
-        await this.employeeOption.click();
-        await this.usernameField.fill("usernamenttheuAdmin");
-        await this.passwordField.fill("admin123");
-        await this.confirmPassword.fill("admin123");
-        await this.submitBtn.click();
+        await this.usernameField.fill("usernamenttheu");
+        await this.searchBtn.click();
+        
 
     }
     async afterSearchUserName() {
-        await this.page.waitForSelector('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
-        await expect(this.newAdminUser).toBeVisible();
-    }
+        try {
+            const response = await axios.get('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/users?');
+            expect(response.status).toBe(200);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        await expect(this.newEssUser).toBeVisible();
+        await expect(this.userResult).toHaveCount(1);
+   }
+
 
 }

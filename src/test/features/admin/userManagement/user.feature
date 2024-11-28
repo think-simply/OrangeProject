@@ -4,13 +4,13 @@ Feature: Functions in Admin Menu
     Given User navigates to page
 
   # @low
-  # Scenario: US_01: Admin add new ESS user
+  # Scenario: US_01: Check page UI
   #   When User logs in as Admin
   #   And User access User management page
   #   Then User management page has been displayed
 
   # @high
-  # Scenario: US_02: Admin add new ESS user
+  # Scenario: US_02: Admin add new Admin user
   #   When User logs in as Admin
   #   And User creates a new Admin user
   #   Then New Admin user has been created successfully

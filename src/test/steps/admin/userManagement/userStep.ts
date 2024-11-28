@@ -37,13 +37,13 @@ Then("New ESS user has been created successfully", { timeout: 30000 }, async () 
     await adminMenuPage.afterCreateEssUser();
 });
 
-When("User search by username ", { timeout: 30000 }, async () => {
+When("User search by username", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.page);
-    await adminMenuPage.createEssUser();
+    await adminMenuPage.searchUserName();
 });
 Then("Result has been displayed follow the search key", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.page);
-    await adminMenuPage.afterCreateEssUser();
+    await adminMenuPage.afterSearchUserName();
 });
 
   
