@@ -41,9 +41,64 @@ When("User search by username", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.page);
     await adminMenuPage.searchUserName();
 });
-Then("Result has been displayed follow the search key", { timeout: 30000 }, async () => {
+Then("Result has been displayed follow username", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.page);
     await adminMenuPage.afterSearchUserName();
 });
 
-  
+When("User search by role", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.searchUserRole();
+});
+Then("Result has been displayed follow role", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.afterSearchUserRole();
+});
+When("User search by employee name", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.searchEmployeeName();
+});
+Then("Result has been displayed follow employee name", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.afterSearchEmployeeName();
+});
+
+When("User search by status", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.searchStatus();
+});
+Then("Result has been displayed follow status", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.afterSearchStatus();
+});
+
+When("User enters values on search fields", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.inputDataForFields();
+});
+When("User click reset button", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.pressReset();
+});
+Then("Data on all search fields have been cleared", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.afterReset();
+});
+
+When("User update an account", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.updateAccount();
+});
+Then("Account has been updated", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.afterUpdateAccount();
+});
+When("User removes an account", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.updateAccount();
+});
+Then("Account has been deleted", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.afterUpdateAccount();
+});
+

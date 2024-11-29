@@ -40,6 +40,9 @@ export default class AdminMenuPage {
     readonly adminRoleOption: Locator;
     readonly newAdminUser: Locator;
     readonly userResult: Locator;
+    readonly editIcon: Locator;
+    readonly updatedAccount : Locator;
+
 
     constructor(page: Page) {
         this.page = page;
@@ -51,7 +54,8 @@ export default class AdminMenuPage {
         this.userRole = page.locator('//label[text()="User Role"]//ancestor::div[contains(@class,"oxd-grid-item--gutters")]//descendant::div[@class="oxd-select-wrapper"]')
         this.status = page.locator('//label[text()="Status"]//ancestor::div[contains(@class,"oxd-grid-item--gutters")]//descendant::div[@class="oxd-select-wrapper"]')
         this.employeeName = page.locator('//input[@placeholder="Type for hints..."]')
-        this.usernameField = page.locator('//label[normalize-space()="Username"]//ancestor::div[@class="oxd-grid-item oxd-grid-item--gutters"]//descendant::input[@class="oxd-input oxd-input--active"]')
+        // this.usernameField = page.locator('//label[normalize-space()="Username"]//ancestor::div[@class="oxd-grid-item oxd-grid-item--gutters"]//descendant::input[@class="oxd-input oxd-input--active"]')
+        this.usernameField =  page.getByRole('textbox').nth(2)
         this.passwordField = page.locator('//div[contains(@class,"user-password-cell")]//descendant::input[@type="password"]')
         this.confirmPassword = page.locator('//label[normalize-space()="Confirm Password"]//ancestor::div[@class="oxd-grid-item oxd-grid-item--gutters"]//descendant::input[@type="password"]')
         this.submitBtn = page.locator('//button[@type="submit"]')
@@ -79,8 +83,10 @@ export default class AdminMenuPage {
         this.statusColumn = page.locator('//div[text()="Status"]')
         this.actionColumn = page.locator('//div[text()="Actions"]')
         this.userResult = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']")
-
+        this.editIcon = page.locator('//div[text()="usernamenttheu"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]')
+        this.updatedAccount = page.locator('//div[text()="usernamenttheuEdit"]')
     }
+
     async visit() {
         await this.page.goto(`${process.env.WEB_URL}`);
     }
@@ -172,6 +178,107 @@ export default class AdminMenuPage {
         await expect(this.newEssUser).toBeVisible();
         await expect(this.userResult).toHaveCount(1);
     }
+    async searchUserRole() {
+        await this.adminMenu.click();
+        await this.userRole.click();
+        await this.adminRoleOption.click();
+        await this.searchBtn.click();
 
 
+    }
+    async afterSearchUserRole() {
+        // Lấy danh sách kết quả
+        const results = await this.page.$$("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']"); // Thay thế '.user-item' bằng selector phù hợp
+
+        // Kiểm tra tất cả các kết quả có role = admin
+        await Promise.all(results.map(async (result) => {
+            const roleElement = await result.$("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][3]"); // Thay thế '.user-role' bằng selector phù hợp
+            const roleText = await roleElement.textContent();
+            expect(roleText).toBe('Admin');
+        }))
+    }
+    async searchEmployeeName() {
+        await this.adminMenu.click();
+        await this.employeeName.fill("t");
+        await this.employeeOption.click();
+        await this.searchBtn.click();
+
+    }
+    async afterSearchEmployeeName() {
+        // Lấy danh sách kết quả
+        const userRoleLocator = '//div[@class="oxd-table-row oxd-table-row--with-border"]//parent::div[@class="oxd-table-card"]';
+
+        const results = await this.page.$$(userRoleLocator);
+
+        await Promise.all(results.map(async (result) => {
+            const roleElement = await result.$("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]");
+            const roleText = await roleElement.textContent();
+            const employeeNamevalue = 'Timothy Lewis Amiano';
+            expect(roleText).toContain(employeeNamevalue);
+        }))
+    }
+
+    async searchStatus() {
+        await this.adminMenu.click();
+        await this.status.click();
+        await this.statusOption.click();
+        await this.searchBtn.click();
+    }
+
+    async afterSearchStatus() {
+        // Lấy danh sách kết quả
+        const userRoleLocator = '//div[@class="oxd-table-row oxd-table-row--with-border"]//parent::div[@class="oxd-table-card"]';
+
+        const results = await this.page.$$(userRoleLocator);
+
+        await Promise.all(results.map(async (result) => {
+            const roleElement = await result.$("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]");
+            const roleText = await roleElement.textContent();
+            const status = 'Enable';
+            expect(roleText).toContain(status);
+
+        }))
+
+    }
+
+    async inputDataForFields() {
+        await this.adminMenu.click();
+        await this.usernameField.fill("usernamenttheu");
+        await this.userRole.click();
+        await this.adminRoleOption.click();
+        await this.employeeName.fill("t");
+        await this.employeeOption.click();
+        await this.status.click();
+        await this.statusOption.click();
+
+    }
+
+    async pressReset() {
+        await this.resetBtn.click();
+    }
+
+    async afterReset() {
+        const usernameValue = await this.usernameField.textContent();
+        expect(usernameValue).toBe('');
+        const role = await this.userRole.textContent();
+        expect(role).toBe('-- Select --');
+        const employee = await this.employeeName.textContent();
+        expect(employee).toBe('');
+        const status = await this.status.textContent();
+        expect(status).toBe('-- Select --');
+    }
+    async updateAccount() {
+        await this.adminMenu.click();
+        await this.editIcon.click();
+        await this.usernameField.click();
+        await this.usernameField.fill('usernamenttheuEdit');
+        await this.submitBtn.click();
+    }
+
+    async afterUpdateAccount() {
+        await this.page.waitForSelector('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        await expect(this.updatedAccount).toBeVisible();
+    }
+
+    
 }
