@@ -10,13 +10,13 @@ Feature: Functions in Admin Menu
     Then User management page has been displayed
 
   @high
-  Scenario: US_02: Admin add new Admin user
+  Scenario: US_02: Add new Admin user
     When User logs in as Admin
     And User creates a new Admin user
     Then New Admin user has been created successfully
 
   @high
-  Scenario: US_03: Admin add new ESS user
+  Scenario: US_03: Add new ESS user
     When User logs in as Admin
     And User creates a new ESS user
     Then New ESS user has been created successfully
@@ -53,19 +53,19 @@ Feature: Functions in Admin Menu
     Then Data on all search fields have been cleared
 
   @high
-  Scenario: US_09: User updates an account
+  Scenario: US_09: Updates an account
     When User logs in as Admin
     And User update an account
     Then Account has been updated
 
   @high
-  Scenario: US_010: User removes an account
+  Scenario: US_010: Removes an account
     When User logs in as Admin
     And User removes an account
     Then Account has been deleted
 
   @high
-  Scenario: US_11: User removes multi account
+  Scenario: US_11: Removes multi account
     When User logs in as Admin
     And User removes multi account
     Then All selected account have been deleted
