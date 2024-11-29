@@ -58,19 +58,20 @@ export default class AdminMenuPage {
         this.userRoleOption = page.getByRole('option', { name: 'ESS' })
         this.adminRoleOption = page.getByRole('option', { name: 'Admin' })
         this.statusOption = page.getByRole('option', { name: 'Enabled' })
-        this.employeeOption = page.getByRole('option', { name: 'Timothy Lewis Amiano' })
+        const employeeNamevalue = 'Timothy Lewis Amiano'; // Giá trị bạn muốn thay thế
+        this.employeeOption = page.getByRole('option', { name: employeeNamevalue })
         this.newEssUser = page.locator('//div[text()="usernamenttheu"]')
         this.newAdminUser = page.locator('//div[text()="usernamenttheuAdmin"]')
         this.messageSuccess = page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]')
         this.userManagement = page.locator('//span[normalize-space()="User Management"]')
         this.titlePage = page.locator('//h5[text()="System Users"]')
-        this.usernameLabel= page.locator('//label[text()="Username"]')
-        this.userRoleLabel= page.locator('//label[text()="Username"]')
-        this.employeeNameLabel= page.locator('//label[text()="Username"]')
-        this.statusLabel= page.locator('//label[text()="Username"]')
-        this.resetBtn= page.locator('//button[normalize-space()="Reset"]')
+        this.usernameLabel = page.locator('//label[text()="Username"]')
+        this.userRoleLabel = page.locator('//label[text()="User Role"]')
+        this.employeeNameLabel = page.locator('//label[text()="Employee Name"]')
+        this.statusLabel = page.locator('//label[text()="Status"]')
+        this.resetBtn = page.locator('//button[normalize-space()="Reset"]')
         this.searchBtn = page.locator('//button[@type="submit"]')
-        this.addUserBtn = page.locator('//button[normalize-space()="Add"]')  
+        this.addUserBtn = page.locator('//button[normalize-space()="Add"]')
         this.checkBox = page.locator('//div[text()="Username"]//parent::div//descendant::input[@type="checkbox"]')
         this.userRoleColumn = page.locator('//div[text()="Username"]')
         this.usernameColumn = page.locator('//div[text()="User Role"]')
@@ -88,11 +89,11 @@ export default class AdminMenuPage {
         await this.passWord.fill("admin123");
         await this.loginBtn.click();
     }
-    async accessUserPage(){
+    async accessUserPage() {
         await this.adminMenu.click();
         await this.userManagement.click();
     }
-    async afterAccessUserPage(){
+    async afterAccessUserPage() {
         await expect(this.titlePage).toBeVisible();
         await expect(this.usernameLabel).toBeVisible();
         await expect(this.usernameField).toBeEditable();
@@ -112,7 +113,7 @@ export default class AdminMenuPage {
         await expect(this.statusColumn).toBeVisible();
         await expect(this.actionColumn).toBeVisible();
     }
-    
+
     async createEssUser() {
         //employee: string, username: string, pass: string, confirm: string
         await this.adminMenu.click();
@@ -158,7 +159,7 @@ export default class AdminMenuPage {
         await this.adminMenu.click();
         await this.usernameField.fill("usernamenttheu");
         await this.searchBtn.click();
-        
+
 
     }
     async afterSearchUserName() {
@@ -170,7 +171,7 @@ export default class AdminMenuPage {
         }
         await expect(this.newEssUser).toBeVisible();
         await expect(this.userResult).toHaveCount(1);
-   }
+    }
 
 
 }
