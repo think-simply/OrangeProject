@@ -41,13 +41,18 @@ export default class AdminMenuPage {
     readonly newAdminUser: Locator;
     readonly userResult: Locator;
     readonly editIcon: Locator;
-    readonly updatedAccount : Locator;
+    readonly updatedAccount: Locator;
     readonly deleteIcon: Locator;
     readonly confirmDeleteBtn: Locator;
     readonly checkbox1: Locator;
     readonly checkbox2: Locator;
     readonly deleteMultiBtn: Locator;
-
+    readonly successToast: Locator;
+    readonly usernameFieldSearch: Locator;
+    readonly resultsRowLocator: Locator;
+    readonly roleColumnLocator: Locator;
+    readonly employeeNameLocator : Locator;
+    readonly statusLocator: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -59,8 +64,8 @@ export default class AdminMenuPage {
         this.userRole = page.locator('//label[text()="User Role"]//ancestor::div[contains(@class,"oxd-grid-item--gutters")]//descendant::div[@class="oxd-select-wrapper"]')
         this.status = page.locator('//label[text()="Status"]//ancestor::div[contains(@class,"oxd-grid-item--gutters")]//descendant::div[@class="oxd-select-wrapper"]')
         this.employeeName = page.locator('//input[@placeholder="Type for hints..."]')
-        // this.usernameField = page.locator('//label[normalize-space()="Username"]//ancestor::div[@class="oxd-grid-item oxd-grid-item--gutters"]//descendant::input[@class="oxd-input oxd-input--active"]')
-        this.usernameField =  page.getByRole('textbox').nth(2)
+        this.usernameFieldSearch = page.locator('//label[normalize-space()="Username"]//ancestor::div[@class="oxd-grid-item oxd-grid-item--gutters"]//descendant::input[@class="oxd-input oxd-input--active"]')
+        this.usernameField = page.getByRole('textbox').nth(2)
         this.passwordField = page.locator('//div[contains(@class,"user-password-cell")]//descendant::input[@type="password"]')
         this.confirmPassword = page.locator('//label[normalize-space()="Confirm Password"]//ancestor::div[@class="oxd-grid-item oxd-grid-item--gutters"]//descendant::input[@type="password"]')
         this.submitBtn = page.locator('//button[@type="submit"]')
@@ -92,9 +97,14 @@ export default class AdminMenuPage {
         this.updatedAccount = page.locator('//div[text()="usernamenttheuEdit"]')
         this.deleteIcon = page.locator('//div[text()="usernamenttheuEdit"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]')
         this.confirmDeleteBtn = page.locator("//button[normalize-space()='Yes, Delete']")
-        this.checkbox1  = page.locator('//div[text()="usernamenttheuAdmin"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
-        this.checkbox2  = page.locator('//div[text()="usernamenttheu"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
+        this.checkbox1 = page.locator('//div[text()="usernamenttheuAdmin"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
+        this.checkbox2 = page.locator('//div[text()="usernamenttheu"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
         this.deleteMultiBtn = page.locator("//button[normalize-space()='Delete Selected']")
+        this.successToast = page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        this.resultsRowLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']");
+        this.roleColumnLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][3]");
+        this.employeeNameLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]");
+        this.statusLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]");
     }
 
     async visit() {
@@ -112,7 +122,7 @@ export default class AdminMenuPage {
     async afterAccessUserPage() {
         await expect(this.titlePage).toBeVisible();
         await expect(this.usernameLabel).toBeVisible();
-        await expect(this.usernameField).toBeEditable();
+        await expect(this.usernameFieldSearch).toBeEditable();
         await expect(this.userRoleLabel).toBeVisible();
         await expect(this.userRole).toBeVisible();
         await expect(this.employeeNameLabel).toBeVisible();
@@ -147,7 +157,7 @@ export default class AdminMenuPage {
 
     }
     async afterCreateEssUser() {
-        await this.page.waitForSelector('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newEssUser).toBeVisible();
     }
     async createAdminUser() {
@@ -167,20 +177,20 @@ export default class AdminMenuPage {
 
     }
     async afterCreateAdminUser() {
-        await this.page.waitForSelector('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newAdminUser).toBeVisible();
     }
 
     async searchUserName() {
         await this.adminMenu.click();
-        await this.usernameField.fill("usernamenttheu");
+        await this.usernameFieldSearch.fill("usernamenttheu");
         await this.searchBtn.click();
 
 
     }
     async afterSearchUserName() {
         try {
-            const response = await axios.get('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/users?');
+            const response = await axios.get(`${process.env.SEARCH_URL}`);
             expect(response.status).toBe(200);
         } catch (error) {
             console.error('Error:', error);
@@ -198,11 +208,10 @@ export default class AdminMenuPage {
     }
     async afterSearchUserRole() {
         // Lấy danh sách kết quả
-        const results = await this.page.$$("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']"); // Thay thế '.user-item' bằng selector phù hợp
-
+        const results = await this.resultsRowLocator.all();
         // Kiểm tra tất cả các kết quả có role = admin
         await Promise.all(results.map(async (result) => {
-            const roleElement = await result.$("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][3]"); // Thay thế '.user-role' bằng selector phù hợp
+            const roleElement = result.locator(this.roleColumnLocator);
             const roleText = await roleElement.textContent();
             expect(roleText).toBe('Admin');
         }))
@@ -216,15 +225,13 @@ export default class AdminMenuPage {
     }
     async afterSearchEmployeeName() {
         // Lấy danh sách kết quả
-        const userRoleLocator = '//div[@class="oxd-table-row oxd-table-row--with-border"]//parent::div[@class="oxd-table-card"]';
-
-        const results = await this.page.$$(userRoleLocator);
+        const results = await this.resultsRowLocator.all();
 
         await Promise.all(results.map(async (result) => {
-            const roleElement = await result.$("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]");
-            const roleText = await roleElement.textContent();
+            const employeeNameElement = result.locator(this.employeeNameLocator);
+            const employeeNameText = await employeeNameElement.textContent();
             const employeeNamevalue = 'Timothy Lewis Amiano';
-            expect(roleText).toContain(employeeNamevalue);
+            expect(employeeNameText).toContain(employeeNamevalue);
         }))
     }
 
@@ -237,15 +244,13 @@ export default class AdminMenuPage {
 
     async afterSearchStatus() {
         // Lấy danh sách kết quả
-        const userRoleLocator = '//div[@class="oxd-table-row oxd-table-row--with-border"]//parent::div[@class="oxd-table-card"]';
-
-        const results = await this.page.$$(userRoleLocator);
+        const results = await this.resultsRowLocator.all();
 
         await Promise.all(results.map(async (result) => {
-            const roleElement = await result.$("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]");
-            const roleText = await roleElement.textContent();
+            const statusElement = result.locator(this.statusLocator);
+            const statusText = await statusElement.textContent();
             const status = 'Enable';
-            expect(roleText).toContain(status);
+            expect(statusText).toContain(status);
 
         }))
 
@@ -286,7 +291,7 @@ export default class AdminMenuPage {
     }
 
     async afterUpdateAccount() {
-        await this.page.waitForSelector('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.updatedAccount).toBeVisible();
     }
 
@@ -297,7 +302,7 @@ export default class AdminMenuPage {
     }
 
     async afterRemoveAccount() {
-        await this.page.waitForSelector('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.updatedAccount).toBeHidden();
     }
 
@@ -311,10 +316,10 @@ export default class AdminMenuPage {
     }
 
     async afterRemoveMultiAccount() {
-        await this.page.waitForSelector('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newEssUser).toBeHidden();
         await expect(this.newAdminUser).toBeHidden();
     }
-    
-    
+
+
 }
