@@ -51,7 +51,7 @@ export default class AdminMenuPage {
     readonly usernameFieldSearch: Locator;
     readonly resultsRowLocator: Locator;
     readonly roleColumnLocator: Locator;
-    readonly employeeNameLocator : Locator;
+    readonly employeeNameLocator: Locator;
     readonly statusLocator: Locator;
 
     constructor(page: Page) {
@@ -110,15 +110,18 @@ export default class AdminMenuPage {
     async visit() {
         await this.page.goto(`${process.env.WEB_URL}`);
     }
+
     async login() {
         await this.userName.fill("Admin");
         await this.passWord.fill("admin123");
         await this.loginBtn.click();
     }
+
     async accessUserPage() {
         await this.adminMenu.click();
         await this.userManagement.click();
     }
+
     async afterAccessUserPage() {
         await expect(this.titlePage).toBeVisible();
         await expect(this.usernameLabel).toBeVisible();
@@ -154,12 +157,13 @@ export default class AdminMenuPage {
         await this.passwordField.fill("admin123");
         await this.confirmPassword.fill("admin123");
         await this.submitBtn.click();
-
     }
+
     async afterCreateEssUser() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newEssUser).toBeVisible();
     }
+
     async createAdminUser() {
         //employee: string, username: string, pass: string, confirm: string
         await this.adminMenu.click();
@@ -174,8 +178,8 @@ export default class AdminMenuPage {
         await this.passwordField.fill("admin123");
         await this.confirmPassword.fill("admin123");
         await this.submitBtn.click();
-
     }
+
     async afterCreateAdminUser() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newAdminUser).toBeVisible();
@@ -185,9 +189,8 @@ export default class AdminMenuPage {
         await this.adminMenu.click();
         await this.usernameFieldSearch.fill("usernamenttheu");
         await this.searchBtn.click();
-
-
     }
+
     async afterSearchUserName() {
         try {
             const response = await axios.get(`${process.env.SEARCH_URL}`);
@@ -198,14 +201,14 @@ export default class AdminMenuPage {
         await expect(this.newEssUser).toBeVisible();
         await expect(this.userResult).toHaveCount(1);
     }
+
     async searchUserRole() {
         await this.adminMenu.click();
         await this.userRole.click();
         await this.adminRoleOption.click();
         await this.searchBtn.click();
-
-
     }
+
     async afterSearchUserRole() {
         // Lấy danh sách kết quả
         const results = await this.resultsRowLocator.all();
@@ -216,13 +219,14 @@ export default class AdminMenuPage {
             expect(roleText).toBe('Admin');
         }))
     }
+
     async searchEmployeeName() {
         await this.adminMenu.click();
         await this.employeeName.fill("t");
         await this.employeeOption.click();
         await this.searchBtn.click();
-
     }
+
     async afterSearchEmployeeName() {
         // Lấy danh sách kết quả
         const results = await this.resultsRowLocator.all();
@@ -253,7 +257,6 @@ export default class AdminMenuPage {
             expect(statusText).toContain(status);
 
         }))
-
     }
 
     async inputDataForFields() {
@@ -265,7 +268,6 @@ export default class AdminMenuPage {
         await this.employeeOption.click();
         await this.status.click();
         await this.statusOption.click();
-
     }
 
     async pressReset() {
@@ -282,6 +284,7 @@ export default class AdminMenuPage {
         const status = await this.status.textContent();
         expect(status).toBe('-- Select --');
     }
+
     async updateAccount() {
         await this.adminMenu.click();
         await this.editIcon.click();
@@ -312,7 +315,6 @@ export default class AdminMenuPage {
         await this.checkbox2.click();
         await this.deleteMultiBtn.click();
         await this.confirmDeleteBtn.click();
-
     }
 
     async afterRemoveMultiAccount() {
@@ -320,6 +322,5 @@ export default class AdminMenuPage {
         await expect(this.newEssUser).toBeHidden();
         await expect(this.newAdminUser).toBeHidden();
     }
-
 
 }
