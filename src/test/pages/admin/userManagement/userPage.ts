@@ -42,6 +42,11 @@ export default class AdminMenuPage {
     readonly userResult: Locator;
     readonly editIcon: Locator;
     readonly updatedAccount : Locator;
+    readonly deleteIcon: Locator;
+    readonly confirmDeleteBtn: Locator;
+    readonly checkbox1: Locator;
+    readonly checkbox2: Locator;
+    readonly deleteMultiBtn: Locator;
 
 
     constructor(page: Page) {
@@ -85,6 +90,11 @@ export default class AdminMenuPage {
         this.userResult = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']")
         this.editIcon = page.locator('//div[text()="usernamenttheu"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]')
         this.updatedAccount = page.locator('//div[text()="usernamenttheuEdit"]')
+        this.deleteIcon = page.locator('//div[text()="usernamenttheuEdit"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]')
+        this.confirmDeleteBtn = page.locator("//button[normalize-space()='Yes, Delete']")
+        this.checkbox1  = page.locator('//div[text()="usernamenttheuAdmin"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
+        this.checkbox2  = page.locator('//div[text()="usernamenttheu"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
+        this.deleteMultiBtn = page.locator("//button[normalize-space()='Delete Selected']")
     }
 
     async visit() {
@@ -280,5 +290,31 @@ export default class AdminMenuPage {
         await expect(this.updatedAccount).toBeVisible();
     }
 
+    async removeAccount() {
+        await this.adminMenu.click();
+        await this.deleteIcon.click();
+        await this.confirmDeleteBtn.click();
+    }
+
+    async afterRemoveAccount() {
+        await this.page.waitForSelector('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        await expect(this.updatedAccount).toBeHidden();
+    }
+
+    async removeMultiAccount() {
+        await this.adminMenu.click();
+        await this.checkbox1.click();
+        await this.checkbox2.click();
+        await this.deleteMultiBtn.click();
+        await this.confirmDeleteBtn.click();
+
+    }
+
+    async afterRemoveMultiAccount() {
+        await this.page.waitForSelector('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        await expect(this.newEssUser).toBeHidden();
+        await expect(this.newAdminUser).toBeHidden();
+    }
+    
     
 }

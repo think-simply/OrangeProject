@@ -95,10 +95,21 @@ Then("Account has been updated", { timeout: 30000 }, async () => {
 });
 When("User removes an account", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.page);
-    await adminMenuPage.updateAccount();
+    await adminMenuPage.removeAccount();
 });
 Then("Account has been deleted", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.page);
-    await adminMenuPage.afterUpdateAccount();
+    await adminMenuPage.afterRemoveAccount();
+});
+
+When("User removes multi account", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.createEssUser();
+    await adminMenuPage.afterCreateEssUser();
+    await adminMenuPage.removeMultiAccount();
+});
+Then("All selected account have been deleted", { timeout: 30000 }, async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    await adminMenuPage.afterRemoveMultiAccount();
 });
 
