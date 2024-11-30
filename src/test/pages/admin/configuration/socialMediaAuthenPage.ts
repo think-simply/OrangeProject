@@ -18,7 +18,7 @@ export default class AdminMenuPage {
     readonly actionColumn: Locator;
     readonly nameTextBox: Locator;
     readonly providerUrl: Locator;
-    readonly clientID : Locator;
+    readonly clientID: Locator;
     readonly clientSecret: Locator;
     readonly saveBtn: Locator;
     readonly successToast: Locator;
@@ -92,7 +92,7 @@ export default class AdminMenuPage {
     async updateProvider() {
         await this.editIcon.click();
         await this.nameTextBox.fill("provider2");
-        await this.providerUrl.fill("https://docs.google.com/spreadsheets/d/1YDePnz81KkzMfhZ0rkq_OyK2MgP_dL_XpSn7adSiz0Q/edit?gid=0#gid=0");
+        await this.providerUrl.fill("https://docs.google.com/spreadsheets");
         await this.clientID.fill("123");
         await this.clientSecret.fill("123");
         await this.saveBtn.click();
@@ -113,15 +113,18 @@ export default class AdminMenuPage {
         await expect(this.updatedProvider).toBeHidden();
     }
 
-    async addProvider2() {
-        await this.addBtn.click();
-        await this.nameTextBox.fill("provider2");
-        await this.providerUrl.fill("https://docs.google.com/spreadsheets/d/1YDePnz81KkzMfhZ0rkq_OyK2MgP_dL_XpSn7adSiz0Q/edit?gid=0#gid=0");
-        await this.clientID.fill("123");
-        await this.clientSecret.fill("123");
-        await this.saveBtn.click();
-    }
     async deleteMultiProvider() {
+        if (!await this.checkbox1.isVisible()) {
+            await this.createProvider()
+        }
+        if (!await this.checkbox2.isVisible()) {
+            await this.addBtn.click();
+            await this.nameTextBox.fill("provider2");
+            await this.providerUrl.fill("https://docs.google.com/spreadsheets");
+            await this.clientID.fill("123");
+            await this.clientSecret.fill("123");
+            await this.saveBtn.click();
+        }
         await this.checkbox1.click();
         await this.checkbox2.click();
         await this.deleteMultiBtn.click();

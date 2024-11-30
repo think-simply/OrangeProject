@@ -44,8 +44,6 @@ Then("A provider has been deleted", { timeout: 30000 }, async () => {
 When("User removes multi provider", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.page);
     await adminMenuPage.accessSocialMediaAuthPage();
-    await adminMenuPage.createProvider();
-    await adminMenuPage.addProvider2(); 
     await adminMenuPage.deleteMultiProvider();
 });
 Then("A new provider have been deleted", { timeout: 30000 }, async () => {
