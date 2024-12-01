@@ -12,7 +12,7 @@
     "prettier": "npx prettier --write .",
     "lint:check": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
-    "auth:setup": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" node global-setup.ts"
+    "auth:setup": "npx ts-node global-setup.ts"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "fs-extra": "^11.2.0"
   }
