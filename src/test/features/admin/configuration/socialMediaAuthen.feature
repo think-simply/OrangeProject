@@ -27,7 +27,7 @@ Feature: Functions in Configuration menu, social media authen sub-menu
     And User removes a provider
     Then A provider has been deleted
 
-  @high @now
+  @high 
   Scenario: SM_05: Delete multi new provider
     When User logs in as Admin
     And User removes multi provider
