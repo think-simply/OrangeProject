@@ -3,13 +3,13 @@ Feature: Functions in Admin Menu
   Background:
     Given User navigates to page
 
-  @low
+  @low 
   Scenario: US_01: Check page UI
     When User logs in as Admin
     And User access User management page
     Then User management page has been displayed
 
-  @high
+  @high 
   Scenario: US_02: Add new Admin user
     When User logs in as Admin
     And User creates a new Admin user
@@ -39,7 +39,7 @@ Feature: Functions in Admin Menu
     And User search by employee name
     Then Result has been displayed follow employee name
 
-  @medium
+  @medium @now
   Scenario: US_07: Search user by status
     When User logs in as Admin
     And User search by status

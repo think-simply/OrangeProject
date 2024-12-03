@@ -53,9 +53,13 @@ export default class AdminMenuPage {
     readonly roleColumnLocator: Locator;
     readonly employeeNameLocator: Locator;
     readonly statusLocator: Locator;
+    readonly searchResults: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        const employeeNamevalue = 'Timothy Lewis Amiano'; // Giá trị bạn muốn thay thế
+
+
         this.userName = page.locator('//input[@placeholder="Username"]');
         this.passWord = page.locator('//input[@placeholder="Password"]');
         this.loginBtn = page.locator('//button[@type="submit"]');
@@ -72,7 +76,7 @@ export default class AdminMenuPage {
         this.userRoleOption = page.getByRole('option', { name: 'ESS' })
         this.adminRoleOption = page.getByRole('option', { name: 'Admin' })
         this.statusOption = page.getByRole('option', { name: 'Enabled' })
-        const employeeNamevalue = 'Timothy Lewis Amiano'; // Giá trị bạn muốn thay thế
+
         this.employeeOption = page.getByRole('option', { name: employeeNamevalue })
         this.newEssUser = page.locator('//div[text()="usernamenttheu"]')
         this.newAdminUser = page.locator('//div[text()="usernamenttheuAdmin"]')
@@ -105,6 +109,7 @@ export default class AdminMenuPage {
         this.roleColumnLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][3]");
         this.employeeNameLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]");
         this.statusLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]");
+        
     }
 
     async visit() {
@@ -247,16 +252,30 @@ export default class AdminMenuPage {
     }
 
     async afterSearchStatus() {
-        // Lấy danh sách kết quả
-        const results = await this.resultsRowLocator.all();
+        // Kiểm tra có locator nào không
+        await this.page.waitForTimeout(10000);
+        const statusLocators = await this.statusLocator.all();
+        // Check if any results are found
+        // if (statusLocators.length === 0) {
+        //     console.log('0 results found');
+        //     return; // Exit early if no results are found
+        // }
+        expect(statusLocators.length).toBeGreaterThan(0);
 
-        await Promise.all(results.map(async (result) => {
-            const statusElement = result.locator(this.statusLocator);
-            const statusText = await statusElement.textContent();
-            const status = 'Enable';
-            expect(statusText).toContain(status);
-
-        }))
+        // Vòng lặp kiểm tra từng locator
+        for (let i = 0; i < statusLocators.length; i++) {
+            const statusLocator = statusLocators[i];
+            // Kiểm tra locator có hiển thị không
+            await expect(statusLocator).toBeVisible({
+                timeout: 5000
+            });
+            // Lấy text của locator
+            const statusText = await statusLocator.textContent();
+            // Kiểm tra giá trị status
+            expect(statusText).toBe('Enabled');  
+        }
+        // Logging số lượng locator đã kiểm tra
+        console.log(`Successfully verified ${statusLocators.length} locators are Enabled`);
     }
 
     async inputDataForFields() {
