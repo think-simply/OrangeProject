@@ -109,7 +109,7 @@ export default class AdminMenuPage {
         this.roleColumnLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][3]");
         this.employeeNameLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]");
         this.statusLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]");
-        
+
     }
 
     async visit() {
@@ -215,14 +215,25 @@ export default class AdminMenuPage {
     }
 
     async afterSearchUserRole() {
-        // Lấy danh sách kết quả
-        const results = await this.resultsRowLocator.all();
-        // Kiểm tra tất cả các kết quả có role = admin
-        await Promise.all(results.map(async (result) => {
-            const roleElement = result.locator(this.roleColumnLocator);
-            const roleText = await roleElement.textContent();
-            expect(roleText).toBe('Admin');
-        }))
+        await this.page.waitForTimeout(5000);
+            // Kiểm tra có locator nào không
+            const results = await this.roleColumnLocator.all();
+            // Check if any results are found
+            expect(results.length).toBeGreaterThan(0);
+
+            // Vòng lặp kiểm tra từng locator
+            for (let i = 0; i < results.length; i++) {
+                const result = results[i];
+                // Kiểm tra locator có hiển thị không
+                await expect(result).toBeVisible({ timeout: 5000 });
+                // Lấy text của locator
+                const statusText = await result.textContent();
+                // Kiểm tra giá trị 
+                expect(statusText).toBe('Admin');
+            }
+            // Logging số lượng locator đã kiểm tra
+            console.log(`Successfully verified ${results.length} results`);
+        
     }
 
     async searchEmployeeName() {
@@ -233,15 +244,24 @@ export default class AdminMenuPage {
     }
 
     async afterSearchEmployeeName() {
-        // Lấy danh sách kết quả
-        const results = await this.resultsRowLocator.all();
+        await this.page.waitForTimeout(5000);
+            // Kiểm tra có locator nào không
+        const results = await this.employeeNameLocator.all();
+        // Check if any results are found
+        expect(results.length).toBeGreaterThan(0);
 
-        await Promise.all(results.map(async (result) => {
-            const employeeNameElement = result.locator(this.employeeNameLocator);
-            const employeeNameText = await employeeNameElement.textContent();
-            const employeeNamevalue = 'Timothy Lewis Amiano';
-            expect(employeeNameText).toContain(employeeNamevalue);
-        }))
+        // Vòng lặp kiểm tra từng locator
+        for (let i = 0; i < results.length; i++) {
+            const result = results[i];
+            // Kiểm tra locator có hiển thị không
+            await expect(result).toBeVisible({ timeout: 5000 });
+            // Lấy text của locator
+            const statusText = await result.textContent();
+            // Kiểm tra giá trị 
+            expect(statusText).toBe('Timothy Amiano');
+        }
+        // Logging số lượng locator đã kiểm tra
+        console.log(`Successfully verified ${results.length} results`);
     }
 
     async searchStatus() {
@@ -252,6 +272,7 @@ export default class AdminMenuPage {
     }
 
     async afterSearchStatus() {
+        await this.page.waitForTimeout(5000);
         // Kiểm tra có locator nào không
         await this.page.waitForTimeout(10000);
         const statusLocators = await this.statusLocator.all();
@@ -272,7 +293,7 @@ export default class AdminMenuPage {
             // Lấy text của locator
             const statusText = await statusLocator.textContent();
             // Kiểm tra giá trị status
-            expect(statusText).toBe('Enabled');  
+            expect(statusText).toBe('Enabled');
         }
         // Logging số lượng locator đã kiểm tra
         console.log(`Successfully verified ${statusLocators.length} locators are Enabled`);

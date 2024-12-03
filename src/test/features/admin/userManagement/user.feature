@@ -21,25 +21,25 @@ Feature: Functions in Admin Menu
     And User creates a new ESS user
     Then New ESS user has been created successfully
 
-  @medium 
+  @medium  
   Scenario: US_04: Search user by user name
     When User logs in as Admin
     And User search by username
     Then Result has been displayed follow username
 
-  @medium 
+  @medium  @now
   Scenario: US_05: Search user by role
     When User logs in as Admin
     And User search by role
     Then Result has been displayed follow role
 
-  @medium 
+  @medium  @now
   Scenario: US_06: Search user by employee name
     When User logs in as Admin
     And User search by employee name
     Then Result has been displayed follow employee name
 
-  @medium @now
+  @medium
   Scenario: US_07: Search user by status
     When User logs in as Admin
     And User search by status
