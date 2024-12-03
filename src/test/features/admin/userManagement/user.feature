@@ -8,3 +8,5 @@ Feature: Functions in Admin Menu
     When User logs in as Admin
     And User creates a new ESS user
     Then New ESS user has been created successfully
+    
+ 
