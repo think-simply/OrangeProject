@@ -59,7 +59,6 @@ export default class AdminMenuPage {
         this.page = page;
         const employeeNamevalue = 'Timothy Lewis Amiano'; // Giá trị bạn muốn thay thế
 
-
         this.userName = page.locator('//input[@placeholder="Username"]');
         this.passWord = page.locator('//input[@placeholder="Password"]');
         this.loginBtn = page.locator('//button[@type="submit"]');
@@ -76,7 +75,6 @@ export default class AdminMenuPage {
         this.userRoleOption = page.getByRole('option', { name: 'ESS' })
         this.adminRoleOption = page.getByRole('option', { name: 'Admin' })
         this.statusOption = page.getByRole('option', { name: 'Enabled' })
-
         this.employeeOption = page.getByRole('option', { name: employeeNamevalue })
         this.newEssUser = page.locator('//div[text()="usernamenttheu"]')
         this.newAdminUser = page.locator('//div[text()="usernamenttheuAdmin"]')
@@ -216,24 +214,23 @@ export default class AdminMenuPage {
 
     async afterSearchUserRole() {
         await this.page.waitForTimeout(5000);
-            // Kiểm tra có locator nào không
-            const results = await this.roleColumnLocator.all();
-            // Check if any results are found
-            expect(results.length).toBeGreaterThan(0);
+        // Kiểm tra có locator nào không
+        const results = await this.roleColumnLocator.all();
+        // Check if any results are found
+        expect(results.length).toBeGreaterThan(0);
+        // Vòng lặp kiểm tra từng locator
+        for (let i = 0; i < results.length; i++) {
+            const result = results[i];
+            // Kiểm tra locator có hiển thị không
+            await expect(result).toBeVisible({ timeout: 5000 });
+            // Lấy text của locator
+            const statusText = await result.textContent();
+            // Kiểm tra giá trị 
+            expect(statusText).toBe('Admin');
+        }
+        // Logging số lượng locator đã kiểm tra
+        console.log(`Successfully verified ${results.length} results`);
 
-            // Vòng lặp kiểm tra từng locator
-            for (let i = 0; i < results.length; i++) {
-                const result = results[i];
-                // Kiểm tra locator có hiển thị không
-                await expect(result).toBeVisible({ timeout: 5000 });
-                // Lấy text của locator
-                const statusText = await result.textContent();
-                // Kiểm tra giá trị 
-                expect(statusText).toBe('Admin');
-            }
-            // Logging số lượng locator đã kiểm tra
-            console.log(`Successfully verified ${results.length} results`);
-        
     }
 
     async searchEmployeeName() {
@@ -245,11 +242,10 @@ export default class AdminMenuPage {
 
     async afterSearchEmployeeName() {
         await this.page.waitForTimeout(5000);
-            // Kiểm tra có locator nào không
+        // Kiểm tra có locator nào không
         const results = await this.employeeNameLocator.all();
         // Check if any results are found
         expect(results.length).toBeGreaterThan(0);
-
         // Vòng lặp kiểm tra từng locator
         for (let i = 0; i < results.length; i++) {
             const result = results[i];
@@ -282,7 +278,6 @@ export default class AdminMenuPage {
         //     return; // Exit early if no results are found
         // }
         expect(statusLocators.length).toBeGreaterThan(0);
-
         // Vòng lặp kiểm tra từng locator
         for (let i = 0; i < statusLocators.length; i++) {
             const statusLocator = statusLocators[i];

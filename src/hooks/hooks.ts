@@ -1,12 +1,13 @@
 import { BeforeAll, AfterAll, Before, After, Status } from "@cucumber/cucumber";
 import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
+import { authConfig } from '../../auth.config';
 
 
 let browser: Browser;
 let adminContext: BrowserContext;
-let Context: BrowserContext;
 let Page: Page;
+let adminPage: Page;
 
 BeforeAll(async () => {
   console.log("Launching browser...");
@@ -18,24 +19,27 @@ AfterAll(async () => {
   await browser.close();
 });
 
-Before(async function (this: any) { // Access 'this' for scenario context
-  console.log('Creating new context and page...');
-  Context = await browser.newContext();
-  const page = await Context.newPage();
-  pageFixture.page = page; 
+Before(async function (this: any) {
+  // Create context with stored credentials for admin
+  adminContext = await browser.newContext({
+    storageState: authConfig.admin.storageState
+  });
+  adminPage = await adminContext.newPage();
+  pageFixture.adminPage = adminPage;
 
-  // Store the page in the Cucumber World for access in steps
-  this.page = page; 
+  console.log("Creating new contexts and pages with auth...");
+  this.page = adminPage; // Default to admin page
 });
 
 After(async function (this: any, { pickle, result }) {
   console.log("Closing context and page...");
   if (result?.status === Status.FAILED) {
+    console.log("Taking screenshot...");
     await this.page.screenshot({
       path: `./test-results/screenshots/${pickle.name}.png`,
       type: "png",
     });
   }
-  
   await this.page.close();
+
 });
