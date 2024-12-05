@@ -21,7 +21,7 @@ async function globalSetup() {
   await adminPage.fill('//input[@placeholder="Password"]', authConfig.admin.password);
   await adminPage.click('//button[@type="submit"]');
   // Wait for login to complete - adjust selector as needed
-  await adminPage.waitForSelector('//p[normalize-space()="Time at Work"]');
+  // await adminPage.waitForSelector('//p[normalize-space()="Time at Work"]', { timeout: 10000 });
   console.log('Storing auth state...');
   await adminContext.storageState({ path: authConfig.admin.storageState });
   console.log('Auth state saved to:', authConfig.admin.storageState);

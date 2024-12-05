@@ -68,6 +68,7 @@ export default class AdminMenuPage {
     }
 
     async createProvider() {
+        await this.addBtn.waitFor({ state: 'visible', timeout: 10000 });
         await this.addBtn.click();
         await this.nameTextBox.fill("provider1");
         await this.providerUrl.fill("https://docs.google.com/spreadsheets/d/1YDePnz81KkzMfhZ0rkq_OyK2MgP_dL_XpSn7adSiz0Q/edit?gid=0#gid=0");
@@ -108,6 +109,7 @@ export default class AdminMenuPage {
     async deleteMultiProvider() {
         if (!await this.checkbox1.isVisible()) {
             await this.createProvider()
+            await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         }
         if (!await this.checkbox2.isVisible()) {
             await this.addBtn.click();
@@ -116,6 +118,7 @@ export default class AdminMenuPage {
             await this.clientID.fill("123");
             await this.clientSecret.fill("123");
             await this.saveBtn.click();
+            await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         }
         await this.checkbox1.click();
         await this.checkbox2.click();
@@ -125,7 +128,7 @@ export default class AdminMenuPage {
 
     async afterDeleteMultiProvider() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
-        await expect(this.checkbox1).toBeHidden();
+        await expect(this.newProvider).toBeHidden();
         await expect(this.checkbox2).toBeHidden();
     }
 

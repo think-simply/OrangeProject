@@ -780,11 +780,33 @@ input#darkCheck:checked ~ label>svg#moon {
                                 Failed
                             </p>
                         </td>
-                        <td class="percentage">100.00 %</td>
+                        <td class="percentage">0.00 %</td>
+                    </tr>
+                    
+                    
+                    <tr>
+                        <td>
+                            <p data-toggle="tooltip" data-placement="left"
+                               title="Features with undefined step definitions.">
+                                <i class="fa fa-question-circle not-defined-color"></i>
+                                Not Defined
+                            </p>
+                        </td>
+                        <td class="percentage">33.33 %</td>
                     </tr>
                     
                     
                     
+                    <tr>
+                        <td>
+                            <p data-toggle="tooltip" data-placement="left"
+                               title="Features skipped">
+                                <i class="fa fa-arrow-circle-right skipped-color"></i>
+                                Skipped
+                            </p>
+                        </td>
+                        <td class="percentage">66.67 %</td>
+                    </tr>
                     
 
                 </table>
@@ -838,7 +860,7 @@ input#darkCheck:checked ~ label>svg#moon {
                                 Passed
                             </p>
                         </td>
-                        <td class="percentage">64.71 %</td>
+                        <td class="percentage">0.00 %</td>
                     </tr>
                     <tr>
                         <td>
@@ -847,11 +869,31 @@ input#darkCheck:checked ~ label>svg#moon {
                                 Failed
                             </p>
                         </td>
-                        <td class="percentage">35.29 %</td>
+                        <td class="percentage">0.00 %</td>
                     
+                    
+                    <tr>
+                        <td>
+                            <p data-toggle="tooltip" data-placement="left" title="Scenario has no step implmentation.">
+                                <i class="fa fa-question-circle not-defined-color"></i>
+                                Not defined
+                            </p>
+                        </td>
+                        <td class="percentage">5.88 %</td>
+                    </tr>
                     
                     </tr>
                     
+                    
+                    <tr>
+                        <td>
+                            <p data-toggle="tooltip" data-placement="left" title="Scenario is skipped">
+                                <i class="fa fa-arrow-circle-right skipped-color"></i>
+                                Skipped
+                            </p>
+                        </td>
+                        <td class="percentage">94.12 %</td>
+                    </tr>
                     
                 </table>
             </td>
@@ -951,7 +993,11 @@ input#darkCheck:checked ~ label>svg#moon {
                         <th>Passed</th>
                         <th>Failed</th>
                         
+                        <th>Skip</th>
                         
+                        
+                        
+                        <th>Undefined</th>
                         
                         
                     </tr>
@@ -961,7 +1007,7 @@ input#darkCheck:checked ~ label>svg#moon {
                     
                     <tr>
                         <td>
-                            <a href="features/cd6d92ef-5ca2-47ee-ad94-02dc9664ef55-functions-in-configuration-menu--social-media-authen-sub-menu.html">Functions in Configuration menu, social media authen sub-menu</a>
+                            <a href="features/370cd66f-5935-4fdc-b7e2-67db2cca9064-functions-in-configuration-menu--social-media-authen-sub-menu.html">Functions in Configuration menu, social media authen sub-menu</a>
                         </td>
                         <td class="text-center">
                             
@@ -989,8 +1035,8 @@ input#darkCheck:checked ~ label>svg#moon {
                             
                             
                             
-                            <i class="fa fa-exclamation-circle failed-color fa-lg" data-toggle="tooltip" data-placement="top" title="Failed">
-                                <span>exclamation-circle failed-color</span>
+                            <i class="fa fa-question-circle not-defined-color fa-lg" data-toggle="tooltip" data-placement="top" title="Not Defined">
+                                <span>question-circle not-defined-color</span>
                             </i>
                         </td>
                         
@@ -1042,18 +1088,32 @@ input#darkCheck:checked ~ label>svg#moon {
                         
                         <td class="text-right ">1</td>
                         <td class="text-right none">0</td>
+                        <td class="text-right none">0</td>
+                        
+                        <td class="text-right none">0</td>
+                        
+                        
+                        
                         <td class="text-right ">1</td>
-                        
-                        
                         
                         
                     </tr>
                     
                     <tr>
                         <td>
-                            <a href="features/19274ba7-dedf-44d0-9217-31fcd0313071-functions-in-configuration-menu--social-media-authen-sub-menu-for-admin-role.html">Functions in Configuration menu, social media authen sub-menu for Admin role</a>
+                            <a href="features/c3fb204d-bff1-4ca2-bd18-85eb9bb50241-functions-in-configuration-menu--social-media-authen-sub-menu-for-admin-role.html">Functions in Configuration menu, social media authen sub-menu for Admin role</a>
                         </td>
                         <td class="text-center">
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                             
                             
                             
@@ -1090,8 +1150,8 @@ input#darkCheck:checked ~ label>svg#moon {
                             
                             
                             <i class="fa fa-tags fa-lg" data-toggle="tooltip" data-placement="top"
-                               title="@low @high">
-                                <span>@low @high</span>
+                               title="@low @now @high">
+                                <span>@low @now @high</span>
                             </i>
                             
                             
@@ -1103,8 +1163,8 @@ input#darkCheck:checked ~ label>svg#moon {
                             
                             
                             
-                            <i class="fa fa-exclamation-circle failed-color fa-lg" data-toggle="tooltip" data-placement="top" title="Failed">
-                                <span>exclamation-circle failed-color</span>
+                            <i class="fa fa-arrow-circle-right skipped-color fa-lg" data-toggle="tooltip" data-placement="top" title="Skipped">
+                                <span>arrow-circle-right skipped-color</span>
                             </i>
                         </td>
                         
@@ -1155,27 +1215,23 @@ input#darkCheck:checked ~ label>svg#moon {
                         
                         
                         <td class="text-right ">5</td>
-                        <td class="text-right ">1</td>
-                        <td class="text-right ">4</td>
+                        <td class="text-right none">0</td>
+                        <td class="text-right none">0</td>
+                        
+                        <td class="text-right ">5</td>
                         
                         
+                        
+                        <td class="text-right none">0</td>
                         
                         
                     </tr>
                     
                     <tr>
                         <td>
-                            <a href="features/4e45e2cf-1aeb-44aa-a59b-c0750e930d71-functions-in-admin-menu---admin-role.html">Functions in Admin Menu - Admin role</a>
+                            <a href="features/3948e1dd-0069-4e65-9257-9fcfa5f790b3-functions-in-admin-menu---admin-role.html">Functions in Admin Menu - Admin role</a>
                         </td>
                         <td class="text-center">
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
                             
                             
                             
@@ -1248,8 +1304,8 @@ input#darkCheck:checked ~ label>svg#moon {
                             
                             
                             <i class="fa fa-tags fa-lg" data-toggle="tooltip" data-placement="top"
-                               title="@low @now @high @medium">
-                                <span>@low @now @high @medium</span>
+                               title="@low @high @medium">
+                                <span>@low @high @medium</span>
                             </i>
                             
                             
@@ -1261,8 +1317,8 @@ input#darkCheck:checked ~ label>svg#moon {
                             
                             
                             
-                            <i class="fa fa-exclamation-circle failed-color fa-lg" data-toggle="tooltip" data-placement="top" title="Failed">
-                                <span>exclamation-circle failed-color</span>
+                            <i class="fa fa-arrow-circle-right skipped-color fa-lg" data-toggle="tooltip" data-placement="top" title="Skipped">
+                                <span>arrow-circle-right skipped-color</span>
                             </i>
                         </td>
                         
@@ -1313,10 +1369,14 @@ input#darkCheck:checked ~ label>svg#moon {
                         
                         
                         <td class="text-right ">11</td>
-                        <td class="text-right ">10</td>
-                        <td class="text-right ">1</td>
+                        <td class="text-right none">0</td>
+                        <td class="text-right none">0</td>
+                        
+                        <td class="text-right ">11</td>
                         
                         
+                        
+                        <td class="text-right none">0</td>
                         
                         
                     </tr>
@@ -1388,11 +1448,11 @@ input#darkCheck:checked ~ label>svg#moon {
                         datasets: [{
                             data: [
                                 0,
-                                3,
                                 0,
                                 0,
+                                2,
                                 0,
-                                0
+                                1
                             ],
                             backgroundColor: [
                                 getColor(".passed-color", "#26B99A"),
@@ -1426,12 +1486,12 @@ input#darkCheck:checked ~ label>svg#moon {
                         ],
                         datasets: [{
                             data: [
-                                11,
-                                6,
                                 0,
                                 0,
                                 0,
-                                0
+                                16,
+                                0,
+                                1
                             ],
                             backgroundColor: [
                                 getColor(".passed-color", "#26B99A"),

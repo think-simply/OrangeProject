@@ -27,7 +27,7 @@ When("User updates a provider", { timeout: 30000 }, async () => {
     await adminMenuPage.accessSocialMediaAuthPage();
     await adminMenuPage.updateProvider();
 });
-Then("A new provider has been updated", { timeout: 30000 }, async () => {
+Then("A provider has been updated", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.afterUpdateProvider();
 });
@@ -47,6 +47,6 @@ When("User removes multi provider", { timeout: 30000 }, async () => {
     await adminMenuPage.deleteMultiProvider();
 });
 Then("All selected providers have been deleted", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.page);
+    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.afterDeleteMultiProvider();
 });

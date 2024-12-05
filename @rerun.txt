@@ -1,1 +1,1 @@
-src/test/features/admin/configuration/socialMediaAuthen.feature:7:12:17:22:27
+src/test/features/admin/configuration/socialMediaAuthen.feature:12:17:22:27

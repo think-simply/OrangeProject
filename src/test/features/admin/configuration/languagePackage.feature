@@ -6,6 +6,6 @@ Feature: Functions in Configuration menu, social media authen sub-menu
   @low 
   Scenario: SM_01: Check page UI
     When User access email noti page
-    Then Togle has displayed as expected
+    Then Toggle has displayed as expected
 
   

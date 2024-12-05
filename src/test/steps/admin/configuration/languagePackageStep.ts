@@ -7,7 +7,7 @@ When("User access email noti page", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.page);
     await adminMenuPage.config();
 });
-Then("togle has displayed as expected", { timeout: 30000 }, async () => {
+Then("Toggle has displayed as expected", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.page);
     await adminMenuPage.togleOffStatus();
 });

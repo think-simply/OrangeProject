@@ -5,41 +5,39 @@ import { authConfig } from '../../auth.config';
 
 
 let browser: Browser;
-let adminContext: BrowserContext;
-let Page: Page;
-let adminPage: Page;
+interface TestContext {
+  adminContext: BrowserContext;
+  Page: Page;
+  adminPage: Page;
+}
 
-BeforeAll(async () => {
-  console.log("Launching browser...");
+
+BeforeAll(async function () {
   browser = await chromium.launch({ headless: false });
 });
 
-AfterAll(async () => {
-  console.log("Closing browser...");
+AfterAll(async function () {
   await browser.close();
 });
 
-Before(async function (this: any) {
+Before(async function (this: TestContext) {
   // Create context with stored credentials for admin
-  adminContext = await browser.newContext({
+  this.adminContext = await browser.newContext({
     storageState: authConfig.admin.storageState
   });
-  adminPage = await adminContext.newPage();
+  const adminPage = await this.adminContext.newPage();
   pageFixture.adminPage = adminPage;
-
-  console.log("Creating new contexts and pages with auth...");
-  this.page = adminPage; // Default to admin page
+  this.Page = adminPage; // Default to admin page
 });
 
-After(async function (this: any, { pickle, result }) {
+After(async function (this: TestContext, { pickle, result }) {
   console.log("Closing context and page...");
   if (result?.status === Status.FAILED) {
-    console.log("Taking screenshot...");
-    await this.page.screenshot({
+    await this.Page.screenshot({
       path: `./test-results/screenshots/${pickle.name}.png`,
       type: "png",
     });
   }
-  await this.page.close();
+  await this.Page.close();
 
 });

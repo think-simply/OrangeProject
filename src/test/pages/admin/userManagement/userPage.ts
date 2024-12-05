@@ -290,8 +290,7 @@ export default class AdminMenuPage {
             // Kiểm tra giá trị status
             expect(statusText).toBe('Enabled');
         }
-        // Logging số lượng locator đã kiểm tra
-        console.log(`Successfully verified ${statusLocators.length} locators are Enabled`);
+       
     }
 
     async inputDataForFields() {

@@ -28,7 +28,10 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "dotenv": "^16.4.5",
-    "fs-extra": "^11.2.0"
+    "faker": "^6.6.6",
+    "fs-extra": "^11.2.0",
+    "multiple-cucumber-html-reporter": "^3.8.0"
   }
 }

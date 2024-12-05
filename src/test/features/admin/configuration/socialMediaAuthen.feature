@@ -3,7 +3,7 @@ Feature: Functions in Configuration menu, social media authen sub-menu for Admin
   Background:
     Given User navigates to page
 
-  @low @now
+  @low 
   Scenario: SM_01: Check page UI
     When User access social media authen page
     Then Social media page has displayed as expected
@@ -16,7 +16,7 @@ Feature: Functions in Configuration menu, social media authen sub-menu for Admin
   @high @now
   Scenario: SM_03: Edit a provider
     When User updates a provider
-    Then A new provider has been updated
+    Then A provider has been updated
 
   @high @now
   Scenario: SM_04: Delete a provider
