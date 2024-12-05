@@ -13,7 +13,7 @@
       "json:test-results/cucumber-report.json",
       "rerun:@rerun.txt"
     ],
-    "paralle": 2
+    "parallel": 2
   },
   "rerun": {
     "formatOptions": {
@@ -29,6 +29,6 @@
       "rerun:@rerun.txt"
     ],
     "globalSetup": "./global-setup.ts",
-    "paralle": 2
+    "parallel": 2
   }
 }
