@@ -20,6 +20,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^11.1.0",
     "@playwright/test": "^1.49.0",
+    "@types/axios": "^0.14.4",
     "@types/cucumber": "^7.0.3",
     "@types/node": "^22.9.1",
     "multiple-cucumber-html-reporter": "^3.8.0",
@@ -28,7 +29,10 @@
   },
   "dependencies": {
     "cross-env": "^7.0.3",
+    "axios": "^1.7.7",
     "dotenv": "^16.4.5",
-    "fs-extra": "^11.2.0"
+    "faker": "^6.6.6",
+    "fs-extra": "^11.2.0",
+    "multiple-cucumber-html-reporter": "^3.8.0"
   }
 }

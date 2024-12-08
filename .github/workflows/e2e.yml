@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ main]
   schedule:
-    - cron: '* 10 * * *'
+    - cron: '0 10 * * *'
 jobs:
   e2e:
     timeout-minutes: 60

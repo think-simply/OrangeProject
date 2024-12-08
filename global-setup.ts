@@ -1,10 +1,8 @@
-import { chromium } from "@playwright/test";
-import { authConfig } from "./auth.Config";
-import fs from "fs";
-import path from "path";
-import dotenv from "dotenv";
-import { BasePage } from "./src/test/pages/basePage/basePage";
-
+import { chromium } from '@playwright/test';
+import { authConfig } from './auth.config';
+import fs from 'fs';
+import path from 'path';
+import dotenv from 'dotenv';
 dotenv.config();
 
 async function globalSetup() {
@@ -14,21 +12,21 @@ async function globalSetup() {
     fs.mkdirSync(authDir, { recursive: true });
   }
   const browser = await chromium.launch();
-
   // Setup for admin
   const adminContext = await browser.newContext();
   const adminPage = await adminContext.newPage();
   await adminPage.goto(`${process.env.WEB_URL}`);
-  await adminPage.fill(BasePage.userName, authConfig.admin.username);
-  await adminPage.fill(BasePage.passWord, authConfig.admin.password);
-  await adminPage.click(BasePage.loginBtn);
+  await adminPage.fill('//input[@placeholder="Username"]', authConfig.admin.username);
+  await adminPage.fill('//input[@placeholder="Password"]', authConfig.admin.password);
+  await adminPage.click('//button[@type="submit"]');
   // Wait for login to complete - adjust selector as needed
-  await adminPage.waitForSelector('h6:text("Dashboard")');
-  // Store authentication state
-  console.log("Storing auth state...");
+  // await adminPage.waitForSelector('//p[normalize-space()="Time at Work"]', { timeout: 10000 });
+  console.log('Storing auth state...');
   await adminContext.storageState({ path: authConfig.admin.storageState });
-  console.log("Auth state saved to:", authConfig.admin.storageState);
+  console.log('Auth state saved to:', authConfig.admin.storageState);
+
+
   await browser.close();
 }
 
-module.exports = globalSetup;
+export default globalSetup;
