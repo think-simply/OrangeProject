@@ -16,7 +16,7 @@ BeforeAll(async function () {
 });
 
 AfterAll(async function () {
-  await browser.close();
+  await browser.close(); 
 });
 
 Before(async function (this: TestContext) {
