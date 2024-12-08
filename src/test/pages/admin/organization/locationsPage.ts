@@ -29,6 +29,7 @@ export default class LocationsAdminPage {
   readonly expectedCountry: string;
   readonly editIcon: Locator;
   readonly editLocationTitle: Locator;
+  updatedData: string;
   //-----------------
   readonly addBtn: Locator;
   readonly saveBtn: Locator;
@@ -249,7 +250,7 @@ export default class LocationsAdminPage {
     await this.addBtn.click();
   }
   async addValidData(name: string) {
-    await this.addName.fill("name");
+    await this.addName.fill(name);
     await this.addCountryList.click();
     await this.VNOption.click();
     await this.addNotes.fill("This is checking by Huyen");
@@ -276,10 +277,10 @@ export default class LocationsAdminPage {
     const currentValue = await this.addName.inputValue();
     const updatedValue = `${currentValue}${updateText}`;
     await this.addName.fill(updatedValue);
-    return updatedValue; //how to lấy data ở đây
+    this.updatedData = updatedValue;
   }
-  async checkUpdateSuccessfully(updatedValue: string){
+  async checkUpdateSuccessfully(){
     await expect(this.localtionsLabel).toBeVisible();
-    await this.nameInput.fill(updatedValue);
+    await this.nameInput.fill(this.updatedData);
   }
 }

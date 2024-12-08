@@ -40,3 +40,9 @@ After(async function (this: TestContext, { pickle, result }) {
   await this.Page.close();
 
 });
+//   if (pickle.tags.some((tag) => tag.name === "@guest")) {
+//     await adminContext?.close();
+//   } else {
+//     await adminContext?.close();
+//   }
+// });
