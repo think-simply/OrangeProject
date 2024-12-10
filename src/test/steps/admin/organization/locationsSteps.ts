@@ -47,7 +47,7 @@ Then("The corresponding City results should be returned",
   { timeout: 30000 },
   async () => {
     const adminMenuPage = new LocationsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.checkCity();
+    await adminMenuPage.checkCity(); // TODO:  await adminMenuPage.checkCity(false) thì sẽ không trả ra kết quả
   }
 );
 //LO_04: Search location by country
