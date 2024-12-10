@@ -12,22 +12,25 @@ export default class JobTitlesPage {
     readonly jobTitleTxb: Locator;
     readonly jobDescriptionInput: Locator;
     readonly saveJobTitleBtn: Locator;
+    readonly editJobTitlesBtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.adminMenu = page.locator('//span[text()="Admin"]');
-        this.jobMenu = page.getByText('Job ');
-        this.jobTitlesMenu = page.getByText('jobTitlesMenu');
+        this.jobMenu = page.locator('//span[text()="Job "]');
+        this.jobTitlesMenu = page.locator('//a[text()="Job Titles"]');
         this.jobTitlesLabel = page.locator('//h6[text()="Job Titles"]')
         this.addJobTitleBtn = page.locator('//button[text()=" Add "]')
-        this.jobTitleTxb = page.locator('//label[text()="Job Title"]/ancestor::div[@class="oxd-input-group"]/div/input')
+        this.jobTitleTxb = page.locator("//div[@class='oxd-input-group oxd-input-field-bottom-space']//input[@class='oxd-input oxd-input--active']")
         this.jobDescriptionInput = page.locator('//textarea[@placeholder="Type description here"]')
         this.saveJobTitleBtn = page.locator('//button[text()=" Save "]')
+        this.editJobTitlesBtn = page.locator('//i[contains(@class, "bi-pencil-fill")])[1]')
+        
     }
     async userGoToJobTitles() {
         await this.adminMenu.click();
         await this.jobMenu.click();
-        await this.jobTitlesMenu.click();
+        await this.jobTitlesMenu.click({timeout: 35000});
     }
     async verifyJobTitlesPage(){
         await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList')
@@ -35,11 +38,8 @@ export default class JobTitlesPage {
         await expect(this.addJobTitleBtn).toBeVisible()
     }
     async createJobTitle(){
-        await this.adminMenu.click();
-        await this.jobMenu.click();
-        await this.jobTitlesMenu.click();
         await this.addJobTitleBtn.click()
-        await this.jobTitleTxb.fill('Title Test 001')
+        await this.jobTitleTxb.fill('Hoa Test Create Job Title' + Math.random())
         await this.jobDescriptionInput.fill('Job Description test 001')
         await this.saveJobTitleBtn.click()
     }
@@ -47,5 +47,9 @@ export default class JobTitlesPage {
         await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList')
     }
 
+    async updateJobTitles(){
+        await this.editJobTitlesBtn.click()
+        await this.page.pause()
+    }
 
 }
