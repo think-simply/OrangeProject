@@ -1,14 +1,13 @@
 Feature: Organization_Structure in Admin Menu
 
   Background:
-    Given User navigates to page Admin_Organization
-    And User accessed Structure
+    Given User accessed Structure
 
-  @medium
+  @medium 
   Scenario: ST_01: Check UI of Structure page
-    Then All elements should be displayed as expected
+    Then All elements in Structure should be displayed as expected
 
-  @low
+  @low @now
   Scenario: ST_02: Add a new Organization unit
     When User clicks Add button
     And User inputs valid data
@@ -24,7 +23,7 @@ Feature: Organization_Structure in Admin Menu
 
   @high
   Scenario: ST_04: Delete Organization
-    When User clicks Edit icon
+    When User clicks Delete icon
     Then Organization has been deleted
 
   @medium

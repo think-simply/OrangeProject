@@ -25,7 +25,7 @@ Feature: Organization_Locations in Admin Menu
     And User clicks search button
     Then The corresponding Country results should be returned
 
-  @high @now
+  @high
   Scenario: LO_05: Create a new location
     When User clicks the Add button
     And User inputs valid data contains name "<name>"
@@ -36,20 +36,20 @@ Feature: Organization_Locations in Admin Menu
       | name       |
       | NametoTest |
 
-  @high
-  Scenario: LO_06: Update an existing location
-    When User clicks the Edit button for a location
+  @high 
+  Scenario: LO_06: Update an existing name
+    When User clicks the Edit button for a name
     And User updates the data with updateText "<updateText>"
     And User clicks the Save button
     Then The location should be updated
 
     Examples:
-      | updateText     |
-      | Text to update |
+      | updateText |
+      | Textest    |
 
   @high
   Scenario: LO_07: Delete a single location
-    When User clicks the Delete icon for a location
+    When User clicks the Delete icon
     And User confirms the deletion
     Then The location should be deleted
 
