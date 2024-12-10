@@ -7,10 +7,18 @@ Feature: Functions in Admin Menu
   Scenario: JT_01: Admin add new job title
     When User logs in as Admin
     And User access job title page
-    Then job title page has been displayed
+    Then Job title page has been displayed
 
-  @high
+  @high 
   Scenario: JT_02 : User create new job title
     When User logs in as Admin
+    And User access job title page
     And User create new job title
     Then New title has been created successfully
+
+  @high
+  Scenario: JT_03 : User update an job title
+    When User logs in as Admin
+    And User access job title page
+    And User update an job title
+    Then Job title has been updated successfully

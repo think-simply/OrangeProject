@@ -4,19 +4,19 @@ import JobTitlesPage from "../../../pages/admin/job/jobTitles";
 import { pageFixture } from "../../../../hooks/pageFixture";
 
 
-Given("User navigates to page", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.page);
-    await adminMenuPage.visit();
-});
-When("User logs in as Admin", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.page);
-    await adminMenuPage.login();
-});
-When("User access job title page", { timeout: 30000 }, async () => {
+// Given("User navigates to page", { timeout: 30000 }, async () => {
+//     const adminMenuPage = new AdminMenuPage(pageFixture.page);
+//     await adminMenuPage.visit();
+// });
+// When("User logs in as Admin", { timeout: 30000 }, async () => {
+//     const adminMenuPage = new AdminMenuPage(pageFixture.page);
+//     await adminMenuPage.login();
+// });
+When("User access job title page", { timeout: 35000 }, async () => {
     const jobTitlesPage = new JobTitlesPage(pageFixture.page)
     await jobTitlesPage.userGoToJobTitles(); 
 });
-Then("New title has been created successfully", { timeout: 30000 }, async () => {
+Then("Job title page has been displayed", { timeout: 30000 }, async () => {
     const jobTitlesPage = new JobTitlesPage(pageFixture.page)
     await jobTitlesPage.verifyJobTitlesPage();
 });
@@ -28,6 +28,10 @@ Then("New title has been created successfully", { timeout: 30000 }, async () => 
     const jobTitlesPage = new JobTitlesPage(pageFixture.page)
     await jobTitlesPage.verifyCreateJobTitleSuccessfully();
 });
+When("User update an job title", {timeout: 30000}, async()=>{
+    const jobTitlesPage = new JobTitlesPage(pageFixture.page)
+    await jobTitlesPage.updateJobTitles();
+})
 
 
 
