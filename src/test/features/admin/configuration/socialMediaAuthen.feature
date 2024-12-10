@@ -3,7 +3,7 @@ Feature: Functions in Configuration menu, social media authen sub-menu for Admin
   Background:
     Given User navigates to page
 
-  @low
+  @low 
   Scenario: SM_01: Check page UI
     When User access social media authen page
     Then Social media page has displayed as expected

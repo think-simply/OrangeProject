@@ -63,7 +63,7 @@ export default class EmailConfigPage {
     async checkToggleOnStatus() {
         const toggle = this.toggle;
         const isToggleOn = await toggle.isChecked();
-        expect(isToggleOn).toBe(false);
+        expect(isToggleOn).toBe(true);
 
     }
     async toggleOffStatus() {
