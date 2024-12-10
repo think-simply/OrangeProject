@@ -1,6 +1,6 @@
 import { Page, Locator, expect } from "@playwright/test";
 
-export default class AdminMenuPage {
+export default class SocialMediaPage {
     readonly page: Page;
     readonly adminMenu: Locator;
     readonly addBtn: Locator;
@@ -24,10 +24,8 @@ export default class AdminMenuPage {
     readonly checkbox1: Locator;
     readonly checkbox2: Locator;
     readonly deleteMultiBtn: Locator;
-
     constructor(page: Page) {
         this.page = page;
-        
         this.adminMenu = page.locator('//span[text()="Admin"]');
         this.addBtn = page.locator('//button[normalize-space()="Add"]');
         this.configurationSubMenu = page.locator('//span[normalize-space()="Configuration"]')
@@ -50,15 +48,12 @@ export default class AdminMenuPage {
         this.checkbox1 = page.locator('//div[text()="provider1"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
         this.checkbox2 = page.locator('//div[text()="provider2"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
         this.deleteMultiBtn = page.locator("//button[normalize-space()='Delete Selected']")
-
     }
-
     async accessSocialMediaAuthPage() {
         await this.adminMenu.click();
         await this.configurationSubMenu.click();
         await this.socialMediaAuthenSubMenu.click();
     }
-
     async afterAcccessSocialMediaAuthPage() {
         await expect(this.pageTitle).toBeVisible();
         await expect(this.addBtn).toBeEnabled();
@@ -66,7 +61,6 @@ export default class AdminMenuPage {
         await expect(this.nameColumn).toBeVisible();
         await expect(this.actionColumn).toBeVisible();
     }
-
     async createProvider() {
         await this.addBtn.waitFor({ state: 'visible', timeout: 10000 });
         await this.addBtn.click();
@@ -76,12 +70,10 @@ export default class AdminMenuPage {
         await this.clientSecret.fill("123");
         await this.saveBtn.click();
     }
-
     async afterCreateProvider() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newProvider).toBeVisible();
     }
-
     async updateProvider() {
         await this.editIcon.click();
         await this.nameTextBox.fill("provider2");
@@ -90,22 +82,18 @@ export default class AdminMenuPage {
         await this.clientSecret.fill("123");
         await this.saveBtn.click();
     }
-
     async afterUpdateProvider() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.updatedProvider).toBeVisible();
     }
-
     async deleteProvider() {
         await this.deleteIcon.click();
         await this.confirmDeleteBtn.click();
     }
-
     async afterDeleteProvider() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.updatedProvider).toBeHidden();
     }
-
     async deleteMultiProvider() {
         if (!await this.checkbox1.isVisible()) {
             await this.createProvider()
@@ -125,11 +113,9 @@ export default class AdminMenuPage {
         await this.deleteMultiBtn.click();
         await this.confirmDeleteBtn.click();
     }
-
     async afterDeleteMultiProvider() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newProvider).toBeHidden();
         await expect(this.checkbox2).toBeHidden();
     }
-
 }

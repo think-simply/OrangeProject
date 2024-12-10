@@ -3,14 +3,12 @@ import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
 import { authConfig } from '../../auth.config';
 
-
 let browser: Browser;
 interface TestContext {
   adminContext: BrowserContext;
   Page: Page;
   adminPage: Page;
 }
-
 
 BeforeAll(async function () {
   browser = await chromium.launch({ headless: false });

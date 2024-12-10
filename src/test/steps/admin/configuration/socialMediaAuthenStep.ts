@@ -1,52 +1,51 @@
 import { Given, When, Then } from "@cucumber/cucumber";
-import AdminMenuPage from "../../../pages/admin/configuration/socialMediaAuthenPage";
+import SocialMediaPage from "../../../pages/admin/configuration/socialMediaAuthenPage";
 import { pageFixture } from "../../../../hooks/pageFixture";
 
-
 When("User access social media authen page", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.accessSocialMediaAuthPage();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.accessSocialMediaAuthPage();
 });
 Then("Social media page has displayed as expected", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.afterAcccessSocialMediaAuthPage();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.afterAcccessSocialMediaAuthPage();
 });
 
 When("User creates a new provider", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.accessSocialMediaAuthPage();
-    await adminMenuPage.createProvider();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.accessSocialMediaAuthPage();
+    await socialMediaPage.createProvider();
 });
 Then("A new provider has been created", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.afterCreateProvider();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.afterCreateProvider();
 });
 
 When("User updates a provider", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.accessSocialMediaAuthPage();
-    await adminMenuPage.updateProvider();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.accessSocialMediaAuthPage();
+    await socialMediaPage.updateProvider();
 });
 Then("A provider has been updated", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.afterUpdateProvider();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.afterUpdateProvider();
 });
 
 When("User removes a provider", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.accessSocialMediaAuthPage();
-    await adminMenuPage.deleteProvider();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.accessSocialMediaAuthPage();
+    await socialMediaPage.deleteProvider();
 });
 Then("A provider has been deleted", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.afterDeleteProvider();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.afterDeleteProvider();
 });
 When("User removes multi provider", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.accessSocialMediaAuthPage();
-    await adminMenuPage.deleteMultiProvider();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.accessSocialMediaAuthPage();
+    await socialMediaPage.deleteMultiProvider();
 });
 Then("All selected providers have been deleted", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.afterDeleteMultiProvider();
+    const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    await socialMediaPage.afterDeleteMultiProvider();
 });

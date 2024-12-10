@@ -54,11 +54,9 @@ export default class AdminMenuPage {
     readonly employeeNameLocator: Locator;
     readonly statusLocator: Locator;
     readonly searchResults: Locator;
-
     constructor(page: Page) {
         this.page = page;
-        const employeeNamevalue = 'Timothy Lewis Amiano'; // Giá trị bạn muốn thay thế
-
+        const employeeNamevalue = 'Timothy Lewis Amiano';
         this.userName = page.locator('//input[@placeholder="Username"]');
         this.passWord = page.locator('//input[@placeholder="Password"]');
         this.loginBtn = page.locator('//button[@type="submit"]');
@@ -107,24 +105,19 @@ export default class AdminMenuPage {
         this.roleColumnLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][3]");
         this.employeeNameLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]");
         this.statusLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]");
-
     }
-
     async visit() {
         await this.page.goto(`${process.env.WEB_URL}`);
     }
-
     async login() {
         await this.userName.fill("Admin");
         await this.passWord.fill("admin123");
         await this.loginBtn.click();
     }
-
     async accessUserPage() {
         await this.adminMenu.click();
         await this.userManagement.click();
     }
-
     async afterAccessUserPage() {
         await expect(this.titlePage).toBeVisible();
         await expect(this.usernameLabel).toBeVisible();
@@ -145,7 +138,6 @@ export default class AdminMenuPage {
         await expect(this.statusColumn).toBeVisible();
         await expect(this.actionColumn).toBeVisible();
     }
-
     async createEssUser() {
         //employee: string, username: string, pass: string, confirm: string
         await this.adminMenu.click();
@@ -161,12 +153,10 @@ export default class AdminMenuPage {
         await this.confirmPassword.fill("admin123");
         await this.submitBtn.click();
     }
-
     async afterCreateEssUser() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newEssUser).toBeVisible();
     }
-
     async createAdminUser() {
         //employee: string, username: string, pass: string, confirm: string
         await this.adminMenu.click();
@@ -182,36 +172,33 @@ export default class AdminMenuPage {
         await this.confirmPassword.fill("admin123");
         await this.submitBtn.click();
     }
-
     async afterCreateAdminUser() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newAdminUser).toBeVisible();
     }
-
     async searchUserName() {
         await this.adminMenu.click();
         await this.usernameFieldSearch.fill("usernamenttheu");
         await this.searchBtn.click();
     }
-
     async afterSearchUserName() {
-        try {
-            const response = await axios.get(`${process.env.SEARCH_URL}`);
-            expect(response.status).toBe(200);
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        // Thiết lập route để chặn request (và mock request nếu cần, sau đó gỡ route)
+        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+            // Thực hiện request gốc
+            const response = await route.fetch();
+            // Kiểm tra status code
+            expect(response.status()).toBe(200);
+        });
+        // Kiểm tra giao diện sau khi search
         await expect(this.newEssUser).toBeVisible();
         await expect(this.userResult).toHaveCount(1);
     }
-
     async searchUserRole() {
         await this.adminMenu.click();
         await this.userRole.click();
         await this.adminRoleOption.click();
         await this.searchBtn.click();
     }
-
     async afterSearchUserRole() {
         await this.page.waitForTimeout(5000);
         // Kiểm tra có locator nào không
@@ -230,16 +217,13 @@ export default class AdminMenuPage {
         }
         // Logging số lượng locator đã kiểm tra
         console.log(`Successfully verified ${results.length} results`);
-
     }
-
     async searchEmployeeName() {
         await this.adminMenu.click();
         await this.employeeName.fill("t");
         await this.employeeOption.click();
         await this.searchBtn.click();
     }
-
     async afterSearchEmployeeName() {
         await this.page.waitForTimeout(5000);
         // Kiểm tra có locator nào không
@@ -259,20 +243,18 @@ export default class AdminMenuPage {
         // Logging số lượng locator đã kiểm tra
         console.log(`Successfully verified ${results.length} results`);
     }
-
     async searchStatus() {
         await this.adminMenu.click();
         await this.status.click();
         await this.statusOption.click();
         await this.searchBtn.click();
     }
-
     async afterSearchStatus() {
         await this.page.waitForTimeout(5000);
         // Kiểm tra có locator nào không
         await this.page.waitForTimeout(10000);
         const statusLocators = await this.statusLocator.all();
-        // Check if any results are found
+        // Check if any results are found- để lại để tham khảo
         // if (statusLocators.length === 0) {
         //     console.log('0 results found');
         //     return; // Exit early if no results are found
@@ -290,9 +272,7 @@ export default class AdminMenuPage {
             // Kiểm tra giá trị status
             expect(statusText).toBe('Enabled');
         }
-       
     }
-
     async inputDataForFields() {
         await this.adminMenu.click();
         await this.usernameField.fill("usernamenttheu");
@@ -303,11 +283,9 @@ export default class AdminMenuPage {
         await this.status.click();
         await this.statusOption.click();
     }
-
     async pressReset() {
         await this.resetBtn.click();
     }
-
     async afterReset() {
         const usernameValue = await this.usernameField.textContent();
         expect(usernameValue).toBe('');
@@ -318,7 +296,6 @@ export default class AdminMenuPage {
         const status = await this.status.textContent();
         expect(status).toBe('-- Select --');
     }
-
     async updateAccount() {
         await this.adminMenu.click();
         await this.editIcon.click();
@@ -326,23 +303,19 @@ export default class AdminMenuPage {
         await this.usernameField.fill('usernamenttheuEdit');
         await this.submitBtn.click();
     }
-
     async afterUpdateAccount() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.updatedAccount).toBeVisible();
     }
-
     async removeAccount() {
         await this.adminMenu.click();
         await this.deleteIcon.click();
         await this.confirmDeleteBtn.click();
     }
-
     async afterRemoveAccount() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.updatedAccount).toBeHidden();
     }
-
     async removeMultiAccount() {
         await this.adminMenu.click();
         await this.checkbox1.click();
@@ -350,11 +323,9 @@ export default class AdminMenuPage {
         await this.deleteMultiBtn.click();
         await this.confirmDeleteBtn.click();
     }
-
     async afterRemoveMultiAccount() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newEssUser).toBeHidden();
         await expect(this.newAdminUser).toBeHidden();
     }
-
 }
