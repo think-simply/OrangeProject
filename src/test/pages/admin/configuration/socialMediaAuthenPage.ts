@@ -69,6 +69,7 @@ export default class SocialMediaPage {
         await this.clientID.fill("123");
         await this.clientSecret.fill("123");
         await this.saveBtn.click();
+        
     }
     async afterCreateProvider() {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });

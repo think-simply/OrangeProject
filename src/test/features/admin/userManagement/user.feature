@@ -8,22 +8,35 @@ Feature: Functions in Admin Menu - Admin role
     When User access User management page
     Then User management page has been displayed
 
-  @high 
+  @high
   Scenario: US_02: Add new Admin user
     When User creates a new Admin user
     Then New Admin user has been created successfully
 
-  @high 
+  @high
   Scenario: US_03: Add new ESS user
     When User creates a new ESS user
     Then New ESS user has been created successfully
 
-  @medium
-  Scenario: US_04: Search user by user name
-    When User search by username
+  @medium @now
+  Scenario: US_04.1: Search user by user name - <Description>
+    When User search by username : "<username>"
     Then Result has been displayed follow username
 
-  @medium  
+    Examples:
+      | Description           | username         |
+      | return exactly result | usernamenttheu   |
+
+  @medium @now
+  Scenario: US_04.2: Search user by user name - <Description>
+    When User search by username : "<username>"
+    Then Alert no result has been displayed
+
+    Examples:
+      | Description           | username         |
+      | return no result      | usernamenoreturn |
+
+  @medium
   Scenario: US_05: Search user by role
     When User search by role
     Then Result has been displayed follow role
@@ -33,7 +46,7 @@ Feature: Functions in Admin Menu - Admin role
     When User search by employee name
     Then Result has been displayed follow employee name
 
-  @medium 
+  @medium
   Scenario: US_07: Search user by status
     When User search by status
     Then Result has been displayed follow status

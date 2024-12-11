@@ -54,6 +54,7 @@ export default class AdminMenuPage {
     readonly employeeNameLocator: Locator;
     readonly statusLocator: Locator;
     readonly searchResults: Locator;
+    readonly notFoundItem: Locator;
     constructor(page: Page) {
         this.page = page;
         const employeeNamevalue = 'Timothy Lewis Amiano';
@@ -105,6 +106,7 @@ export default class AdminMenuPage {
         this.roleColumnLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][3]");
         this.employeeNameLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]");
         this.statusLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]");
+        this.notFoundItem = page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="No Records Found"]')
     }
     async visit() {
         await this.page.goto(`${process.env.WEB_URL}`);
@@ -176,22 +178,25 @@ export default class AdminMenuPage {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         await expect(this.newAdminUser).toBeVisible();
     }
-    async searchUserName() {
+    async searchUserName(userName: string) {
         await this.adminMenu.click();
-        await this.usernameFieldSearch.fill("usernamenttheu");
+        await this.usernameFieldSearch.fill(userName);
         await this.searchBtn.click();
     }
-    async afterSearchUserName() {
-        // Thiết lập route để chặn request (và mock request nếu cần, sau đó gỡ route)
+    async afterSearchUserName(checkUser = false) {
         await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
-            // Thực hiện request gốc
             const response = await route.fetch();
-            // Kiểm tra status code
             expect(response.status()).toBe(200);
         });
-        // Kiểm tra giao diện sau khi search
-        await expect(this.newEssUser).toBeVisible();
-        await expect(this.userResult).toHaveCount(1);
+        //checkUser = true
+        if (checkUser) {
+            await expect(this.newEssUser).toBeVisible();
+            await expect(this.userResult).toHaveCount(1);
+        }
+        //checkUser = false
+        else {
+            await expect(this.notFoundItem).toBeVisible();
+        }
     }
     async searchUserRole() {
         await this.adminMenu.click();
@@ -201,22 +206,15 @@ export default class AdminMenuPage {
     }
     async afterSearchUserRole() {
         await this.page.waitForTimeout(5000);
-        // Kiểm tra có locator nào không
         const results = await this.roleColumnLocator.all();
         // Check if any results are found
         expect(results.length).toBeGreaterThan(0);
-        // Vòng lặp kiểm tra từng locator
         for (let i = 0; i < results.length; i++) {
             const result = results[i];
-            // Kiểm tra locator có hiển thị không
             await expect(result).toBeVisible({ timeout: 5000 });
-            // Lấy text của locator
             const statusText = await result.textContent();
-            // Kiểm tra giá trị 
             expect(statusText).toBe('Admin');
         }
-        // Logging số lượng locator đã kiểm tra
-        console.log(`Successfully verified ${results.length} results`);
     }
     async searchEmployeeName() {
         await this.adminMenu.click();
@@ -226,22 +224,14 @@ export default class AdminMenuPage {
     }
     async afterSearchEmployeeName() {
         await this.page.waitForTimeout(5000);
-        // Kiểm tra có locator nào không
         const results = await this.employeeNameLocator.all();
-        // Check if any results are found
         expect(results.length).toBeGreaterThan(0);
-        // Vòng lặp kiểm tra từng locator
         for (let i = 0; i < results.length; i++) {
             const result = results[i];
-            // Kiểm tra locator có hiển thị không
             await expect(result).toBeVisible({ timeout: 5000 });
-            // Lấy text của locator
             const statusText = await result.textContent();
-            // Kiểm tra giá trị 
             expect(statusText).toBe('Timothy Amiano');
         }
-        // Logging số lượng locator đã kiểm tra
-        console.log(`Successfully verified ${results.length} results`);
     }
     async searchStatus() {
         await this.adminMenu.click();
@@ -251,25 +241,20 @@ export default class AdminMenuPage {
     }
     async afterSearchStatus() {
         await this.page.waitForTimeout(5000);
-        // Kiểm tra có locator nào không
         await this.page.waitForTimeout(10000);
         const statusLocators = await this.statusLocator.all();
         // Check if any results are found- để lại để tham khảo
-        // if (statusLocators.length === 0) {
-        //     console.log('0 results found');
-        //     return; // Exit early if no results are found
-        // }
+        if (statusLocators.length === 0) {
+            console.log('0 results found');
+            return; // Exit early if no results are found
+        }
         expect(statusLocators.length).toBeGreaterThan(0);
-        // Vòng lặp kiểm tra từng locator
         for (let i = 0; i < statusLocators.length; i++) {
             const statusLocator = statusLocators[i];
-            // Kiểm tra locator có hiển thị không
             await expect(statusLocator).toBeVisible({
                 timeout: 5000
             });
-            // Lấy text của locator
             const statusText = await statusLocator.textContent();
-            // Kiểm tra giá trị status
             expect(statusText).toBe('Enabled');
         }
     }
