@@ -10,36 +10,49 @@ Feature: Functions in Admin Menu - Admin role
 
   @high
   Scenario: US_02: Add new Admin user
-    When User creates a new Admin user
+    When User creates a new Admin user with employee "<employee>", username "<username>", password "<password>", confirm password "<confirm password>"
     Then New Admin user has been created successfully
+
+    Examples:
+      | employee | username            | password | confirm password |
+      | t        | usernamenttheuAdmin | admin123 | admin123         |
 
   @high
   Scenario: US_03: Add new ESS user
-    When User creates a new ESS user
+    When User creates a new ESS user with employee "<employee>", username "<username>", password "<password>", confirm password "<confirm password>"
     Then New ESS user has been created successfully
 
-  @medium @now
+    Examples:
+      | employee | username       | password | confirm password |
+      | t        | usernamenttheu | admin123 | admin123         |
+
+  @medium
   Scenario: US_04.1: Search user by user name - <Description>
     When User search by username : "<username>"
     Then Result has been displayed follow username
 
     Examples:
-      | Description           | username         |
-      | return exactly result | usernamenttheu   |
+      | Description           | username       |
+      | return exactly result | usernamenttheu |
 
-  @medium @now
+  @medium
   Scenario: US_04.2: Search user by user name - <Description>
     When User search by username : "<username>"
     Then Alert no result has been displayed
 
     Examples:
-      | Description           | username         |
-      | return no result      | usernamenoreturn |
+      | Description      | username         |
+      | return no result | usernamenoreturn |
 
-  @medium
+  @medium @now
   Scenario: US_05: Search user by role
-    When User search by role
-    Then Result has been displayed follow role
+    When User search by role: "<role>"
+    Then Result has been displayed follow "<role>" role
+
+    Examples:
+      | role  |
+      | Admin |
+      | ESS   |
 
   @medium
   Scenario: US_06: Search user by employee name
