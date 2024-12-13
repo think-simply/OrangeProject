@@ -19,23 +19,14 @@ Then("User management page has been displayed", { timeout: 30000 }, async () => 
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.verifyUserPageUI();
 });
-When("User creates a new Admin user with employee {string}, username {string}, password {string}, confirm password {string}", { timeout: 30000 }, async (employee, username, pass, confirm) => {
+When("User creates a new user with role {string} and employee {string}, username {string}, password {string}, confirm password {string}", { timeout: 30000 }, async (role, employee, username, pass, confirm) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.createAdminUser(employee, username, pass, confirm);
+    await adminMenuPage.createUser(role, employee, username, pass, confirm);
     await adminMenuPage.searchUserName(username);
 });
-Then("New Admin user has been created successfully", { timeout: 30000 }, async () => {
+Then("New {string} user has been created successfully", { timeout: 30000 }, async (text) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifyCreateAdminUser();
-});
-When("User creates a new ESS user with employee {string}, username {string}, password {string}, confirm password {string}", { timeout: 30000 }, async (employee, username, pass, confirm) => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.createEssUser(employee, username, pass, confirm);
-    await adminMenuPage.searchUserName(username);
-});
-Then("New ESS user has been created successfully", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifyCreateEssUser();
+    await adminMenuPage.verifyCreateUser(text);
 });
 When("User search by username : {string}", { timeout: 30000 }, async (userName) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
@@ -55,27 +46,27 @@ When("User search by role: {string}", { timeout: 30000 }, async (role) => {
 });
 Then("Result has been displayed follow {string} role", { timeout: 30000 }, async (role) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifySearchUserRole(true,role);
+    await adminMenuPage.verifySearchUserRole(true, role);
 });
-When("User search by employee name", { timeout: 30000 }, async () => {
+When("User search by employee name: {string}", { timeout: 30000 }, async (text) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.searchEmployeeName();
+    await adminMenuPage.searchEmployeeName(text);
 });
-Then("Result has been displayed follow employee name", { timeout: 30000 }, async () => {
+Then("Result has been displayed follow employee name: {string}", { timeout: 30000 }, async (result) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifySearchEmployeeName();
+    await adminMenuPage.verifySearchEmployeeName(result);
 });
-When("User search by status", { timeout: 30000 }, async () => {
+When("User search by status: {string}", { timeout: 30000 }, async (status) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.searchStatus();
+    await adminMenuPage.searchStatus(status);
 });
-Then("Result has been displayed follow status", { timeout: 30000 }, async () => {
+Then("Result has been displayed follow {string} status", { timeout: 30000 }, async (status) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifySearchStatus();
+    await adminMenuPage.verifySearchStatus(status);
 });
-When("User enters values on search fields", { timeout: 30000 }, async () => {
+When("User enters values on search fields:username {string}, userrole {string},employeename {string},status {string}", { timeout: 30000 }, async (username,role,text,status) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.inputDataForFields();
+    await adminMenuPage.inputDataForFields(username,role,text,status);
 });
 When("User click reset button", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
@@ -85,9 +76,9 @@ Then("Data on all search fields have been cleared", { timeout: 30000 }, async ()
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.verifyFieldsAfterReset();
 });
-When("User update an account", { timeout: 30000 }, async () => {
+When("User update an account with new username: {string}", { timeout: 30000 }, async (newname) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.updateAccount();
+    await adminMenuPage.updateAccount(newname);
 });
 Then("Account has been updated", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
@@ -101,10 +92,10 @@ Then("Account has been deleted", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.verifyRemoveAccount();
 });
-When("User removes multi account", { timeout: 30000 }, async (employee, username, pass, confirm) => {
+When("User removes multi account", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.createEssUser(employee, username, pass, confirm);
-    await adminMenuPage.verifyCreateEssUser();
+    await adminMenuPage.createUser("ESS", "t", "usernamenttheu", "admin123", "admin123");
+    await adminMenuPage.verifyCreateUser("usernamenttheu");
     await adminMenuPage.removeMultiAccount();
 });
 Then("All selected account have been deleted", { timeout: 30000 }, async () => {

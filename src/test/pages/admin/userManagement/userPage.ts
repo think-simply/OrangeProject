@@ -112,8 +112,8 @@ export default class AdminMenuPage {
         await this.page.goto(`${process.env.WEB_URL}`);
     }
     async login() {
-        await this.userName.fill("Admin");
-        await this.passWord.fill("admin123");
+        await this.userName.fill(`${process.env.USERNAME}`);
+        await this.passWord.fill(`${process.env.PASSWORD}`);
         await this.loginBtn.click();
     }
     async accessUserPage() {
@@ -140,29 +140,11 @@ export default class AdminMenuPage {
         await expect(this.statusColumn).toBeVisible();
         await expect(this.actionColumn).toBeVisible();
     }
-    async createEssUser(employee: string, username: string, pass: string, confirm: string) {
+    async createUser(role: string, employee: string, username: string, pass: string, confirm: string) {
         await this.adminMenu.click();
         await this.addBtn.click();
         await this.userRole.click();
-        await this.userRoleOption.click();
-        await this.status.click();
-        await this.statusOption.click();
-        await this.employeeName.fill(employee);
-        await this.employeeOption.click();
-        await this.usernameField.fill(username);
-        await this.passwordField.fill(pass);
-        await this.confirmPassword.fill(confirm);
-        await this.submitBtn.click();
-    }
-    async verifyCreateEssUser() {
-        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
-        await expect(this.newEssUser).toBeVisible();
-    }
-    async createAdminUser(employee: string, username: string, pass: string, confirm: string) {
-        await this.adminMenu.click();
-        await this.addBtn.click();
-        await this.userRole.click();
-        await this.adminRoleOption.click();
+        await this.page.getByRole('option', { name: role }).click();
         await this.status.click();
         await this.statusOption.click();
         await this.employeeName.fill(employee);
@@ -173,8 +155,8 @@ export default class AdminMenuPage {
         await this.submitBtn.click();
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
     }
-    async verifyCreateAdminUser() {
-        await expect(this.newAdminUser).toBeVisible();
+    async verifyCreateUser(text: string) {
+        await expect(this.page.getByText(text)).toBeVisible();
     }
     async searchUserName(userName: string) {
         await this.adminMenu.click();
@@ -196,19 +178,19 @@ export default class AdminMenuPage {
             await expect(this.notFoundItem).toBeVisible();
         }
     }
-    async searchUserRole(role:string) {
+    async searchUserRole(role: string) {
         await this.adminMenu.click();
         await this.userRole.click();
         await this.page.getByRole('option', { name: role }).click();
         await this.searchBtn.click();
+        await this.page.waitForTimeout(5000);
+        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+            const response = await route.fetch();
+            expect(response.status()).toBe(200);
+        });
     }
-    async verifySearchUserRole(checkUserRole = true, role:string) {
+    async verifySearchUserRole(checkUserRole = true, role: string) {
         if (checkUserRole) {
-            await this.page.waitForTimeout(5000);
-            await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
-                const response = await route.fetch();
-                expect(response.status()).toBe(200);
-            });
             const results = await this.roleColumnLocator.all();
             // Check if any results are found
             expect(results.length).toBeGreaterThan(0);
@@ -222,39 +204,42 @@ export default class AdminMenuPage {
         else {
             await expect(this.notFoundItem).toBeVisible();
         }
-
     }
-    async searchEmployeeName() {
+    async searchEmployeeName(text: string) {
         await this.adminMenu.click();
-        await this.employeeName.fill("t");
+        await this.employeeName.fill(text);
         await this.employeeOption.click();
         await this.searchBtn.click();
-    }
-    async verifySearchEmployeeName() {
         await this.page.waitForTimeout(5000);
+        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+            const response = await route.fetch();
+            expect(response.status()).toBe(200);
+        });
+    }
+    async verifySearchEmployeeName(searchResult: string) {
         const results = await this.employeeNameLocator.all();
         expect(results.length).toBeGreaterThan(0);
         for (let i = 0; i < results.length; i++) {
             const result = results[i];
             await expect(result).toBeVisible({ timeout: 5000 });
             const statusText = await result.textContent();
-            expect(statusText).toBe('Timothy Amiano');
+            expect(statusText).toBe(searchResult);
         }
     }
-    async searchStatus() {
+    async searchStatus(status: string) {
         await this.adminMenu.click();
         await this.status.click();
-        await this.statusOption.click();
+        await this.page.getByRole('option', { name: status }).click();
         await this.searchBtn.click();
+        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+            const response = await route.fetch();
+            expect(response.status()).toBe(200);
+        });
     }
-    async verifySearchStatus() {
-        await this.page.waitForTimeout(5000);
-        await this.page.waitForTimeout(10000);
+    async verifySearchStatus(status: string) {
         const statusLocators = await this.statusLocator.all();
-        // Check if any results are found- để lại để tham khảo
         if (statusLocators.length === 0) {
-            console.log('0 results found');
-            return; // Exit early if no results are found
+            await expect(this.notFoundItem).toBeVisible();
         }
         expect(statusLocators.length).toBeGreaterThan(0);
         for (let i = 0; i < statusLocators.length; i++) {
@@ -263,18 +248,18 @@ export default class AdminMenuPage {
                 timeout: 5000
             });
             const statusText = await statusLocator.textContent();
-            expect(statusText).toBe('Enabled');
+            expect(statusText).toBe(status);
         }
     }
-    async inputDataForFields() {
+    async inputDataForFields(username: string, role: string, text: string, status: string) {
         await this.adminMenu.click();
-        await this.usernameField.fill("usernamenttheu");
+        await this.usernameField.fill(username);
         await this.userRole.click();
-        await this.adminRoleOption.click();
-        await this.employeeName.fill("t");
+        await this.page.getByRole('option', { name: role }).click();
+        await this.employeeName.fill(text);
         await this.employeeOption.click();
         await this.status.click();
-        await this.statusOption.click();
+        await this.page.getByRole('option', { name: status }).click();
     }
     async pressReset() {
         await this.resetBtn.click();
@@ -289,11 +274,11 @@ export default class AdminMenuPage {
         const status = await this.status.textContent();
         expect(status).toBe('-- Select --');
     }
-    async updateAccount() {
+    async updateAccount(newname: string) {
         await this.adminMenu.click();
         await this.editIcon.click();
         await this.usernameField.click();
-        await this.usernameField.fill('usernamenttheuEdit');
+        await this.usernameField.fill(newname);
         await this.submitBtn.click();
     }
     async verifyUpdateAccount() {
@@ -310,14 +295,18 @@ export default class AdminMenuPage {
         await expect(this.updatedAccount).toBeHidden();
     }
     async removeMultiAccount() {
-        await this.adminMenu.click();
-        await this.checkbox1.click();
-        await this.checkbox2.click();
+        // get all checkbox
+        const checkboxes = this.page.locator('//div[contains(text(), "usernamenttheu")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]');
+        // Click each checkbox
+        await checkboxes.first().click(); // or .nth(0)
+        await checkboxes.last().click();  // or .nth(1)
+
         await this.deleteMultiBtn.click();
         await this.confirmDeleteBtn.click();
+        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
     }
     async verifyRemoveMultiAccount() {
-        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
+      
         await expect(this.newEssUser).toBeHidden();
         await expect(this.newAdminUser).toBeHidden();
     }
