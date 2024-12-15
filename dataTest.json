@@ -1,0 +1,39 @@
+{
+    "jobTitle":{
+        "jobTitles" : [
+        "Account Assistant",
+        "Automaton Tester",
+        "Chief Executive Officer",
+        "Chief Financial Officer",
+        "Chief Technical Officer",
+        "Content Specialist",
+        "Customer Success Manager",
+        "Database Administrator",
+        "Finance Manager",
+        "Financial Analyst",
+        "Head of Support",
+        "HR Associate",
+        "HR Manager",
+        "IT Manager",
+        "Network Administrator",
+        "Payroll Administrator",
+        "Pre-Sales Coordinator",
+        "QA Engineer",
+        "QA Lead",
+        "Sales Representative",
+        "Social Media Marketer",
+        "Software Architect",
+        "Software Engineer",
+        "Support Specialist",
+        "VP - Client Services",
+        "VP - Sales & Marketing"
+    ],
+    "jobDescription": [
+        "We are looking for a software engineer to join our team.",
+        "Supports the accounting department with data entry, invoicing, and maintaining financial records.",
+        "Oversees the financial operations of the company, including budgeting, forecasting, and financial reporting.",
+        "Leads the organization, establishes strategic goals, and ensures the company's vision and mission are fulfilled.",
+        "Ensures customer satisfaction and success, building relationships and providing support to maximize product usage."
+    ]
+    }
+}

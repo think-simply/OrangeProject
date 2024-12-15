@@ -33,7 +33,25 @@ When("User update an job title", {timeout: 30000}, async()=>{
     const jobTitlesPage = new JobTitlesPage(pageFixture.page)
     await jobTitlesPage.updateJobTitles();
 })
-
-
+Then("Job title has been updated successfully", { timeout: 30000 }, async () => {
+    const jobTitlesPage = new JobTitlesPage(pageFixture.page)
+    await jobTitlesPage.verifyUpdateJobTitleSuccessfully();
+})
+When("User delete an job title", {timeout: 30000}, async()=>{
+    const jobTitlesPage = new JobTitlesPage(pageFixture.page)
+    await jobTitlesPage.deleteJobTitles();
+})
+Then("Job title has been deleted successfully", { timeout: 30000 }, async () => {
+    const jobTitlesPage = new JobTitlesPage(pageFixture.page)
+    await jobTitlesPage.verifyDeleteJobTitleSuccessfully();
+})
+When("User delete multi job title", {timeout: 30000}, async()=>{
+    const jobTitlesPage = new JobTitlesPage(pageFixture.page)
+    await jobTitlesPage.deleteMultiJobTitles();
+})
+Then("Job titles has been deleted successfully", { timeout: 30000 }, async () => {
+    const jobTitlesPage = new JobTitlesPage(pageFixture.page)
+    await jobTitlesPage.verifyDeleteMultiJobTitleSuccessfully();
+})
 
 

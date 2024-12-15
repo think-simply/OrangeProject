@@ -22,3 +22,17 @@ Feature: Functions in Admin Menu
     And User access job title page
     And User update an job title
     Then Job title has been updated successfully
+
+  @high
+  Scenario: JT_04 : User delete an job title
+    When User logs in as Admin
+    And User access job title page
+    And User delete an job title
+    Then Job title has been deleted successfully
+
+  @medium
+  Scenario: JT_05 : User delete multi job titles
+    When User logs in as Admin
+    And User access job title page
+    And User delete multi job title
+    Then Job titles has been deleted successfully

@@ -36,10 +36,10 @@ After(async function (this: any, { pickle, result }) {
       type: "png",
     });
   }
-  
-  if (pickle.tags.some(tag => tag.name === '@guest')) {
-    await Context?.close();
-  } else {
-    await adminContext?.close();
-  }
+  await this.page.close()
+  // if (pickle.tags.some(tag => tag.name === '@guest')) {
+  //   await Context?.close();
+  // } else {
+  //   await adminContext?.close();
+  // }
 });
