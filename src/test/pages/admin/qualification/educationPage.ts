@@ -27,31 +27,31 @@ export default class EducationPage {
         this.eduLevel = page.locator('//label[text()="Level"]//ancestor::div[contains(@class,"oxd-input-group__label-wrapper")]//descendant::div[@class="oxd-input oxd-input--focus"]');
         this.saveLevel = page.locator('//button[@type="submit"]');
         this.messageSuccess = page.locator('//a[contains(@class,"Success"]');
-
-
-
     }
+
     async visit() {
-        await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/');
+        await this.page.goto(`${process.env.WEB_URL}`);
     }
+
     async login() {
         await this.userName.fill("Admin");
         await this.passWord.fill("admin123");
         await this.loginBtn.click();
     }
+
     async accessAdmin() {
         await this.adminMenu.click();
     }
+
     async creatEduLevel() {
         await this.qualifications.click();
         await this.education.click();
         await this.addLevel.click();
         await this.eduLevel.fill("G1");
-
+        await this.saveLevel.click();
     }
+
     async AftercreateEduLevel() {
-        await this.messageSuccess.isVisible();
+        await expect(this.messageSuccess).toBeVisible({ timeout: 5000 });  // Adjusted timeout
     }
-
-
 }
