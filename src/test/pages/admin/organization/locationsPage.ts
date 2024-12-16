@@ -11,9 +11,6 @@ export default class LocationsAdminPage {
   readonly adminSection: Locator;
   readonly organizationItem: Locator;
   //-------------------
-  readonly userName: Locator;
-  readonly passWord: Locator;
-  readonly loginBtn: Locator;
   readonly locationsItem: Locator;
   readonly localtionsLabel: Locator;
   readonly nameInput: Locator;
@@ -55,40 +52,25 @@ export default class LocationsAdminPage {
     this.expectedName = "New York Sales Office";
     this.expectedCountry = "Viet Nam";
     this.tableLocations = "div.orangehrm-container";
-    this.userName = page.locator('//input[@name="username"]');
-    this.passWord = page.locator('//input[@name="password"]');
-    this.loginBtn = page.locator('//button[@type="submit"]');
     this.adminSection = page.locator('//span[text()="Admin"]');
     this.organizationItem = page.locator('//span[text()="Organization "]');
     this.locationsItem = page.locator('//a[text()="Locations"]');
     this.localtionsLabel = page.locator('//h5[text()="Locations"]');
-    this.nameInput = page.locator('//label[text()="Name"]//parent::div//following-sibling::div/input'
-    );
-    this.cityInput = page.locator('//label[text()="City"]//parent::div//following-sibling::div/input'
-    );
+    this.nameInput = page.locator('//label[text()="Name"]//parent::div//following-sibling::div/input');
+    this.cityInput = page.locator('//label[text()="City"]//parent::div//following-sibling::div/input');
     this.countryDropdown = page.locator("div.oxd-select-text");
     this.VNOption = page.locator('//span[text()="Viet Nam"]');
     this.searchBtn = page.locator('button[type="submit"]');
     this.noResultsToast = page.locator("div.oxd-toast--info");
     this.noResultsText = page.locator('//span[text()="No Records Found"]');
     this.tableBodyLocations = page.locator("div.oxd-table-body");
-    this.nameColumnData = page.locator(
-      "div.oxd-table-card div.oxd-padding-cell:nth-child(2)"
-    );
-    this.cityColumnData = page.locator(
-      "div.oxd-table-card div.oxd-padding-cell:nth-child(3)"
-    );
-    this.contryColumnData = page.locator(
-      "div.oxd-table-card div.oxd-padding-cell:nth-child(4)"
-    );
+    this.nameColumnData = page.locator("div.oxd-table-card div.oxd-padding-cell:nth-child(2)");
+    this.cityColumnData = page.locator("div.oxd-table-card div.oxd-padding-cell:nth-child(3)");
+    this.contryColumnData = page.locator("div.oxd-table-card div.oxd-padding-cell:nth-child(4)");
     this.addBtn = page.locator("div.orangehrm-header-container button");
-    this.addName = page.locator(
-      '//label[text()="Name"]//parent::div/following-sibling::div/input'
-    );
+    this.addName = page.locator('//label[text()="Name"]//parent::div/following-sibling::div/input');
     this.addCountryList = page.locator("div.oxd-select-text-input");
-    this.addNotes = page.locator(
-      '//label[text()="Notes"]//parent::div/following-sibling::div/textarea'
-    );
+    this.addNotes = page.locator('//label[text()="Notes"]//parent::div/following-sibling::div/textarea');
     this.saveBtn = page.locator('button[type="submit"]');
     this.successToast = page.locator("div.oxd-toast--success");
     this.editIcon = page.locator("button i.bi-pencil-fill");
@@ -96,9 +78,7 @@ export default class LocationsAdminPage {
     this.deleteIcon = page.locator("button i.bi-trash");
     this.deletePopup = page.locator("div.orangehrm-dialog-popup");
     this.yesDeleteBtn = page.locator('//button[text()=" Yes, Delete "]');
-    this.deleteSuccessMessage = page.locator(
-      '//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]'
-    );
+    this.deleteSuccessMessage = page.locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]');
     this.singleCheckbox = page.locator("div.oxd-table-card-cell-checkbox");
     this.deleteBtn = page.locator('//button[text()=" Delete Selected "]');
   }
@@ -115,12 +95,6 @@ export default class LocationsAdminPage {
   async visit() {
     await this.page.goto(`${process.env.WEB_URL}`);
   }
-  async login() {
-    //don't really need this
-    await this.userName.fill("Admin");
-    await this.passWord.fill("admin123");
-    await this.loginBtn.click();
-  }
   async accessOrganization() {
     await this.adminSection.click();
     await this.organizationItem.click();
@@ -129,10 +103,7 @@ export default class LocationsAdminPage {
     await this.locationsItem.click();
   }
   async checkUILocations() {
-    await expect(
-      this.localtionsLabel,
-      "Locations is not displaying!"
-    ).toBeVisible();
+    await expect(this.localtionsLabel,"Locations is not displaying!").toBeVisible();
   }
   async fillName() {
     await this.nameInput.fill(this.expectedName);
@@ -144,7 +115,7 @@ export default class LocationsAdminPage {
         state: "detached",
         timeout: 5000,
       })
-      .catch(() => null);
+      .catch(() => {});
     // Kiểm tra nếu không có kết quả
     await this.page.waitForTimeout(1000);
     const hasRecordText = await this.noResultsText.isVisible();
@@ -153,7 +124,7 @@ export default class LocationsAdminPage {
     if (hasRecordText) {
       await this.page
         .waitForSelector("div.oxd-toast--info", { timeout: 5000 })
-        .catch(() => null);
+        .catch(() => {});
       expect(this.noResultsToast).toBeVisible();
       console.log(
         "Check No result about " + this.expectedName + " successfully"
@@ -187,28 +158,26 @@ export default class LocationsAdminPage {
   async fillCity() {
     await this.cityInput.fill(this.expectedCity);
   }
-  async checkCity() {
+  async checkCity(hasNoRecord = true) {
     //Kiem tra xem loading icon da bien mat chua
-    await this.page
-      .waitForSelector("div.oxd-table-loader", {
-        state: "detached",
-        timeout: 5000,
-      })
-      .catch(() => null);
+    // await this.page
+    //   .waitForSelector("div.oxd-table-loader", {
+    //     state: "detached",
+    //     timeout: 5000,
+    //   })
+    //   .catch(() => {});
     // Kiểm tra nếu không có kết quả
-    await this.page.waitForTimeout(1000);
-    const hasRecordText = await this.noResultsText.isVisible();
-    let isValidValue = true; //bien co the thay doi duoc
-    // await this.page.waitForTimeout(1000);
-    if (hasRecordText) {
+    await this.page.waitForTimeout(5000);
+    let isValidValue = true; //flexible variable
+    if (hasNoRecord) {
       await this.page
         .waitForSelector("div.oxd-toast--info", { timeout: 5000 })
-        .catch(() => null);
+        .catch(() => {});
       expect(this.noResultsToast).toBeVisible();
       console.log("check No result successfully");
     } else {
       await this.page.waitForTimeout(1000);
-      // Lấy tất cả các giá trị trong cột city
+      // Get all values in City column
       const rowCount = await this.cityColumnData.count();
       console.log("The number of rows is", rowCount);
       for (let i = 0; i < rowCount; i++) {
@@ -216,7 +185,7 @@ export default class LocationsAdminPage {
           .nth(i)
           .first()
           .textContent();
-        //nth: dùng để chọn phần tử thứ i (theo chỉ số, bắt đầu từ 0) trong nhóm các phần tử được cityColumn đại diện.
+        //nth: the i element.
         console.log("CityValue:", cityValue);
         if (
           !cityValue
@@ -225,7 +194,7 @@ export default class LocationsAdminPage {
             .includes(this.expectedCity.toLowerCase())
         ) {
           isValidValue = false;
-          break; //neu chua 1 KQ sai thì dừng hẳn for
+          break; //stop once met the wrong result
         }
       }
     }
@@ -244,7 +213,7 @@ export default class LocationsAdminPage {
         state: "detached",
         timeout: 5000,
       })
-      .catch(() => null);
+      .catch(() => {});
     // Kiểm tra nếu không có kết quả
     await this.page.waitForTimeout(1000);
     const hasRecordText = await this.noResultsText.isVisible();
@@ -253,7 +222,7 @@ export default class LocationsAdminPage {
     if (hasRecordText) {
       await this.page
         .waitForSelector("div.oxd-toast--info", { timeout: 5000 })
-        .catch(() => null);
+        .catch(() => {});
       expect(this.noResultsToast).toBeVisible();
       console.log("check No result successfully");
     } else {
@@ -269,8 +238,7 @@ export default class LocationsAdminPage {
           .textContent();
         //nth: dùng để chọn phần tử thứ i (theo chỉ số, bắt đầu từ 0) trong nhóm các phần tử được cityColumn đại diện.
         console.log("CountryValue:", countryValue);
-        if (
-          !countryValue
+        if (!countryValue
             ?.trim()
             .toLowerCase()
             .includes(this.expectedCity.toLowerCase())
@@ -312,7 +280,7 @@ export default class LocationsAdminPage {
         state: "detached",
         timeout: 5000,
       })
-      .catch(() => null);
+      .catch(() => {});
     await this.page.waitForTimeout(2000);
     await expect(this.localtionsLabel).toBeVisible();
     await this.nameInput.fill(this.uniqueName);
@@ -338,10 +306,6 @@ export default class LocationsAdminPage {
     const currentValue = await this.addName.inputValue();
     const updatedValue = `${currentValue}${updateText}`;
     await this.addName.fill(updatedValue);
-    console.log(
-      "🚀 ~ LocationsAdminPage ~ updateData ~ updatedValue:",
-      updatedValue
-    );
     updatedData = updatedValue;
   }
   async checkUpdateSuccessfully() {
@@ -350,13 +314,9 @@ export default class LocationsAdminPage {
         state: "detached",
         timeout: 5000,
       })
-      .catch(() => null);
+      .catch(() => {});
     await this.page.waitForTimeout(3000);
     await expect(this.localtionsLabel).toBeVisible();
-    console.log(
-      "🚀 ~ LocationsAdminPage ~ checkUpdateSuccessfully ~ this.updatedData:",
-      updatedData
-    );
     await this.nameInput.fill(updatedData);
     await this.searchBtn.click();
     //Kiem tra loading icon bien mat chua
@@ -365,7 +325,7 @@ export default class LocationsAdminPage {
         state: "detached",
         timeout: 5000,
       })
-      .catch(() => null);
+      .catch(() => {});
     await this.page.waitForTimeout(1000);
     //Kiem tra da duoc update chua
     const updatedName = await this.nameColumnData.first().textContent();
@@ -383,14 +343,10 @@ export default class LocationsAdminPage {
         state: "detached",
         timeout: 5000,
       })
-      .catch(() => null);
+      .catch(() => {});
     await this.page.waitForTimeout(3000);
     await expect(this.localtionsLabel).toBeVisible();
     await this.nameInput.fill(this.uniqueName);
-    console.log(
-      "🚀 ~ LocationsAdminPage ~ searchAndClickDelete ~ this.uniqueName:",
-      this.uniqueName
-    );
     updatedData = this.uniqueName;
     await this.searchClick();
     await this.deleteIcon.click();
@@ -407,7 +363,7 @@ export default class LocationsAdminPage {
         state: "detached",
         timeout: 5000,
       })
-      .catch(() => null);
+      .catch(() => {});
     //await this.page.waitForTimeout(1000);
     await expect(this.localtionsLabel).toBeVisible();
     await this.nameInput.fill(updatedData);
@@ -431,8 +387,8 @@ export default class LocationsAdminPage {
         state: "detached",
         timeout: 5000,
       })
-      .catch(() => null);
-    await this.page.waitForTimeout(2000);
+      .catch(() => {});
+    await this.page.waitForTimeout(3000);
   }
   async selectMultiLocations() {
     await this.page.waitForTimeout(3000);
@@ -457,7 +413,7 @@ export default class LocationsAdminPage {
         state: "detached",
         timeout: 5000,
       })
-      .catch(() => null);
+      .catch(() => {});
     await this.page.waitForTimeout(1000);
     await expect(this.localtionsLabel).toBeVisible();
     await this.selectCountry();

@@ -3,7 +3,7 @@ Feature: Organization_Locations in Admin Menu
   Background:
     Given User accessed Locations
 
-  @low
+  @low 
   Scenario: LO_01: Verify UI of Locations page
     Then All elements should be displayed as expected
 

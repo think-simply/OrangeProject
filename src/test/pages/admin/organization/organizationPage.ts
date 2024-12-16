@@ -46,7 +46,6 @@ export default class OrganizationAdminPage {
     await this.adminSection.click();
     // await this.organizationItem.click();
   }
-
   async accessGI() {
     await this.generalInformationOption.click();
   }

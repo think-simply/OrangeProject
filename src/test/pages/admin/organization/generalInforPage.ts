@@ -13,26 +13,16 @@ export default class OrganizationAdminPage {
   readonly inputOrganizationName: Locator;
   readonly btnSave: Locator;
   readonly successfullMessage: Locator;
-  readonly userName: Locator;
-  readonly passWord: Locator;
-  readonly loginBtn: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.userName = page.locator('//input[@name="username"]');
-    this.passWord = page.locator('//input[@name="password"]');
-    this.loginBtn = page.locator('//button[@type="submit"]');
     this.adminSection = page.locator('//span[text()="Admin"]');
     this.organizationItem = page.locator('//span[text()="Organization "]');
-    this.generalInformationOption = page.locator(
-      '//a[text()="General Information"]'
-    );
+    this.generalInformationOption = page.locator('//a[text()="General Information"]');
     this.GITitle = page.locator('//h6[text()="General Information"]');
     this.checkLabel = page.locator('//label[text()="Number of Employees"]');
     this.editToggle = page.locator('input[type="checkbox"]');
-    this.inputOrganizationName = page.locator(
-      "div.organization-name-container input.oxd-input--active"
-    );
+    this.inputOrganizationName = page.locator("div.organization-name-container input.oxd-input--active");
     this.btnSave = page.locator('//button[@type="submit"]');
     this.successfullMessage = page.locator("div.oxd-toast-content--success");
   }
@@ -40,18 +30,10 @@ export default class OrganizationAdminPage {
   async visit() {
     await this.page.goto(`${process.env.WEB_URL}`);
   }
-  async login() {
-    console.log("🚀 ~ OrganizationAdminPage ~ login ~ login:");
-    //don't really need this
-    await this.userName.fill("Admin");
-    await this.passWord.fill("admin123");
-    await this.loginBtn.click();
-  }
   async accessOrganization() {
     await this.adminSection.click();
     await this.organizationItem.click();
   }
-
   async accessGI() {
     await this.generalInformationOption.click();
   }
