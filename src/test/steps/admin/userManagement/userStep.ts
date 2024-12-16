@@ -64,9 +64,9 @@ Then("Result has been displayed follow {string} status", { timeout: 30000 }, asy
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.verifySearchStatus(status);
 });
-When("User enters values on search fields:username {string}, userrole {string},employeename {string},status {string}", { timeout: 30000 }, async (username,role,text,status) => {
+When("User enters values on search fields:username {string}, userrole {string},employeename {string},status {string}", { timeout: 30000 }, async (username, role, text, status) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.inputDataForFields(username,role,text,status);
+    await adminMenuPage.inputDataForFields(username, role, text, status);
 });
 When("User click reset button", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
@@ -94,8 +94,6 @@ Then("Account has been deleted", { timeout: 30000 }, async () => {
 });
 When("User removes multi account", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.createUser("ESS", "t", "usernamenttheu", "admin123", "admin123");
-    await adminMenuPage.verifyCreateUser("usernamenttheu");
     await adminMenuPage.removeMultiAccount();
 });
 Then("All selected account have been deleted", { timeout: 30000 }, async () => {

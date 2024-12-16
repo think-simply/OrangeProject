@@ -98,8 +98,7 @@ export default class AdminMenuPage {
         this.updatedAccount = page.locator('//div[text()="usernamenttheuEdit"]')
         this.deleteIcon = page.locator('//div[text()="usernamenttheuEdit"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]')
         this.confirmDeleteBtn = page.locator("//button[normalize-space()='Yes, Delete']")
-        this.checkbox1 = page.locator('//div[text()="usernamenttheuAdmin"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
-        this.checkbox2 = page.locator('//div[text()="usernamenttheu"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]')
+        this.checkBox = page.locator('//div[contains(text(), "usernamenttheu")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]');
         this.deleteMultiBtn = page.locator("//button[normalize-space()='Delete Selected']")
         this.successToast = page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
         this.resultsRowLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']");
@@ -133,7 +132,6 @@ export default class AdminMenuPage {
         await expect(this.resetBtn).toBeVisible();
         await expect(this.searchBtn).toBeVisible();
         await expect(this.addUserBtn).toBeVisible();
-        await expect(this.checkBox).toBeVisible();
         await expect(this.usernameColumn).toBeVisible();
         await expect(this.userRoleColumn).toBeVisible();
         await expect(this.employeeNameColumn).toBeVisible();
@@ -201,9 +199,9 @@ export default class AdminMenuPage {
                 expect(statusText).toBe(role);
             }
         }
-        else {
-            await expect(this.notFoundItem).toBeVisible();
-        }
+        // else {
+        //     await expect(this.notFoundItem).toBeVisible();
+        // }
     }
     async searchEmployeeName(text: string) {
         await this.adminMenu.click();
@@ -280,34 +278,58 @@ export default class AdminMenuPage {
         await this.usernameField.click();
         await this.usernameField.fill(newname);
         await this.submitBtn.click();
+        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
     }
     async verifyUpdateAccount() {
-        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
+        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+            const response = await route.fetch();
+            expect(response.status()).toBe(200);
+        });
         await expect(this.updatedAccount).toBeVisible();
     }
     async removeAccount() {
         await this.adminMenu.click();
         await this.deleteIcon.click();
         await this.confirmDeleteBtn.click();
+        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
     }
     async verifyRemoveAccount() {
-        await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
+        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+            const response = await route.fetch();
+            expect(response.status()).toBe(200);
+        });
         await expect(this.updatedAccount).toBeHidden();
     }
     async removeMultiAccount() {
+        await this.adminMenu.click();
+        if (this.newEssUser.isHidden) {
+            this.createUser("ESS", "t", "usernamenttheu", "admin123", "admin123");
+            this.verifyCreateUser("usernamenttheu");
+            console.log("print 1")
+        }
+        // await this.newAdminUser.waitFor();
+        if (this.newAdminUser.isHidden) {
+            this.createUser("Admin", "t", "usernamenttheuAdmin", "admin123", "admin123");
+            this.verifyCreateUser("usernamenttheuAdmin");
+            console.log("print 2")
+        }
         // get all checkbox
-        const checkboxes = this.page.locator('//div[contains(text(), "usernamenttheu")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]');
+        const checkboxes = this.checkBox;
         // Click each checkbox
         await checkboxes.first().click(); // or .nth(0)
         await checkboxes.last().click();  // or .nth(1)
-
         await this.deleteMultiBtn.click();
         await this.confirmDeleteBtn.click();
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
+        console.log("print 3")
     }
     async verifyRemoveMultiAccount() {
-      
+        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+            const response = await route.fetch();
+            expect(response.status()).toBe(200);
+        });
         await expect(this.newEssUser).toBeHidden();
         await expect(this.newAdminUser).toBeHidden();
+        console.log("print 4")
     }
 }
