@@ -1,7 +1,8 @@
 import { Page, Locator, expect } from "@playwright/test";
 import dotenv from 'dotenv';
 dotenv.config();
-const axios = require('axios');
+//const axios = require('axios');
+import axios from 'axios';
 
 export default class AdminMenuPage {
     readonly page: Page;

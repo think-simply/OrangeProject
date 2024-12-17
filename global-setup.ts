@@ -7,12 +7,11 @@ dotenv.config();
 
 async function globalSetup() {
   // Tạo thư mục .auth nếu chưa tồn tại
-  const authDir = path.join(process.cwd(), 'playwright/.auth');
+  const authDir = path.join(process.cwd(), "playwright/.auth");
   if (!fs.existsSync(authDir)) {
     fs.mkdirSync(authDir, { recursive: true });
   }
   const browser = await chromium.launch();
- 
   // Setup for admin
   const adminContext = await browser.newContext();
   const adminPage = await adminContext.newPage();

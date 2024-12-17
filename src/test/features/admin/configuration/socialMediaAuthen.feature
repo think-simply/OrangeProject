@@ -18,12 +18,12 @@ Feature: Functions in Configuration menu, social media authen sub-menu for Admin
     When User updates a provider
     Then A provider has been updated
 
-  @high
+  @high 
   Scenario: SM_04: Delete a provider
     When User removes a provider
     Then A provider has been deleted
 
-  @high
+  @high 
   Scenario: SM_05: Delete multi provider
     When User removes multi provider
     Then All selected providers have been deleted

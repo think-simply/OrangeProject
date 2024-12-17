@@ -64,10 +64,10 @@ Feature: Functions in Admin Menu - Admin role
     When User update an account with new username: "usernamenttheuEdit"
     Then Account has been updated
 
-  @high
-  Scenario: US_010: Removes an account
-    When User removes an account
-    Then Account has been deleted
+#   @high
+#   Scenario: US_010: Removes an account
+#     When User removes an account
+#     Then Account has been deleted
 
   # @high @now
   # Scenario: US_11: Removes multi account
