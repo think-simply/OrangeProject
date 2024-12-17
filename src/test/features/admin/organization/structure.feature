@@ -7,7 +7,7 @@ Feature: Organization_Structure in Admin Menu
   Scenario: ST_01: Check UI of Structure page
     Then All elements in Structure should be displayed as expected
 
-  @low @now
+  @low 
   Scenario: ST_02: Add a new Organization unit
     When User clicks Add button
     And User inputs valid data
