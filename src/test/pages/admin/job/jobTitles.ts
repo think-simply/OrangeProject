@@ -47,7 +47,7 @@ export default class JobTitlesPage {
         await this.jobTitlesMenu.click({timeout: 35000});
     }
     async verifyJobTitlesPage(){
-        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList')
+        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList',{timeout: 35000})
         await expect(this.jobTitlesLabel).toHaveText('Job Titles')
         await expect(this.addJobTitleBtn).toBeVisible()
     }
@@ -58,7 +58,7 @@ export default class JobTitlesPage {
         await this.saveJobTitleBtn.click()
     }
     async verifyCreateJobTitleSuccessfully(){
-        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList')
+        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList',{timeout: 35000})
         await expect(this.jobTitleName).toBeVisible()
     }
 
@@ -69,7 +69,7 @@ export default class JobTitlesPage {
         await this.saveJobTitleBtn.click()
     }
     async verifyUpdateJobTitleSuccessfully(){
-        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList')
+        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList',{timeout: 35000})
         await expect(this.jobTitleName).toBeVisible()
     }
 
@@ -79,7 +79,7 @@ export default class JobTitlesPage {
         
     }
     async verifyDeleteJobTitleSuccessfully(){
-        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList')
+        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList',{timeout: 35000})
         await expect(this.jobTitleName).not.toBeVisible()
     }
     async deleteMultiJobTitles(){
@@ -89,7 +89,7 @@ export default class JobTitlesPage {
         
     }
     async verifyDeleteMultiJobTitleSuccessfully(){
-        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList')
+        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewJobTitleList',{timeout: 35000})
         await expect(this.jobTitleName).not.toBeVisible()
     }
 

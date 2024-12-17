@@ -3,12 +3,12 @@ Feature: Organization_General Information in Admin Menu
   Background:
     Given User navigates to page Admin_Organization
 
-  @low  @information
+  @low  @information @demo
   Scenario: GI_01: Check UI of Organization General Information
     When User accesses General information in Organization
     Then User should observe that all elements are displayed as expected
 
-  @high  @information
+  @high  @information @demo
   Scenario: GI_02: Edit Organization General Information
     When User accesses General information in Organization
     And User turns the Edit toggle on
