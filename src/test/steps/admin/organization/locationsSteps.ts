@@ -2,13 +2,14 @@ import { Given, When, Then } from "@cucumber/cucumber";
 import { pageFixture } from "../../../../hooks/pageFixture";
 import LocationsAdminPage from "../../../pages/admin/organization/locationsPage";
 
+//Pre-condition
 Given("User accessed Locations", { timeout: 30000 }, async () => {
   const adminMenuPage = new LocationsAdminPage(pageFixture.adminPage);
   await adminMenuPage.visit();
-  // await adminMenuPage.login();
   await adminMenuPage.accessOrganization();
   await adminMenuPage.accessLocations();
 });
+//LO_01: Verify UI of Locations page
 Then("All elements should be displayed as expected",
   { timeout: 30000 },
   async () => {
@@ -47,7 +48,7 @@ Then("The corresponding City results should be returned",
   { timeout: 30000 },
   async () => {
     const adminMenuPage = new LocationsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.checkCity(); // TODO:  await adminMenuPage.checkCity(false) thì sẽ không trả ra kết quả
+    await adminMenuPage.checkCity(false);
   }
 );
 //LO_04: Search location by country
@@ -112,7 +113,6 @@ Then(  "The location should be deleted", { timeout: 30000 },  async () => {
     await adminMenuPage.checkDeleteSuccess();
   }
 );
-
 // LO_08: Delete multiple locations
 When(  "User selects multiple locations",  { timeout: 30000 },  async () => {
     const adminMenuPage = new LocationsAdminPage(pageFixture.adminPage);
@@ -125,7 +125,6 @@ When("User clicks the Delete button",{ timeout: 30000 },  async () => {
   const adminMenuPage = new LocationsAdminPage(pageFixture.adminPage);
   await adminMenuPage.clickDelete();
 });
-
 Then(  "all selected locations should be deleted", { timeout: 30000 }, async () => {
     const adminMenuPage = new LocationsAdminPage(pageFixture.adminPage);
     await adminMenuPage.deleteMultiLocations();

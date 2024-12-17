@@ -29,6 +29,6 @@ Feature: Organization_Structure in Admin Menu
   @medium @tructure
   Scenario: ST_05: Add a sub Organization
     When User clicks + icon from an organization
-    And User inputs valid data
-    And User clicks save
+    And User inputs valid subdata
+    And User clicks Save button
     Then Sub-Organization has been created under the root organization
