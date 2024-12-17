@@ -1,3 +1,4 @@
+@UserManagement
 Feature: Functions in Admin Menu - Admin role
 
   Background:
@@ -69,8 +70,8 @@ Feature: Functions in Admin Menu - Admin role
     When User removes an account
     Then Account has been deleted
 
-  # @high @now
-  # Scenario: US_11: Removes multi account
-  #   When User removes multi account
-  #   Then All selected account have been deleted
+  @high @now
+  Scenario: US_11: Removes multi account
+    When User removes multi account
+    Then All selected account have been deleted
 

@@ -12,7 +12,7 @@ interface TestContext {
 }
 
 BeforeAll(async function () {
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({ headless: false });
 });
 
 AfterAll(async function () {

@@ -305,13 +305,18 @@ export default class AdminMenuPage {
     }
     async removeMultiAccount() {
         await this.adminMenu.click();
-        if (this.newEssUser.isHidden) {
+        // await this.page.waitForTimeout(5000);
+        await this.page.waitForLoadState();
+        const hidden = await this.newEssUser.isHidden()
+        
+        console.log(hidden);
+        if (hidden) {
             this.createUser("ESS", "t", "usernamenttheu", "admin123", "admin123");
             this.verifyCreateUser("usernamenttheu");
             console.log("print 1")
         }
         // await this.newAdminUser.waitFor();
-        if (this.newAdminUser.isHidden) {
+        if (await this.newAdminUser.isHidden()) {
             this.createUser("Admin", "t", "usernamenttheuAdmin", "admin123", "admin123");
             this.verifyCreateUser("usernamenttheuAdmin");
             console.log("print 2")
