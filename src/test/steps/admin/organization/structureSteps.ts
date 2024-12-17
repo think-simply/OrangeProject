@@ -5,8 +5,8 @@ import StructureAdminPage from "../../../pages/admin/organization/structurePage"
 
 Given("User accessed Structure", { timeout: 30000 }, async () => {
     const adminMenuPage = new StructureAdminPage(pageFixture.adminPage);
-    await adminMenuPage.visit();
-    await adminMenuPage.login();
+    // await adminMenuPage.visit();
+    // await adminMenuPage.login();
     await adminMenuPage.accessOrganization();
     await adminMenuPage.accessStructure();
 });
