@@ -5,7 +5,7 @@ import { pageFixture } from "../../../../hooks/pageFixture";
 
 Given("User navigates to page Admin_Organization",{timeout: 30000}, async () => {
   const adminMenuPage = new OrganizationAdminPage(pageFixture.adminPage);
-  // await adminMenuPage.visit();
+  await adminMenuPage.visit();
   // await adminMenuPage.login();
   await adminMenuPage.accessOrganization();
 });

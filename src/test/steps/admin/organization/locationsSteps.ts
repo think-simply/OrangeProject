@@ -4,7 +4,7 @@ import LocationsAdminPage from "../../../pages/admin/organization/locationsPage"
 
 Given("User accessed Locations", { timeout: 30000 }, async () => {
   const adminMenuPage = new LocationsAdminPage(pageFixture.adminPage);
-  // await adminMenuPage.visit();
+  await adminMenuPage.visit();
   // await adminMenuPage.login();
   await adminMenuPage.accessOrganization();
   await adminMenuPage.accessLocations();
