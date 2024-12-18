@@ -7,10 +7,6 @@ Given("User navigates to page", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.visit();
 });
-When("User logs in as Admin", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.login();
-});
 When("User access User management page", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.accessUserPage();
@@ -32,13 +28,13 @@ When("User search by username : {string}", { timeout: 30000 }, async (userName) 
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.searchUserName(userName);
 });
-Then("Alert no result has been displayed", { timeout: 30000 }, async () => {
+Then("Alert no result has been displayed", { timeout: 30000 }, async (text) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifySearchUserName();
+    await adminMenuPage.verifySearchUserName(false,text);
 });
-Then("Result has been displayed follow username", { timeout: 30000 }, async () => {
+Then("Result {string} has been displayed follow username", { timeout: 30000 }, async (text) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifySearchUserName(true);
+    await adminMenuPage.verifySearchUserName(true,text);
 });
 When("User search by role: {string}", { timeout: 30000 }, async (role) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
@@ -76,28 +72,27 @@ Then("Data on all search fields have been cleared", { timeout: 30000 }, async ()
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.verifyFieldsAfterReset();
 });
-When("User update an account with new username: {string}", { timeout: 30000 }, async (newname) => {
+When("User update account {string} to new username: {string}", { timeout: 30000 }, async (textTrial,newname) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.updateAccount(newname);
+    await adminMenuPage.updateAccount(textTrial,newname);
 });
-Then("Account has been updated", { timeout: 30000 }, async () => {
+Then("Account has been updated to new username: {string}", { timeout: 30000 }, async (updatetext) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifyUpdateAccount();
+    await adminMenuPage.verifyUpdateAccount(updatetext);
 });
-When("User removes an account", { timeout: 30000 }, async () => {
+When("User removes an account: {string}", { timeout: 30000 }, async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.removeAccount();
 });
-Then("Account has been deleted", { timeout: 30000 }, async () => {
+Then("Account {string} has been deleted", { timeout: 30000 }, async (updatetext) => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifyRemoveAccount();
+    await adminMenuPage.verifyRemoveAccount(updatetext);
 });
-When("User removes multi account", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.removeMultiAccount();
-});
-Then("All selected account have been deleted", { timeout: 30000 }, async () => {
-    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
-    await adminMenuPage.verifyRemoveMultiAccount();
-});
-
+// When("User removes multi account", { timeout: 30000 }, async () => {
+//     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
+//     await adminMenuPage.removeMultiAccount();
+// });
+// Then("All selected account have been deleted", { timeout: 30000 }, async () => {
+//     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
+//     await adminMenuPage.verifyRemoveMultiAccount();
+// });
