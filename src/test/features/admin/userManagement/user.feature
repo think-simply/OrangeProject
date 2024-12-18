@@ -19,10 +19,10 @@ Feature: Functions in Admin Menu - Admin role
       | Admin | t        | usernamenttheuAdmin | admin123 | admin123         |
       | ESS   | t        | usernamenttheu      | admin123 | admin123         |
 
-  @medium @user @demo
+  @medium @user @demo 
   Scenario: US_03: Search user by user name - return exactly result
     When User search by username : "usernamenttheu"
-    Then Result has been displayed follow username
+    Then Result "usernamenttheu" has been displayed follow username
 
   # @medium @user
   # Scenario: US_04: Search user by user name - <return no result>
@@ -60,9 +60,9 @@ Feature: Functions in Admin Menu - Admin role
     And User click reset button
     Then Data on all search fields have been cleared
 
-  @high  @user @demo
+  @high  @user @demo @now
   Scenario: US_09: Updates an account
-    When User update an account with new username: "usernamenttheuEdit"
+    When User update account "usernamenttheu" to new username: "usernamenttheuEdit"
     Then Account has been updated
 
   @high @user @demo
@@ -70,7 +70,7 @@ Feature: Functions in Admin Menu - Admin role
     When User removes an account
     Then Account has been deleted
 
-  @high @now
+  @high 
   Scenario: US_11: Removes multi account
     When User removes multi account
     Then All selected account have been deleted

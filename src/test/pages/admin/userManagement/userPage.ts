@@ -21,7 +21,6 @@ export default class AdminMenuPage {
     readonly userRoleOption: Locator;
     readonly statusOption: Locator;
     readonly employeeOption: Locator;
-    readonly newEssUser: Locator;
     readonly messageSuccess: Locator;
     readonly userManagement: Locator;
     readonly titlePage: Locator;
@@ -76,7 +75,7 @@ export default class AdminMenuPage {
         this.adminRoleOption = page.getByRole('option', { name: 'Admin' })
         this.statusOption = page.getByRole('option', { name: 'Enabled' })
         this.employeeOption = page.getByRole('option', { name: employeeNamevalue })
-        this.newEssUser = page.locator('//div[text()="usernamenttheu"]')
+
         this.newAdminUser = page.locator('//div[text()="usernamenttheuAdmin"]')
         this.messageSuccess = page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]')
         this.userManagement = page.locator('//span[normalize-space()="User Management"]')
@@ -95,7 +94,6 @@ export default class AdminMenuPage {
         this.statusColumn = page.locator('//div[text()="Status"]')
         this.actionColumn = page.locator('//div[text()="Actions"]')
         this.userResult = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']")
-        this.editIcon = page.locator('//div[text()="usernamenttheu"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]')
         this.updatedAccount = page.locator('//div[text()="usernamenttheuEdit"]')
         this.deleteIcon = page.locator('//div[text()="usernamenttheuEdit"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]')
         this.confirmDeleteBtn = page.locator("//button[normalize-space()='Yes, Delete']")
@@ -107,6 +105,10 @@ export default class AdminMenuPage {
         this.employeeNameLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]");
         this.statusLocator = page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]");
         this.notFoundItem = page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="No Records Found"]')
+    }
+    elements = {
+        newEssUser: (demotext: string) => this.page.locator(`//div[text()="${demotext}"]`),
+        editIcon: (textTrial: string) => this.page.locator(`//div[text()="${textTrial}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`)
     }
     async visit() {
         await this.page.goto(`${process.env.WEB_URL}`);
@@ -162,14 +164,14 @@ export default class AdminMenuPage {
         await this.usernameFieldSearch.fill(userName);
         await this.searchBtn.click();
     }
-    async verifySearchUserName(checkUser = false) {
+    async verifySearchUserName(checkUser = false, text: string) {
         await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
             const response = await route.fetch();
             expect(response.status()).toBe(200);
         });
         //checkUser = true
         if (checkUser) {
-            await expect(this.newEssUser).toBeVisible();
+            await expect(this.page.getByText(text)).toBeVisible();
             await expect(this.userResult).toHaveCount(1);
         }
         //checkUser = false
@@ -273,9 +275,9 @@ export default class AdminMenuPage {
         const status = await this.status.textContent();
         expect(status).toBe('-- Select --');
     }
-    async updateAccount(newname: string) {
+    async updateAccount(textTrial: string, newname: string) {
         await this.adminMenu.click();
-        await this.editIcon.click();
+        await this.elements.editIcon(textTrial).click();
         await this.usernameField.click();
         await this.usernameField.fill(newname);
         await this.submitBtn.click();
@@ -286,8 +288,8 @@ export default class AdminMenuPage {
             const response = await route.fetch();
             expect(response.status()).toBe(200);
         });
-       
-        await expect(this.updatedAccount).toBeVisible({timeout: 10000});
+        await this.page.waitForTimeout(3000);
+        await expect(this.updatedAccount).toBeVisible({ timeout: 10000 });
     }
     async removeAccount() {
         await this.adminMenu.click();
@@ -303,19 +305,18 @@ export default class AdminMenuPage {
         await this.page.waitForTimeout(3000);
         await expect(this.updatedAccount).toBeHidden();
     }
-    async removeMultiAccount() {
+    async removeMultiAccount(demotext:string) {
         await this.adminMenu.click();
-        // await this.page.waitForTimeout(5000);
-        await this.page.waitForLoadState();
-        const hidden = await this.newEssUser.isHidden()
-        
+        await this.page.waitForTimeout(5000);
+        const hidden = await this.elements.newEssUser(demotext).isHidden()
+
         console.log(hidden);
         if (hidden) {
             this.createUser("ESS", "t", "usernamenttheu", "admin123", "admin123");
             this.verifyCreateUser("usernamenttheu");
             console.log("print 1")
         }
-        // await this.newAdminUser.waitFor();
+      
         if (await this.newAdminUser.isHidden()) {
             this.createUser("Admin", "t", "usernamenttheuAdmin", "admin123", "admin123");
             this.verifyCreateUser("usernamenttheuAdmin");
@@ -331,13 +332,14 @@ export default class AdminMenuPage {
         await this.successToast.waitFor({ state: 'visible', timeout: 10000 });
         console.log("print 3")
     }
-    async verifyRemoveMultiAccount() {
+    async verifyRemoveMultiAccount(demotext:string) {
         await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
             const response = await route.fetch();
             expect(response.status()).toBe(200);
         });
-        await expect(this.newEssUser).toBeHidden();
+        // await expect(this.elements.newEssUser(demotext)).toBeHidden();
         await expect(this.newAdminUser).toBeHidden();
         console.log("print 4")
+
     }
 }
