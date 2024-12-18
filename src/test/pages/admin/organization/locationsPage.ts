@@ -364,13 +364,14 @@ export default class LocationsAdminPage {
         timeout: 5000,
       })
       .catch(() => {});
-    //await this.page.waitForTimeout(1000);
-    await expect(this.localtionsLabel).toBeVisible();
-    await this.nameInput.fill(updatedData);
-    await this.searchClick();
-    //Check to delete successfully when the record is the only
-    expect(this.noResultsToast).toBeVisible();
-    console.log("Deleted successfully");
+      await this.page.waitForTimeout(3000);
+      await expect(this.localtionsLabel).toBeVisible();
+      await this.nameInput.fill(updatedData);
+      await this.searchClick();
+      await this.page.waitForTimeout(3000);
+      //Check to delete successfully when the record is the only
+      expect(this.noResultsToast).toBeVisible();
+      console.log("Deleted successfully");
   }
   async creatDataToMultiDelete() {
     //Tao moi 1
@@ -414,7 +415,7 @@ export default class LocationsAdminPage {
         timeout: 5000,
       })
       .catch(() => {});
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(3000);
     await expect(this.localtionsLabel).toBeVisible();
     await this.selectCountry();
     await this.searchClick();
