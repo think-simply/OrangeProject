@@ -8,5 +8,5 @@
 node_modules/
 index.html
 /playwright/.auth/
-@rerun.txt
+@rerun.txt/
 
