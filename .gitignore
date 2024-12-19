@@ -1,11 +1,13 @@
 /node_modules/
 /assets/
 /features/
-*.env
+/.env/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
 node_modules/
 /index.html/
-/playwright/
+/playwright/.auth/
+/@rerun.txt/
+
