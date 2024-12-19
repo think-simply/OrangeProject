@@ -21,7 +21,7 @@ jobs:
       run: npx playwright install --with-deps
     - name: Install Cucumber
       run: npm install --save-dev @cucumber/cucumber
-    - name: Run automated testcase with cucumber
+    - name: Run global file to get session login
       run: npx playwright test
     - name: Run automated testcase with cucumber
       run: npm test
