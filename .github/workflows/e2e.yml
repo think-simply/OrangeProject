@@ -22,7 +22,7 @@ jobs:
     - name: Install Cucumber
       run: npm install --save-dev @cucumber/cucumber
     - name: Run global file to get session login
-      run: npx playwright test; ls
+      run: ./playwright_run_test.sh
     - name: Run automated testcase with cucumber
       run: npm test
       shell: bash
