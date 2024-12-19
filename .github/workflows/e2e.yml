@@ -25,3 +25,4 @@ jobs:
       run: npx playwright test
     - name: Run automated testcase with cucumber
       run: npm test
+      shell: bash
