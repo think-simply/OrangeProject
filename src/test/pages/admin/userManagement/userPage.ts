@@ -1,8 +1,6 @@
 import { Page, Locator, expect } from "@playwright/test";
 import dotenv from 'dotenv';
 dotenv.config();
-//const axios = require('axios');
-import axios from 'axios';
 
 export default class AdminMenuPage {
     readonly page: Page;
@@ -11,7 +9,7 @@ export default class AdminMenuPage {
     }
     elements = {
         updatedAccount: (updatetext: string) => this.page.locator(`//div[text()="${updatetext}"]`),
-        newEssUser: (demotext: string) => this.page.locator(`//div[text()="${demotext}"]`),
+        newUser: (demotext: string) => this.page.locator(`//div[text()="${demotext}"]`),
         editIcon: (textTrial: string) => this.page.locator(`//div[text()="${textTrial}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
         loginBtn: () => this.page.locator('//button[@type="submit"]'),
         adminMenu: () => this.page.locator('//span[text()="Admin"]'),
@@ -24,11 +22,8 @@ export default class AdminMenuPage {
         passwordField: () => this.page.locator('//div[contains(@class,"user-password-cell")]//descendant::input[@type="password"]'),
         confirmPassword: () => this.page.locator('//label[normalize-space()="Confirm Password"]//ancestor::div[@class="oxd-grid-item oxd-grid-item--gutters"]//descendant::input[@type="password"]'),
         submitBtn: () => this.page.locator('//button[@type="submit"]'),
-        userRoleOption: () => this.page.getByRole('option', { name: 'ESS' }),
-        adminRoleOption: () => this.page.getByRole('option', { name: 'Admin' }),
         statusOption: () => this.page.getByRole('option', { name: 'Enabled' }),
-        employeeOption: () => this.page.getByRole('option', { name: 'Tina thi Nguyen' }),
-        newAdminUser: () => this.page.locator('//div[text()="usernamenttheuAdmin"]'),
+        employeeOption: () => this.page.getByRole('option', { name: 'tina thi Nguyen' }),
         messageSuccess: () => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'),
         userManagement: () => this.page.locator('//span[normalize-space()="User Management"]'),
         titlePage: () => this.page.locator('//h5[text()="System Users"]'),
@@ -45,9 +40,9 @@ export default class AdminMenuPage {
         statusColumn: () => this.page.locator('//div[text()="Status"]'),
         actionColumn: () => this.page.locator('//div[text()="Actions"]'),
         userResult: () => this.page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']"),
-        deleteIcon: () => this.page.locator('//div[text()="usernamenttheuEdit"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]'),
+        deleteIcon: (text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]`),
         confirmDeleteBtn: () => this.page.locator("//button[normalize-space()='Yes, Delete']"),
-        checkBox: () => this.page.locator('//div[contains(text(), "usernamenttheu")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]'),
+        checkBox: (text: string) => this.page.locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`),
         deleteMultiBtn: () => this.page.locator("//button[normalize-space()='Delete Selected']"),
         successToast: () => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'),
         resultsRowLocator: () => this.page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']"),
@@ -55,6 +50,7 @@ export default class AdminMenuPage {
         employeeNameLocator: () => this.page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]"),
         statusLocator: () => this.page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]"),
         notFoundItem: () => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="No Records Found"]'),
+        noRecordText: (text: string) => this.page.locator(`//span[text()="${text}"]`),
     }
     async visit() {
         await this.page.goto(`${process.env.WEB_URL}`);
@@ -97,8 +93,8 @@ export default class AdminMenuPage {
         await this.elements.submitBtn().click();
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
     }
-    async verifyCreateUser(text: string) {
-        await expect(this.page.getByText(text)).toBeVisible();
+    async verifyCreateUser(demotext: string) {
+        await expect(this.elements.newUser(demotext)).toBeVisible();
     }
     async searchUserName(userName: string) {
         await this.elements.adminMenu().click();
@@ -117,7 +113,8 @@ export default class AdminMenuPage {
         }
         //checkUser = false
         else {
-            await expect(this.elements.notFoundItem()).toBeVisible();
+            await expect(this.elements.notFoundItem()).toBeVisible({ timeout: 5000 });
+            await expect(this.elements.noRecordText(text)).toBeVisible();
         }
     }
     async searchUserRole(role: string) {
@@ -143,9 +140,6 @@ export default class AdminMenuPage {
                 expect(statusText).toBe(role);
             }
         }
-        // else {
-        //     await expect(this.notFoundItem).toBeVisible();
-        // }
     }
     async searchEmployeeName(text: string) {
         await this.elements.adminMenu().click();
@@ -180,10 +174,6 @@ export default class AdminMenuPage {
     }
     async verifySearchStatus(status: string) {
         const statusLocators = await this.elements.statusLocator().all();
-        // if (statusLocators.length === 0) {
-        //     await expect(this.notFoundItem).toBeVisible();
-        // }
-        // expect(statusLocators.length).toBeGreaterThan(0);
         for (let i = 0; i < statusLocators.length; i++) {
             const statusLocator = statusLocators[i];
             await expect(statusLocator).toBeVisible({
@@ -229,12 +219,12 @@ export default class AdminMenuPage {
             const response = await route.fetch();
             expect(response.status()).toBe(200);
         });
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForTimeout(4000);
         await expect(this.elements.updatedAccount(updatetext)).toBeVisible({ timeout: 10000 });
     }
-    async removeAccount() {
+    async removeAccount(text: string) {
         await this.elements.adminMenu().click();
-        await this.elements.deleteIcon().click();
+        await this.elements.deleteIcon(text).click();
         await this.elements.confirmDeleteBtn().click();
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
     }
@@ -246,41 +236,22 @@ export default class AdminMenuPage {
         await this.page.waitForTimeout(3000);
         await expect(this.elements.updatedAccount(updatetext)).toBeHidden({ timeout: 10000 });
     }
-    async removeMultiAccount(demotext: string) {
+    async removeMultiAccount(text: string) {
         await this.elements.adminMenu().click();
-        await this.page.waitForTimeout(5000);
-        const hidden = await this.elements.newEssUser(demotext).isHidden()
-
-        console.log(hidden);
-        if (hidden) {
-            this.createUser("ESS", "t", "usernamenttheu", "admin123", "admin123");
-            this.verifyCreateUser("usernamenttheu");
-            console.log("print 1")
-        }
-
-        if (await this.elements.newAdminUser().isHidden()) {
-            this.createUser("Admin", "t", "usernamenttheuAdmin", "admin123", "admin123");
-            this.verifyCreateUser("usernamenttheuAdmin");
-            console.log("print 2")
-        }
         // get all checkbox
-        const checkboxes = this.elements.checkBox();
+        const checkboxes = this.elements.checkBox(text);
         // Click each checkbox
         await checkboxes.first().click(); // or .nth(0)()
         await checkboxes.last().click();  // or .nth(1)
         await this.elements.deleteMultiBtn().click();
         await this.elements.confirmDeleteBtn().click();
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
-        console.log("print 3")
     }
-    async verifyRemoveMultiAccount(demotext: string) {
+    async verifyRemoveMultiAccount(text: string) {
         await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
             const response = await route.fetch();
             expect(response.status()).toBe(200);
         });
-        // await expect(this.elements.newEssUser(demotext)).toBeHidden();
-        await expect(this.elements.newAdminUser()).toBeHidden();
-        console.log("print 4")
-
+        await expect(this.elements.newUser(text)).toBeHidden();
     }
 }
