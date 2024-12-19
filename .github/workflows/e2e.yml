@@ -22,4 +22,6 @@ jobs:
     - name: Install Cucumber
       run: npm install --save-dev @cucumber/cucumber
     - name: Run automated testcase with cucumber
+      run: npx playwright test
+    - name: Run automated testcase with cucumber
       run: npm test
