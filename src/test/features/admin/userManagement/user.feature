@@ -65,19 +65,19 @@ Feature: Functions in Admin Menu - Admin role
     When User update account "usernamenttheu" to new username: "usernamenttheuEdit"
     Then Account has been updated to new username: "usernamenttheuEdit"
 
-  @high 
+  @high
   Scenario Outline: US_010: Removes an account - <Description>
     When User removes an account: "<account>"
     Then Account "<account>" has been deleted
 
     Examples:
-      | Description   | account               |
-      | Account ESS   | "usernamenttheuEdit"  |
-      | Account Admin | "usernamenttheuAdmin" |
+      | Description   | account             |
+      | Account ESS   | usernamenttheuEdit  |
+      | Account Admin | usernamenttheuAdmin |
 
-@high @now
-Scenario: US_11: Removes multi account
-  When User creates a new user with role "Admin" and employee "t", username "usernamenttheuAdmin", password "Admin@1234", confirm password "Admin@1234"
-  When User creates a new user with role "ESS" and employee "t", username "usernamenttheu", password "Admin@1234", confirm password "Admin@1234"
-  When User removes all accounts contain text "usernamenttheu"
-  Then All selected account contain text "usernamenttheu" have been deleted
+  @high @now
+  Scenario: US_11: Removes multi account
+    When User creates a new user with role "Admin" and employee "t", username "usernamenttheuAdmin", password "Admin@1234", confirm password "Admin@1234"
+    When User creates a new user with role "ESS" and employee "t", username "usernamenttheu", password "Admin@1234", confirm password "Admin@1234"
+    When User removes all accounts contain text "usernamenttheu"
+    Then All selected account contain text "usernamenttheu" have been deleted
