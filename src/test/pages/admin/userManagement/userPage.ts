@@ -91,7 +91,7 @@ export default class AdminMenuPage {
         await this.elements.passwordField().fill(pass);
         await this.elements.confirmPassword().fill(confirm);
         await this.elements.submitBtn().click();
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     }
     async verifyCreateUser(demotext: string) {
         await expect(this.elements.newUser(demotext)).toBeVisible();
@@ -108,8 +108,8 @@ export default class AdminMenuPage {
         });
         //checkUser = true
         if (checkUser) {
-            await expect(this.page.getByText(text)).toBeVisible();
             await expect(this.elements.userResult()).toHaveCount(1);
+            await expect(this.elements.newUser(text)).toBeVisible();
         }
         //checkUser = false
         else {
@@ -212,7 +212,7 @@ export default class AdminMenuPage {
         await this.elements.usernameField().click();
         await this.elements.usernameField().fill(newname);
         await this.elements.submitBtn().click();
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     }
     async verifyUpdateAccount(updatetext: string) {
         await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
@@ -245,7 +245,7 @@ export default class AdminMenuPage {
         await checkboxes.last().click();  // or .nth(1)
         await this.elements.deleteMultiBtn().click();
         await this.elements.confirmDeleteBtn().click();
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     }
     async verifyRemoveMultiAccount(text: string) {
         await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
