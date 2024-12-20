@@ -1,4 +1,4 @@
-import { BeforeAll, AfterAll, Before, After, Status } from "@cucumber/cucumber";
+import { setDefaultTimeout, BeforeAll, AfterAll, Before, After, Status, } from "@cucumber/cucumber";
 import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
 import { authConfig } from '../../auth.config';
@@ -10,9 +10,9 @@ interface TestContext {
   Page: Page;
   adminPage: Page;
 }
-
+setDefaultTimeout(60 * 1000);
 BeforeAll(async function () {
-  browser = await chromium.launch({ headless: false });
+  browser = await chromium.launch({ headless: true });
 });
 
 AfterAll(async function () {
@@ -30,7 +30,7 @@ Before(async function (this: TestContext) {
 });
 
 After(async function (this: TestContext, { pickle, result }) {
-  console.log("Closing context and page...");
+  // console.log("Closing context and page...");
   if (result?.status === Status.FAILED) {
     await this.Page.screenshot({
       path: `./test-results/screenshots/${pickle.name}.png`,
