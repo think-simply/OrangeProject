@@ -9,7 +9,7 @@ Feature: Functions in Admin Menu - Admin role
     When User access User management page
     Then User management page has been displayed
 
-  @highgi
+  @high
   Scenario Outline: US_02: Add new user : <role>
     When User creates a new user with role "<role>" and employee "<employee>", username "<username>", password "<password>", confirm password "<confirm password>"
     Then New "<username>" user has been created successfully
