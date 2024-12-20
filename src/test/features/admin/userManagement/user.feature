@@ -9,17 +9,17 @@ Feature: Functions in Admin Menu - Admin role
     When User access User management page
     Then User management page has been displayed
 
-  @high
+  @highgi
   Scenario Outline: US_02: Add new user : <role>
     When User creates a new user with role "<role>" and employee "<employee>", username "<username>", password "<password>", confirm password "<confirm password>"
     Then New "<username>" user has been created successfully
 
     Examples:
       | role  | employee | username            | password   | confirm password |
-      | Admin | t        | usernamenttheuAdmin | Admin@1234 | Admin@1234       |
-      | ESS   | t        | usernamenttheu      | Admin@1234 | Admin@1234       |
+      | Admin | tina thi | usernamenttheuAdmin | Admin@1234 | Admin@1234       |
+      | ESS   | tina thi | usernamenttheu      | Admin@1234 | Admin@1234       |
 
-  @medium
+  @medium 
   Scenario: US_03: Search user by user name - return exactly result
     When User search by username : "usernamenttheu"
     Then Result "usernamenttheu" has been displayed follow username
@@ -75,7 +75,7 @@ Feature: Functions in Admin Menu - Admin role
       | Account ESS   | usernamenttheuEdit  |
       | Account Admin | usernamenttheuAdmin |
 
-  @high @now
+  @high
   Scenario: US_11: Removes multi account
     When User creates a new user with role "Admin" and employee "t", username "usernamenttheuAdmin", password "Admin@1234", confirm password "Admin@1234"
     When User creates a new user with role "ESS" and employee "t", username "usernamenttheu", password "Admin@1234", confirm password "Admin@1234"
