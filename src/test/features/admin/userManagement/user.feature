@@ -19,7 +19,7 @@ Feature: Functions in Admin Menu - Admin role
       | Admin | tina thi | usernamenttheuAdmin | Admin@1234 | Admin@1234       |
       | ESS   | tina thi | usernamenttheu      | Admin@1234 | Admin@1234       |
 
-  @medium 
+  @medium
   Scenario: US_03: Search user by user name - return exactly result
     When User search by username : "usernamenttheu"
     Then Result "usernamenttheu" has been displayed follow username
@@ -78,6 +78,33 @@ Feature: Functions in Admin Menu - Admin role
   @high
   Scenario: US_11: Removes multi account
     When User creates a new user with role "Admin" and employee "t", username "usernamenttheuAdmin", password "Admin@1234", confirm password "Admin@1234"
-    When User creates a new user with role "ESS" and employee "t", username "usernamenttheu", password "Admin@1234", confirm password "Admin@1234"
+    When User creates a new user with role "ESS" and employee "t", username "usernamernttheu", password "Admin@1234", confirm password "Admin@1234"
     When User removes all accounts contain text "usernamenttheu"
     Then All selected account contain text "usernamenttheu" have been deleted
+
+  @high @now
+  Scenario Outline: US_12: Check Validation message
+    When User enter on "<field>" value "<value>"
+    Then Message will displayed under "<field>" as "<message>"
+
+    Examples:
+      | field            | value                                                                | message                                                |
+      # | User Role        |                                                                      | Required                                               |
+      # | User Role        | Admin                                                                |                                                        |
+      # | Employee Name    | t                                                                    |                                                        |
+      # | Employee Name    |                                                                      | Required                                               |
+      # | Employee Name    | Admin                                                                |                                                        |
+      | Username         |                                                                      | Required                                               |
+      | Username         | Anna                                                                 | Should be at least 5 characters                        |
+      | Username         | Lorem Ipsum has been the industry's standard dummy                   | Should not exceed 40 characters                        |
+      # | Username         | Lorem                                                                |                                                        |
+      | Password         | 1234                                                                 | Should have at least 8 characters                      |
+      | Password         | 12345678                                                             | Your password must contain minimum 1 lower-case letter |
+      | Password         | loremipsum                                                           | Your password must contain minimum 1 upper-case letter |
+      | Password         | Lorem Ipsum                                                          | Your password must contain minimum 1 number            |
+      | Password         | Lorem Ipsum has been the industry's standard dummy dummy dummy dummy | Should not exceed 64 characters                        |
+      # | Password         | Admin@1234                                                           |                                                        |
+      | Confirm Password | Admin@12345                                                          | Passwords do not match                                 |
+      # | Confirm Password | Admin@1234                                                           |                                                        |
+
+
