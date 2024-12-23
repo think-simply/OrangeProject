@@ -1,5 +1,5 @@
 import { Given, When, Then } from "@cucumber/cucumber";
-import AdminMenuPage from "../../../pages/admin/userManagement/userPage";
+// import AdminMenuPage from "../../../pages/admin/userManagement/userPage";
 import JobTitlesPage from "../../../pages/admin/job/jobTitles";
 import { pageFixture } from "../../../../hooks/pageFixture";
 
