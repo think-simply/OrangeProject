@@ -21,13 +21,13 @@ export default class SocialMediaPage {
         clientSecret: () => this.page.locator('//label[normalize-space()="Client Secret"]//ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::input'),
         saveBtn: () => this.page.locator('//button[@type="submit"]'),
         successToast: () => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'),
-        newProvider: () => this.page.locator('//div[text()="provider1"]'),
-        editIcon: () => this.page.locator('//div[text()="provider1"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]'),
-        updatedProvider: () => this.page.locator('//div[text()="provider2"]'),
-        deleteIcon: () => this.page.locator('//div[text()="provider2"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]'),
+        newProvider: (text: string) => this.page.locator(`//div[text()="${text}"]`),
+        editIcon: (text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
+        updatedProvider: (text: string) => this.page.locator(`//div[text()="${text}"]`),
+        deleteIcon: (text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]`),
         confirmDeleteBtn: () => this.page.locator("//button[normalize-space()='Yes, Delete']"),
-        checkbox1: () => this.page.locator('//div[text()="provider1"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]'),
-        checkbox2: () => this.page.locator('//div[text()="provider2"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]'),
+        checkbox1: (text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`),
+        checkbox2: (text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`),
         deleteMultiBtn: () => this.page.locator("//button[normalize-space()='Delete Selected']"),
     }
     async accessSocialMediaAuthPage() {
@@ -51,36 +51,36 @@ export default class SocialMediaPage {
         await this.elements.clientSecret().fill("123");
         await this.elements.saveBtn().click();
     }
-    async afterCreateProvider() {
+    async afterCreateProvider(text:string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
-        await expect(this.elements.newProvider()).toBeVisible();
+        await expect(this.elements.newProvider(text)).toBeVisible();
     }
-    async updateProvider() {
-        await this.elements.editIcon().click();
+    async updateProvider(text:string) {
+        await this.elements.editIcon(text).click();
         await this.elements.nameTextBox().fill("provider2");
         await this.elements.providerUrl().fill("https://docs.google.com/spreadsheets");
         await this.elements.clientID().fill("123");
         await this.elements.clientSecret().fill("123");
         await this.elements.saveBtn().click();
     }
-    async afterUpdateProvider() {
+    async afterUpdateProvider(text:string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
-        await expect(this.elements.updatedProvider()).toBeVisible();
+        await expect(this.elements.updatedProvider(text)).toBeVisible();
     }
-    async deleteProvider() {
-        await this.elements.deleteIcon().click();
+    async deleteProvider(text:string) {
+        await this.elements.deleteIcon(text).click();
         await this.elements.confirmDeleteBtn().click();
     }
-    async afterDeleteProvider() {
+    async afterDeleteProvider(text:string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
-        await expect(this.elements.updatedProvider()).toBeHidden();
+        await expect(this.elements.updatedProvider(text)).toBeHidden();
     }
-    async deleteMultiProvider() {
-        if (!await this.elements.checkbox1().isVisible()) {
+    async deleteMultiProvider(text:string) {
+        if (!await this.elements.checkbox1(text).isVisible()) {
             await this.createProvider()
             await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
         }
-        if (!await this.elements.checkbox2().isVisible()) {
+        if (!await this.elements.checkbox2(text).isVisible()) {
             await this.elements.addBtn().click();
             await this.elements.nameTextBox().fill("provider2");
             await this.elements.providerUrl().fill("https://docs.google.com/spreadsheets");
@@ -89,14 +89,14 @@ export default class SocialMediaPage {
             await this.elements.saveBtn().click();
             await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
         }
-        await this.elements.checkbox1().click();
-        await this.elements.checkbox2().click();
+        await this.elements.checkbox1(text).click();
+        await this.elements.checkbox2(text).click();
         await this.elements.deleteMultiBtn().click();
         await this.elements.confirmDeleteBtn().click();
     }
-    async afterDeleteMultiProvider() {
+    async afterDeleteMultiProvider(text:string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
-        await expect(this.elements.newProvider()).toBeHidden();
-        await expect(this.elements.checkbox2()).toBeHidden();
+        await expect(this.elements.newProvider(text)).toBeHidden();
+        await expect(this.elements.checkbox2(text)).toBeHidden();
     }
 }

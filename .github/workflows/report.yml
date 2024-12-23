@@ -1,0 +1,43 @@
+name: Reports running
+on:
+  push:
+    branches: [ main]
+  schedule:
+    - cron: '0 10 * * *'
+jobs:
+  e2e:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install Python Dependencies
+      run: |
+        python -m pip install tqdm pandas matplotlib
+      shell: bash
+    - name: Authenticate GitHub CLI
+      run: echo "${{ secrets.GH_PAT }}" | gh auth login --with-token
+      if: always()
+    - name: List previous runs
+      id: list_runs
+      run: |
+        gh run list --workflow=e2e.yml --branch=main --status success --json databaseId,createdAt | jq -r '.[] | "\(.databaseId),\(.createdAt)"' > run_ids.txt
+        cat run_ids.txt
+      if: always()
+    - name: Download artifacts from previous runs
+      run: |
+        while IFS=, read -r run_id created_at; do
+          echo $run_id
+          echo $created_at
+          gh run download "$run_id" --dir "artifacts/$run_id" ||true
+          if [ -f "artifacts/$run_id/artifact/cucumber-report.json" ]; then
+            mv artifacts/$run_id/artifact/cucumber-report.json artifacts/$run_id/artifact/cucumber-report.json_${created_at}
+          fi
+        done < run_ids.txt
+        ls -lrt artifacts/*/artifact/*
+        python process_runs.py
+        cat aggregated_report.csv
+      if: always()

@@ -1,8 +1,8 @@
 import path from 'path';
 export const authConfig = {
   admin: {
-    username: "TinaNguyen",
-    password: "Admin@1234",
+    username: "Admin",
+    password: "admin123",
     storageState: path.join(process.cwd(), 'playwright/.auth/admin.json')
   }
 };

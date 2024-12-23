@@ -265,4 +265,10 @@ export default class AdminMenuPage {
     async verifyValidationMessage(validation: string, text: string) {
         await expect(this.elements.validationMessage(validation)).toHaveText(text);
     }
+    async enterValueOnDropdownFields() {
+        await this.elements.adminMenu().click();
+        await this.elements.addBtn().click();
+        await this.elements.submitBtn().click();
+        
+    }
 }
