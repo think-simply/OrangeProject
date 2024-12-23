@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import path from 'path';
+
 
 /**
  * Read environment variables from file.
@@ -14,6 +14,7 @@ import path from 'path';
  */
 export default defineConfig({
   testDir: './tests',
+  timeout: 60 * 1000, // 60 seconds
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

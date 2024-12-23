@@ -5,8 +5,14 @@
   "main": "index.js",
   "scripts": {
     "pretest": "npx ts-node src/helper/init.ts",
-    "test": "cucumber-js test || true",
+    "test": "cucumber-js test",
     "now": "npx cucumber-js  --tags @now",
+    "user": "npx cucumber-js  --tags @user",
+    "education": "npx cucumber-js  --tags @education",
+    "structure": "npx cucumber-js  --tags @tructure",
+    "locations": "npx cucumber-js  --tags @locations",
+    "information": "npx cucumber-js  --tags @information",
+    "demo": "npx cucumber-js  --tags @demo",
     "posttest": "npx ts-node src/helper/report.ts",
     "test:failed": "cucumber-js -p rerun @rerun.txt",
     "prettier": "npx prettier --write .",
@@ -24,6 +30,7 @@
     "@types/cucumber": "^7.0.3",
     "@types/node": "^22.9.1",
     "multiple-cucumber-html-reporter": "^3.8.0",
+    "pretty": "^2.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },
