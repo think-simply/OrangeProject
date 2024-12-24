@@ -14,13 +14,11 @@ export default class EducationPage {
     readonly eduLevel: Locator;
     readonly saveLevel: Locator;
     readonly messageSuccess: Locator;
-    readonly actionColumn: Locator;
     readonly checkbox: Locator;
     readonly yesDeletebtn: Locator;
     readonly messageDelete: Locator;
     readonly deleteSelectedbtn: Locator;
     readonly editBtn: Locator;
-    readonly updateLeveltext: Locator;
     readonly saveUpdateBtn: Locator;
     readonly updateMessage:Locator;
 
@@ -33,14 +31,14 @@ export default class EducationPage {
         this.qualifications = page.locator('//span[normalize-space()="Qualifications"]');
         this.education = page.locator('//a[normalize-space()="Education"]');
         this.addLevel = page.locator('//button[normalize-space()="Add"]');
-        this.eduLevel = page.locator('//div[@class="oxd-input-group__label-wrapper"]//following::div//input[@class="oxd-input oxd-input--active"]');
+        this.eduLevel = page.locator('//label[text()="Level"]//ancestor::div[@class="oxd-form-row"]//descendant::input');
         this.saveLevel = page.locator('//button[@type="submit"]');
-        this.messageSuccess = page.locator('//a[contains(@class,"Success")]');
-        this.checkbox= page.locator('//div[@role="columnheader"][normalize-space()=""]//following::div[@class="oxd-checkbox-wrapper"][2]');
+        this.messageSuccess = page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        this.checkbox= page.locator('//div[contains(text(), "A2")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]');
         this.deleteSelectedbtn= page.locator('//button[normalize-space()="Delete Selected"]');
         this.yesDeletebtn = page.locator('//button[normalize-space()="Yes, Delete"]');
         this.messageDelete= page.locator('//div[@class="oxd-toast oxd-toast--success oxd-toast-container--toast"]');
-        this.editBtn= page.locator('//div[@role="table"]//button[@class="oxd-icon-button oxd-table-cell-action-space"][2]');
+        this.editBtn= page.locator('//div[text()="A2"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]');
         this.saveUpdateBtn= page.locator('//button[@type="submit"]');
         this.updateMessage = page.locator('//div[@class="oxd-toast-start"]');
 
@@ -53,11 +51,11 @@ export default class EducationPage {
         await this.page.goto(`${process.env.WEB_URL}`);
     }
 
-    async login() {
-        await this.userName.fill("Admin");
-        await this.passWord.fill("admin123");
-        await this.loginBtn.click();
-    }
+    // async login() {
+    //     await this.userName.fill("Admin");
+    //     await this.passWord.fill("admin123");
+    //     await this.loginBtn.click();
+    // }
 
     async accessAdmin() {
         await this.adminMenu.click();
@@ -79,12 +77,12 @@ export default class EducationPage {
         await this.qualifications.click();
         await this.education.click();
         await this.editBtn.click();
-        await this.updateLeveltext.fill("new name");
+        await this.eduLevel.fill("new name");
         await this.saveUpdateBtn.click();
         
     }
     async AfterUpdateLevel(){
-        await expect(this.updateMessage).toBeVisible({timeout: 10000});
+        await expect(this.messageSuccess).toBeVisible({ timeout: 10000 }); 
     }
     async deleteEduLevel(){
         await this.adminMenu.click();
@@ -95,9 +93,8 @@ export default class EducationPage {
         await this.yesDeletebtn.click();
     }
     async AfterDeleteEduLevel(){
-        await expect(this.messageDelete).toBeVisible({ timeout: 10000 });
+        await expect(this.messageSuccess).toBeVisible({ timeout: 10000 }); 
     }
 
 
 }
-

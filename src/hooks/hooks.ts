@@ -3,7 +3,6 @@ import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
 import { authConfig } from '../../auth.config';
 
-
 let browser: Browser;
 interface TestContext {
   adminContext: BrowserContext;
@@ -37,17 +36,6 @@ After(async function (this: TestContext, { pickle, result }) {
       type: "png",
     });
   }
-<<<<<<< HEAD
-  
-  if (pickle.tags.some(tag => tag.name === '@guest')) {
-    await Context?.close();
-  } else {
-    await adminContext?.close();
-  }
-});
-
-=======
   await this.Page.close();
 
 });
->>>>>>> main
