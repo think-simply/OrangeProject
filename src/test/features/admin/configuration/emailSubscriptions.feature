@@ -1,9 +1,9 @@
-Feature: Functions in Configuration menu, social media authen sub-menu for Admin role
-
+@emailSub
+Feature: Functions in Configuration menu: Email subscription
   Background:
     Given User navigates to page
 
-  @low 
+  @low
   Scenario: ES_01: Check page UI
     When User access Email subscription page
     Then Email subscription page has displayed as expected

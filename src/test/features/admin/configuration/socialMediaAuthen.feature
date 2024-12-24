@@ -30,7 +30,7 @@ Feature: Functions in Configuration menu: Social Media Authentication
     When User removes all providers contain text "example"
     Then All selected provider contain text "example" have been deleted
 
-  @high @now
+  @high 
   Scenario Outline: SM_06: Verify Validation message
     When User input on field "<field>" value "<value>"
     Then Message has displayed under "<field>" as "<message>"

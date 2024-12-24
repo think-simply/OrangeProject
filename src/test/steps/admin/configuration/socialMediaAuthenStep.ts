@@ -8,7 +8,7 @@ When("User access social media authen page",  async () => {
 });
 Then("Social media page has displayed as expected", async () => {
     const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
-    await socialMediaPage.verifyAcccessSocialMediaAuthPage();
+    await socialMediaPage.verifyPageUI();
 });
 When("User creates a new provider with name {string}, provider url {string}, client id {string}, client secret {string}", async (name, url, id, secret) => {
     const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);

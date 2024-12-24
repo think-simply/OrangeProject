@@ -36,7 +36,7 @@ export default class SocialMediaPage {
         await this.elements.configurationSubMenu().click();
         await this.elements.socialMediaAuthenSubMenu().click();
     }
-    async verifyAcccessSocialMediaAuthPage() {
+    async verifyPageUI() {
         await expect(this.elements.pageTitle()).toBeVisible();
         await expect(this.elements.addBtn()).toBeEnabled();
         await expect(this.elements.checkBoxColumn()).toBeVisible();

@@ -12,7 +12,7 @@ interface TestContext {
 }
 setDefaultTimeout(60 * 1000);
 BeforeAll(async function () {
-  browser = await chromium.launch({ headless: false });
+  browser = await chromium.launch({ headless: true });
 });
 
 AfterAll(async function () {
