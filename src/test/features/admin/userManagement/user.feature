@@ -101,7 +101,7 @@ Feature: Functions in Admin Menu - Admin role
       | Password         | Lorem Ipsum has been the industry's standard dummy dummy dummy dummy | Should not exceed 64 characters                        |
       | Confirm Password | Admin@12345                                                          | Passwords do not match                                 |
   @high 
-  Scenario Outline: US_12: Check Validation message for dropdown fields
+  Scenario Outline: US_13: Check Validation message for dropdown fields
     When User clicks save button with empty fields
     Then Message will displayed under "<field>" as "<message>"
     Examples:

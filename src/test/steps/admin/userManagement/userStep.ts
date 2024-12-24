@@ -104,7 +104,8 @@ Then("Message will displayed under {string} as {string}",async (validation,text)
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.verifyValidationMessage(validation,text);
 });
-When("User clicks save button with empty fields ", async () => {
+When("User clicks save button with empty fields", async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.enterValueOnDropdownFields();
 });
+

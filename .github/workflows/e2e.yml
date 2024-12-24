@@ -1,7 +1,7 @@
 name: Playwright Cucumber Tests
 on:
   pull_request:
-    branches: [ main]
+    branches: [ main, develop]
   schedule:
     - cron: '0 10 * * *'
 jobs:
