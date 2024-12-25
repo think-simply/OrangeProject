@@ -82,29 +82,31 @@ Feature: Functions in Admin Menu - Admin role
     When User removes all accounts contain text "usernamenttheu"
     Then All selected account contain text "usernamenttheu" have been deleted
 
-  @high @now
-  Scenario Outline: US_12: Check Validation message
+  @high 
+  Scenario Outline: US_12: Check Validation message for input fields
     When User enter on "<field>" value "<value>"
     Then Message will displayed under "<field>" as "<message>"
 
     Examples:
       | field            | value                                                                | message                                                |
-      # | User Role        |                                                                      | Required                                               |
-      # | User Role        | Admin                                                                |                                                        |
-      # | Employee Name    | t                                                                    |                                                        |
-      # | Employee Name    |                                                                      | Required                                               |
-      # | Employee Name    | Admin                                                                |                                                        |
+      | Employee Name    |                                                                      | Required                                               |
+      | Employee Name    | 232342                                                               | Invalid                                                |
       | Username         |                                                                      | Required                                               |
       | Username         | Anna                                                                 | Should be at least 5 characters                        |
       | Username         | Lorem Ipsum has been the industry's standard dummy                   | Should not exceed 40 characters                        |
-      # | Username         | Lorem                                                                |                                                        |
       | Password         | 1234                                                                 | Should have at least 8 characters                      |
       | Password         | 12345678                                                             | Your password must contain minimum 1 lower-case letter |
       | Password         | loremipsum                                                           | Your password must contain minimum 1 upper-case letter |
       | Password         | Lorem Ipsum                                                          | Your password must contain minimum 1 number            |
       | Password         | Lorem Ipsum has been the industry's standard dummy dummy dummy dummy | Should not exceed 64 characters                        |
-      # | Password         | Admin@1234                                                           |                                                        |
       | Confirm Password | Admin@12345                                                          | Passwords do not match                                 |
-      # | Confirm Password | Admin@1234                                                           |                                                        |
+  @high 
+  Scenario Outline: US_13: Check Validation message for dropdown fields
+    When User clicks save button with empty fields
+    Then Message will displayed under "<field>" as "<message>"
+    Examples:
+      | field     | value | message  |
+      | User Role |       | Required |
+      | Status    |       | Required |
 
 
