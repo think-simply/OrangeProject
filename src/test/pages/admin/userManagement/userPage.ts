@@ -51,6 +51,8 @@ export default class AdminMenuPage {
         statusLocator: () => this.page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]"),
         notFoundItem: () => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="No Records Found"]'),
         noRecordText: (text: string) => this.page.locator(`//span[text()="${text}"]`),
+        validationMessage: (validation: string) => this.page.locator(`//label[text()="${validation}"]//ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::span`),
+        inputField: (validation: string) => this.page.locator(`//label[text()="${validation}"]//ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::input`),
     }
     async visit() {
         await this.page.goto(`${process.env.WEB_URL}`);
@@ -91,9 +93,9 @@ export default class AdminMenuPage {
         await this.elements.passwordField().fill(pass);
         await this.elements.confirmPassword().fill(confirm);
         await this.elements.submitBtn().click();
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     }
     async verifyCreateUser(demotext: string) {
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
         await expect(this.elements.newUser(demotext)).toBeVisible();
     }
     async searchUserName(userName: string) {
@@ -253,5 +255,20 @@ export default class AdminMenuPage {
             expect(response.status()).toBe(200);
         });
         await expect(this.elements.newUser(text)).toBeHidden();
+    }
+    async enterValueOnFields(validation: string, text: string) {
+        await this.elements.adminMenu().click();
+        await this.elements.addBtn().click();
+        await this.elements.inputField(validation).fill(text);
+        await this.elements.submitBtn().click();
+    }
+    async verifyValidationMessage(validation: string, text: string) {
+        await expect(this.elements.validationMessage(validation)).toHaveText(text);
+    }
+    async enterValueOnDropdownFields() {
+        await this.elements.adminMenu().click();
+        await this.elements.addBtn().click();
+        await this.elements.submitBtn().click();
+        
     }
 }

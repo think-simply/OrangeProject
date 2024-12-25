@@ -96,3 +96,16 @@ Then("All selected account contain text {string} have been deleted",async (demot
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.verifyRemoveMultiAccount(demotext);
 });
+When("User enter on {string} value {string}", async (demotext,text) => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
+    await adminMenuPage.enterValueOnFields(demotext,text);
+});
+Then("Message will displayed under {string} as {string}",async (validation,text) => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
+    await adminMenuPage.verifyValidationMessage(validation,text);
+});
+When("User clicks save button with empty fields", async () => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
+    await adminMenuPage.enterValueOnDropdownFields();
+});
+
