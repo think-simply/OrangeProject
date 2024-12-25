@@ -12,16 +12,20 @@ Feature: Functions in Configuration menu: Social Media Authentication
   Scenario: SM_02: Add a new provider
     When User creates a new provider with name "provider1", provider url "url", client id "123", client secret "secret"
     Then A new provider with name "provider1" has been created
+    And User removes a provider with name "provider1"
 
   @high
   Scenario: SM_03: Edit a provider
-    When User updates a provider "provider1" to name "provider2", provider url "url2", client id "1236", client secret "secret2"
+    When User creates a new provider with name "initalProvider", provider url "url", client id "123", client secret "secret"
+    When User updates a provider "initalProvider" to name "provider2", provider url "url2", client id "1236", client secret "secret2"
     Then Provider has been updated to "provider2"
+    And User removes a provider with name "provider2"
 
   @high
   Scenario: SM_04: Delete a provider
-    When User removes a provider with name "provider2"
-    Then Provider "provider2" has been deleted
+  When User creates a new provider with name "providerDelete", provider url "url", client id "123", client secret "secret"
+    When User removes a provider with name "providerDelete"
+    Then Provider "providerDelete" has been deleted
 
   @high
   Scenario: SM_05: Delete multi provider
@@ -30,7 +34,7 @@ Feature: Functions in Configuration menu: Social Media Authentication
     When User removes all providers contain text "example"
     Then All selected provider contain text "example" have been deleted
 
-  @high 
+  @high
   Scenario Outline: SM_06: Verify Validation message
     When User input on field "<field>" value "<value>"
     Then Message has displayed under "<field>" as "<message>"

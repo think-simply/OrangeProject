@@ -108,4 +108,9 @@ When("User clicks save button with empty fields", async () => {
     const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
     await adminMenuPage.enterValueOnDropdownFields();
 });
+When("User enter on Password value {string} and Confirm Password value {string}", async (value1,value2) => {
+    const adminMenuPage = new AdminMenuPage(pageFixture.adminPage);
+    await adminMenuPage.enterValueOnConfirmPass(value1,value2);
+});
+
 
