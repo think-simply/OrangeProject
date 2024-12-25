@@ -93,15 +93,17 @@ export default class AdminMenuPage {
         await this.elements.passwordField().fill(pass);
         await this.elements.confirmPassword().fill(confirm);
         await this.elements.submitBtn().click();
+        await this.page.waitForTimeout(2000);
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     }
     async verifyCreateUser(demotext: string) {
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
         await expect(this.elements.newUser(demotext)).toBeVisible();
     }
     async searchUserName(userName: string) {
         await this.elements.adminMenu().click();
         await this.elements.usernameFieldSearch().fill(userName);
         await this.elements.searchBtn().click();
+        await this.page.waitForTimeout(2000);
     }
     async verifySearchUserName(checkUser = false, text: string) {
         await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
@@ -270,5 +272,12 @@ export default class AdminMenuPage {
         await this.elements.addBtn().click();
         await this.elements.submitBtn().click();
         
+    }
+    async enterValueOnConfirmPass(text1: string, text2: string) {
+        await this.elements.adminMenu().click();
+        await this.elements.addBtn().click();
+        await this.elements.passwordField().fill(text1);
+        await this.elements.confirmPassword().fill(text2);
+        await this.elements.submitBtn().click();
     }
 }
