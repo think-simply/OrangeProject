@@ -9,10 +9,12 @@ Feature: Functions in Admin Menu - Admin role
     When User access User management page
     Then User management page has been displayed
 
-  @high
+  @high 
   Scenario Outline: US_02: Add new user : <role>
     When User creates a new user with role "<role>" and employee "<employee>", username "<username>", password "<password>", confirm password "<confirm password>"
     Then New "<username>" user has been created successfully
+    When User removes an account: "<username>"
+    Then Account "<username>" has been deleted
 
     Examples:
       | role  | employee | username            | password   | confirm password |
@@ -21,8 +23,11 @@ Feature: Functions in Admin Menu - Admin role
 
   @medium
   Scenario: US_03: Search user by user name - return exactly result
-    When User search by username : "usernamenttheu"
-    Then Result "usernamenttheu" has been displayed follow username
+    When User creates a new user with role "Admin" and employee "tina thi", username "searchname", password "Admin@1234", confirm password "Admin@1234"
+    And User search by username : "searchname"
+    Then Result "searchname" has been displayed follow username
+    When User removes an account: "searchname"
+    Then Account "searchname" has been deleted
 
   @medium
   Scenario: US_04: Search user by user name - <return no result>
@@ -31,8 +36,11 @@ Feature: Functions in Admin Menu - Admin role
 
   @medium
   Scenario Outline: US_05: Search user by role
-    When User search by role: "<role>"
+    When User creates a new user with role "<role>" and employee "tina thi", username "searchRole", password "Admin@1234", confirm password "Admin@1234"
+    And User search by role: "<role>"
     Then Result has been displayed follow "<role>" role
+    When User removes an account: "searchRole"
+    Then Account "searchRole" has been deleted
 
     Examples:
       | role  |
@@ -41,13 +49,19 @@ Feature: Functions in Admin Menu - Admin role
 
   @medium
   Scenario: US_06: Search user by employee name- return result
-    When User search by employee name: "t"
+    When User creates a new user with role "Admin" and employee "tina thi", username "searchEname", password "Admin@1234", confirm password "Admin@1234"
+    And User search by employee name: "tina thi"
     Then Result has been displayed follow employee name: "tina Nguyen"
+    When User removes an account: "searchEname"
+    Then Account "searchEname" has been deleted
 
   @medium
   Scenario Outline: US_07: Search user by status
-    When User search by status: "<status>"
+    When User creates a new user with role "Admin" and employee "tina thi", username "searchStatus", password "Admin@1234", confirm password "Admin@1234"
+    And User search by status: "<status>"
     Then Result has been displayed follow "<status>" status
+    When User removes an account: "searchStatus"
+    Then Account "searchStatus" has been deleted
 
     Examples:
       | status   |
@@ -62,49 +76,59 @@ Feature: Functions in Admin Menu - Admin role
 
   @high
   Scenario: US_09: Updates an account
-    When User update account "usernamenttheu" to new username: "usernamenttheuEdit"
-    Then Account has been updated to new username: "usernamenttheuEdit"
+    When User creates a new user with role "Admin" and employee "tina thi", username "initialAccount", password "Admin@1234", confirm password "Admin@1234"
+    And User update account "initialAccount" to new username: "editAccount"
+    Then Account has been updated to new username: "editAccount"
+    And User removes an account: "editAccount"
 
-  @high
-  Scenario Outline: US_010: Removes an account - <Description>
-    When User removes an account: "<account>"
-    Then Account "<account>" has been deleted
+  @high 
+  Scenario Outline: US_10: Removes an account - <role>
+    When User creates a new user with role "<role>" and employee "t", username "usernameRemove", password "Admin@1234", confirm password "Admin@1234"
+    And User removes an account: "usernameRemove"
+    Then Account "usernameRemove" has been deleted
 
     Examples:
-      | Description   | account             |
-      | Account ESS   | usernamenttheuEdit  |
-      | Account Admin | usernamenttheuAdmin |
+      | role  |
+      | ESS   |
+      | Admin |
 
   @high
   Scenario: US_11: Removes multi account
-    When User creates a new user with role "Admin" and employee "t", username "usernamenttheuAdmin", password "Admin@1234", confirm password "Admin@1234"
-    When User creates a new user with role "ESS" and employee "t", username "usernamernttheu", password "Admin@1234", confirm password "Admin@1234"
+    When User creates a new user with role "Admin" and employee "tina thi", username "usernamenttheuRemove1", password "Admin@1234", confirm password "Admin@1234"
+    When User creates a new user with role "ESS" and employee "tina thi", username "usernamenttheuRemove2", password "Admin@1234", confirm password "Admin@1234"
     When User removes all accounts contain text "usernamenttheu"
     Then All selected account contain text "usernamenttheu" have been deleted
 
-  @high @now
-  Scenario Outline: US_12: Check Validation message
+  @high
+  Scenario Outline: US_12: Check Validation message for input fields
     When User enter on "<field>" value "<value>"
     Then Message will displayed under "<field>" as "<message>"
 
     Examples:
-      | field            | value                                                                | message                                                |
-      # | User Role        |                                                                      | Required                                               |
-      # | User Role        | Admin                                                                |                                                        |
-      # | Employee Name    | t                                                                    |                                                        |
-      # | Employee Name    |                                                                      | Required                                               |
-      # | Employee Name    | Admin                                                                |                                                        |
-      | Username         |                                                                      | Required                                               |
-      | Username         | Anna                                                                 | Should be at least 5 characters                        |
-      | Username         | Lorem Ipsum has been the industry's standard dummy                   | Should not exceed 40 characters                        |
-      # | Username         | Lorem                                                                |                                                        |
-      | Password         | 1234                                                                 | Should have at least 8 characters                      |
-      | Password         | 12345678                                                             | Your password must contain minimum 1 lower-case letter |
-      | Password         | loremipsum                                                           | Your password must contain minimum 1 upper-case letter |
-      | Password         | Lorem Ipsum                                                          | Your password must contain minimum 1 number            |
-      | Password         | Lorem Ipsum has been the industry's standard dummy dummy dummy dummy | Should not exceed 64 characters                        |
-      # | Password         | Admin@1234                                                           |                                                        |
-      | Confirm Password | Admin@12345                                                          | Passwords do not match                                 |
-      # | Confirm Password | Admin@1234                                                           |                                                        |
+      | field         | value                                                                | message                                                |
+      | Employee Name |                                                                      | Required                                               |
+      | Employee Name | 232342                                                               | Invalid                                                |
+      | Username      |                                                                      | Required                                               |
+      | Username      | Anna                                                                 | Should be at least 5 characters                        |
+      | Username      | Lorem Ipsum has been the industry's standard dummy                   | Should not exceed 40 characters                        |
+      | Password      | 1234                                                                 | Should have at least 8 characters                      |
+      | Password      | 12345678                                                             | Your password must contain minimum 1 lower-case letter |
+      | Password      | loremipsum                                                           | Your password must contain minimum 1 upper-case letter |
+      | Password      | Lorem Ipsum                                                          | Your password must contain minimum 1 number            |
+      | Password      | Lorem Ipsum has been the industry's standard dummy dummy dummy dummy | Should not exceed 64 characters                        |
+
+  @high
+  Scenario Outline: US_13: Check validation message for dropdown fields
+    When User clicks save button with empty fields
+    Then Message will displayed under "<field>" as "<message>"
+    Examples:
+      | field     | value | message  |
+      | User Role |       | Required |
+      | Status    |       | Required |
+
+  @high 
+  Scenario Outline: US_14: Check validation message when user input invalid confirm password
+    When User enter on Password value "Admin@1234" and Confirm Password value "Admin@123"
+    Then Message will displayed under "Confirm Password" as "Passwords do not match"
 
 
