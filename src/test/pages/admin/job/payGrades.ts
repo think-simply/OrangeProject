@@ -17,7 +17,7 @@ export default class PayGradePage {
     addPayGradeBtn: () => this.page.locator('//button[text()=" Add "]'),
     nameInput: () =>
       this.page.locator(
-        '//*[@id="app"]/div[1]/div[2]/div[2]/div[1]/div/form/div[1]/div/div/div/div[2]/input'
+        '//label[text()="Name"]/ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::input'
       ),
       
     saveBtn: () => this.page.locator('//button[text()=" Save "]'),
@@ -53,22 +53,18 @@ export default class PayGradePage {
     await this.element.jobMenu().click()
     await this.element.payGradeMenu().click()
     await this.element.editIcon(payGradeName).click()
-    await this.page.waitForSelector(
-      '//label[text()="Name"]/ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//input[@class="oxd-input oxd-input--active"]',
-      {
-        state: 'visible',
-        timeout: 30000,
-      }
-    )
+    // await this.page.waitForSelector(
+    //   '//label[text()="Name"]/ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//input[@class="oxd-input oxd-input--active"]',
+    //   {
+    //     state: 'visible',
+    //     timeout: 30000,
+    //   }
+    // )
 
-    const currentValue = await this.element.nameInput().inputValue()
-    console.log('currentValue', currentValue)
-
-    const newValue = await this.element.nameInput().fill(newPayGrade)
-
-    console.log('newValue', newValue);
-    console.log('Goes here', newPayGrade)
-
+    // const currentValue = await this.element.nameInput().inputValue()
+    // console.log('currentValue', currentValue)
+    await this.element.nameInput().click()
+    await this.element.nameInput().fill(newPayGrade)
     await this.element.saveBtn().click()
   }
   async verifyUpdatePayGradeSuccessfully(newName: string) {
