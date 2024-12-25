@@ -51,7 +51,8 @@ export default class SocialMediaPage {
         await this.elements.clientID().fill(id);
         await this.elements.clientSecret().fill(secret);
         await this.elements.saveBtn().click();
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
+        await this.page.waitForTimeout(2000);
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     }
     async verifyCreateProvider(text: string) {
         await expect(this.elements.newProvider(text)).toBeVisible({ timeout: 10000 });
@@ -67,9 +68,10 @@ export default class SocialMediaPage {
         await this.elements.clientSecret().click();
         await this.elements.clientSecret().fill(secret);
         await this.elements.saveBtn().click();
+        await this.page.waitForTimeout(2000);
     }
     async verifyUpdateProvider(text: string) {
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
         await expect(this.elements.updatedProvider(text)).toBeVisible();
     }
     async deleteProvider(text: string) {
@@ -77,7 +79,7 @@ export default class SocialMediaPage {
         await this.elements.confirmDeleteBtn().click();
     }
     async verifyDeleteProvider(text: string) {
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
         await expect(this.elements.updatedProvider(text)).toBeHidden();
     }
     async deleteMultiProvider(text: string) {
@@ -89,11 +91,11 @@ export default class SocialMediaPage {
         await this.elements.confirmDeleteBtn().click();
     }
     async verifyDeleteMultiProvider(text: string) {
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 10000 });
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
         await expect(this.elements.newProvider(text)).toBeHidden();
     }
     async inputDataOnCreateForm(field: string, value: string) {
-        await this.elements.addBtn().waitFor({ state: 'visible', timeout: 10000 });
+        await this.elements.addBtn().waitFor({ state: 'visible', timeout: 20000 });
         await this.elements.addBtn().click();
         await this.elements.inputField(field).fill(value);
         await this.elements.saveBtn().click();

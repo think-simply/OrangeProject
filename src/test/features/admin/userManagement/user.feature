@@ -13,7 +13,8 @@ Feature: Functions in Admin Menu - Admin role
   Scenario Outline: US_02: Add new user : <role>
     When User creates a new user with role "<role>" and employee "<employee>", username "<username>", password "<password>", confirm password "<confirm password>"
     Then New "<username>" user has been created successfully
-    And User removes an account: "<username>"
+    When User removes an account: "<username>"
+    Then Account "<username>" has been deleted
 
     Examples:
       | role  | employee | username            | password   | confirm password |
@@ -25,7 +26,8 @@ Feature: Functions in Admin Menu - Admin role
     When User creates a new user with role "Admin" and employee "tina thi", username "searchname", password "Admin@1234", confirm password "Admin@1234"
     And User search by username : "searchname"
     Then Result "searchname" has been displayed follow username
-    And User removes an account: "searchname"
+    When User removes an account: "searchname"
+    Then Account "searchname" has been deleted
 
   @medium
   Scenario: US_04: Search user by user name - <return no result>
@@ -37,7 +39,8 @@ Feature: Functions in Admin Menu - Admin role
     When User creates a new user with role "<role>" and employee "tina thi", username "searchRole", password "Admin@1234", confirm password "Admin@1234"
     And User search by role: "<role>"
     Then Result has been displayed follow "<role>" role
-    And User removes an account: "searchRole"
+    When User removes an account: "searchRole"
+    Then Account "searchRole" has been deleted
 
     Examples:
       | role  |
@@ -49,14 +52,16 @@ Feature: Functions in Admin Menu - Admin role
     When User creates a new user with role "Admin" and employee "tina thi", username "searchEname", password "Admin@1234", confirm password "Admin@1234"
     And User search by employee name: "tina thi"
     Then Result has been displayed follow employee name: "tina Nguyen"
-    And User removes an account: "searchEname"
+    When User removes an account: "searchEname"
+    Then Account "searchEname" has been deleted
 
   @medium
   Scenario Outline: US_07: Search user by status
     When User creates a new user with role "Admin" and employee "tina thi", username "searchStatus", password "Admin@1234", confirm password "Admin@1234"
     And User search by status: "<status>"
     Then Result has been displayed follow "<status>" status
-    And User removes an account: "searchStatus"
+    When User removes an account: "searchStatus"
+    Then Account "searchStatus" has been deleted
 
     Examples:
       | status   |
@@ -76,7 +81,7 @@ Feature: Functions in Admin Menu - Admin role
     Then Account has been updated to new username: "editAccount"
     And User removes an account: "editAccount"
 
-  @high @now
+  @high 
   Scenario Outline: US_10: Removes an account - <role>
     When User creates a new user with role "<role>" and employee "t", username "usernameRemove", password "Admin@1234", confirm password "Admin@1234"
     And User removes an account: "usernameRemove"

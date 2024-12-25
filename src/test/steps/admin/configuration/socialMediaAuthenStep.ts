@@ -30,7 +30,6 @@ Then("Provider has been updated to {string}", async (text) => {
 });
 When("User removes a provider with name {string}",async (text) => {
     const socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
-    await socialMediaPage.accessSocialMediaAuthPage();
     await socialMediaPage.deleteProvider(text);
 });
 Then("Provider {string} has been deleted", async (text) => {
