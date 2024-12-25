@@ -10,7 +10,7 @@ interface TestContext {
   Page: Page;
   adminPage: Page;
 }
-setDefaultTimeout(60*1000);
+setDefaultTimeout(60 * 1000);
 BeforeAll(async function () {
   browser = await chromium.launch({ headless: false });
 });
