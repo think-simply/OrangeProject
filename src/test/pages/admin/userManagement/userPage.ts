@@ -93,7 +93,7 @@ export default class AdminMenuPage {
         await this.elements.passwordField().fill(pass);
         await this.elements.confirmPassword().fill(confirm);
         await this.elements.submitBtn().click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(1000);
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     }
     async verifyCreateUser(demotext: string) {
