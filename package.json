@@ -9,7 +9,7 @@
     "now": "npx cucumber-js  --tags @now",
     "user": "npx cucumber-js  --tags @user",
     "education": "npx cucumber-js  --tags @education",
-    "structure": "npx cucumber-js  --tags @tructure",
+    "structure": "npx cucumber-js  --tags @structure",
     "locations": "npx cucumber-js  --tags @locations",
     "information": "npx cucumber-js  --tags @information",
     "demo": "npx cucumber-js  --tags @demo",

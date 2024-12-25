@@ -1,7 +1,7 @@
 import path from 'path';
 export const authConfig = {
   admin: {
-    username: "Buianthai",
+    username: "TinaNguyen",
     password: "Admin@1234",
     storageState: path.join(process.cwd(), 'playwright/.auth/admin.json')
   },
@@ -10,4 +10,4 @@ export const authConfig = {
     password: "Admin@123",
     storageState: "playwright/.auth/staff.json"
   }
-};
+}; 
