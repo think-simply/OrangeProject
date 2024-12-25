@@ -1,7 +1,7 @@
 @UserManagement
 Feature: Functions in Admin Menu - Admin role
 
-  Background:
+  Background: 
     Given User navigates to page
 
   @low
@@ -9,14 +9,14 @@ Feature: Functions in Admin Menu - Admin role
     When User access User management page
     Then User management page has been displayed
 
-  @high 
+  @high
   Scenario Outline: US_02: Add new user : <role>
     When User creates a new user with role "<role>" and employee "<employee>", username "<username>", password "<password>", confirm password "<confirm password>"
     Then New "<username>" user has been created successfully
     When User removes an account: "<username>"
     Then Account "<username>" has been deleted
 
-    Examples:
+    Examples: 
       | role  | employee | username            | password   | confirm password |
       | Admin | tina thi | usernamenttheuAdmin | Admin@1234 | Admin@1234       |
       | ESS   | tina thi | usernamenttheu      | Admin@1234 | Admin@1234       |
@@ -34,18 +34,18 @@ Feature: Functions in Admin Menu - Admin role
     When User search by username : "usernamenoreturn"
     Then Alert no result and "No Records Found" text has been displayed
 
-  @medium
+  @medium @now
   Scenario Outline: US_05: Search user by role
-    When User creates a new user with role "<role>" and employee "tina thi", username "searchRole", password "Admin@1234", confirm password "Admin@1234"
+    When User creates a new user with role "<role>" and employee "tina thi", username "<searchRole>", password "Admin@1234", confirm password "Admin@1234"
     And User search by role: "<role>"
     Then Result has been displayed follow "<role>" role
-    When User removes an account: "searchRole"
-    Then Account "searchRole" has been deleted
+    When User removes an account: "<searchRole>"
+    Then Account "<searchRole>" has been deleted
 
-    Examples:
-      | role  |
-      | Admin |
-      | ESS   |
+    Examples: 
+      | role  | searchRole |
+      | Admin | roleAdmin  |
+      | ESS   | roleESS    |
 
   @medium
   Scenario: US_06: Search user by employee name- return result
@@ -57,16 +57,16 @@ Feature: Functions in Admin Menu - Admin role
 
   @medium
   Scenario Outline: US_07: Search user by status
-    When User creates a new user with role "Admin" and employee "tina thi", username "searchStatus", password "Admin@1234", confirm password "Admin@1234"
+    When User creates a new user with role "Admin" and employee "tina thi", username "<searchStatus>", password "Admin@1234", confirm password "Admin@1234"
     And User search by status: "<status>"
     Then Result has been displayed follow "<status>" status
-    When User removes an account: "searchStatus"
-    Then Account "searchStatus" has been deleted
+    When User removes an account: "<searchStatus>"
+    Then Account "<searchStatus>" has been deleted
 
-    Examples:
-      | status   |
-      | Enabled  |
-      | Disabled |
+    Examples: 
+      | status   | searchStatus  |
+      | Enabled  | statusEnable  |
+      | Disabled | statusDisable |
 
   @low
   Scenario: US_08: Reset filter
@@ -79,24 +79,25 @@ Feature: Functions in Admin Menu - Admin role
     When User creates a new user with role "Admin" and employee "tina thi", username "initialAccount", password "Admin@1234", confirm password "Admin@1234"
     And User update account "initialAccount" to new username: "editAccount"
     Then Account has been updated to new username: "editAccount"
-    And User removes an account: "editAccount"
+    When User removes an account: "editAccount"
+    Then Account "editAccount" has been deleted
 
-  @high 
+  @high
   Scenario Outline: US_10: Removes an account - <role>
-    When User creates a new user with role "<role>" and employee "t", username "usernameRemove", password "Admin@1234", confirm password "Admin@1234"
-    And User removes an account: "usernameRemove"
-    Then Account "usernameRemove" has been deleted
+    When User creates a new user with role "<role>" and employee "tina thi", username "<usernameDelete>", password "Admin@1234", confirm password "Admin@1234"
+    And User removes an account: "<usernameDelete>"
+    Then Account "<usernameDelete>" has been deleted
 
-    Examples:
-      | role  |
-      | ESS   |
-      | Admin |
+    Examples: 
+      | role  | usernameDelete |
+      | ESS   | deleteESS      |
+      | Admin | deleteAdmin    |
 
   @high
   Scenario: US_11: Removes multi account
     When User creates a new user with role "Admin" and employee "tina thi", username "usernamenttheuRemove1", password "Admin@1234", confirm password "Admin@1234"
-    When User creates a new user with role "ESS" and employee "tina thi", username "usernamenttheuRemove2", password "Admin@1234", confirm password "Admin@1234"
-    When User removes all accounts contain text "usernamenttheu"
+    And User creates a new user with role "ESS" and employee "tina thi", username "usernamenttheuRemove2", password "Admin@1234", confirm password "Admin@1234"
+    And User removes all accounts contain text "usernamenttheu"
     Then All selected account contain text "usernamenttheu" have been deleted
 
   @high
@@ -104,15 +105,15 @@ Feature: Functions in Admin Menu - Admin role
     When User enter on "<field>" value "<value>"
     Then Message will displayed under "<field>" as "<message>"
 
-    Examples:
+    Examples: 
       | field         | value                                                                | message                                                |
       | Employee Name |                                                                      | Required                                               |
-      | Employee Name | 232342                                                               | Invalid                                                |
+      | Employee Name |                                                               232342 | Invalid                                                |
       | Username      |                                                                      | Required                                               |
       | Username      | Anna                                                                 | Should be at least 5 characters                        |
       | Username      | Lorem Ipsum has been the industry's standard dummy                   | Should not exceed 40 characters                        |
-      | Password      | 1234                                                                 | Should have at least 8 characters                      |
-      | Password      | 12345678                                                             | Your password must contain minimum 1 lower-case letter |
+      | Password      |                                                                 1234 | Should have at least 8 characters                      |
+      | Password      |                                                             12345678 | Your password must contain minimum 1 lower-case letter |
       | Password      | loremipsum                                                           | Your password must contain minimum 1 upper-case letter |
       | Password      | Lorem Ipsum                                                          | Your password must contain minimum 1 number            |
       | Password      | Lorem Ipsum has been the industry's standard dummy dummy dummy dummy | Should not exceed 64 characters                        |
@@ -121,14 +122,13 @@ Feature: Functions in Admin Menu - Admin role
   Scenario Outline: US_13: Check validation message for dropdown fields
     When User clicks save button with empty fields
     Then Message will displayed under "<field>" as "<message>"
-    Examples:
+
+    Examples: 
       | field     | value | message  |
       | User Role |       | Required |
       | Status    |       | Required |
 
-  @high 
+  @high
   Scenario Outline: US_14: Check validation message when user input invalid confirm password
     When User enter on Password value "Admin@1234" and Confirm Password value "Admin@123"
     Then Message will displayed under "Confirm Password" as "Passwords do not match"
-
-

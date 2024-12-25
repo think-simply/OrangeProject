@@ -93,9 +93,10 @@ export default class AdminMenuPage {
         await this.elements.passwordField().fill(pass);
         await this.elements.confirmPassword().fill(confirm);
         await this.elements.submitBtn().click();
-        await this.page.waitForTimeout(1000);
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
+        // await this.page.waitForTimeout(3000);
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 30000 });
     }
+
     async verifyCreateUser(demotext: string) {
         await expect(this.elements.newUser(demotext)).toBeVisible();
     }
@@ -118,7 +119,7 @@ export default class AdminMenuPage {
         //checkUser = false
         else {
             await expect(this.elements.notFoundItem()).toBeVisible({ timeout: 5000 });
-            await expect(this.elements.noRecordText(text)).toBeVisible();
+            await expect(this.elements.noRecordText(text)).toBeVisible({ timeout: 5000 });
         }
     }
     async searchUserRole(role: string) {

@@ -8,7 +8,7 @@ Feature: Functions in Configuration menu: Social Media Authentication
     When User access social media authen page
     Then Social media page has displayed as expected
 
-  @high @now
+  @high 
   Scenario: SM_02: Add a new provider
     When User creates a new provider with name "provider1", provider url "url", client id "123", client secret "secret"
     Then A new provider with name "provider1" has been created
