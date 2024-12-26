@@ -95,23 +95,17 @@ export default class NationalitiesAdminPage {
         await this.pageNumber.nth(0).waitFor();
         const pageCount = await this.pageNumber.count();
         for (let i = 0; i < pageCount; i++) {
-            console.log(`Checking page ${i+1}`);
             await this.pageNumber.nth(i).click();
             await this.page.waitForTimeout(3000);
 
             const isCreatedDataLocator = await this.bodyTable.locator(`//div[text()="${flexibleValue}"]`).isVisible();
             if(isCreatedDataLocator) {
-                console.log('Created successfully!');
                 isCreated = true;
             }
             const isLastPage = i === pageCount - 1;
             if (isLastPage) {
-                console.log("No more pages to check.");
                 break; // Exit loop if no longer next page
             }
-        }
-        if(isCreated === false){
-        console.log(`Value "${flexibleValue}" not found.`);
         }
 
     }
@@ -128,9 +122,7 @@ export default class NationalitiesAdminPage {
         // 2 is use waitFor fn to wait until the first page number to be visible on dom
         await this.pageNumber.nth(0).waitFor();
         const pageCount = await this.pageNumber.count();
-        console.log("🚀 ~ NationalitiesAdminPage ~ clickUpdateIcon ~ pageCount:", pageCount)
         for (let i = 0; i < pageCount; i++) {
-            console.log(`Checking page ${i+1}`);
             await this.pageNumber.nth(i).click();
             await this.page.waitForTimeout(3000); // Wait for page to load
 
@@ -144,12 +136,9 @@ export default class NationalitiesAdminPage {
             }
             const isLastPage = i === pageCount - 1;
             if (isLastPage) {
-                console.log("No more pages to check.");
                 break; // Exit loop if no longer next page
             }
         }
-        console.log(`Value "${flexibleValue}" not found.`);
-
     }
     async updateNationalityData(){
         flexibleValue2 = flexibleValue+this.randomNum
@@ -166,7 +155,6 @@ export default class NationalitiesAdminPage {
         let isUpdatedNewvalue = false;
         let isOldValueHidden = false;
         for (let i = 0; i < pageCount; i++) {
-            console.log(`Checking page ${i+1}`);
             await this.pageNumber.nth(i).click();
             await this.page.waitForTimeout(3000);
 
@@ -180,14 +168,8 @@ export default class NationalitiesAdminPage {
             }            
             const isLastPage = i === pageCount - 1;
             if (isLastPage) {
-                console.log("No more pages to check.");
                 break; // Exit loop if no longer next page
             }
-        }
-        if (isUpdatedNewvalue && isOldValueHidden) {
-          console.log("Update successfully!");
-        } else {
-          console.log(`Value "${flexibleValue}" is not updated.`);
         }
     }
     async clickDeleteIcon(nameToDelete: string){
@@ -200,7 +182,6 @@ export default class NationalitiesAdminPage {
         //Find Name then click Delete icon
         const pageCount = await this.pageNumber.count();
         for (let i = 0; i < pageCount; i++) {
-            console.log(`Checking page ${i+1}`);
             await this.pageNumber.nth(i).click();
             await this.page.waitForTimeout(3000); //Wait for loading data in new page
 
@@ -214,11 +195,9 @@ export default class NationalitiesAdminPage {
             }
             const isLastPage = i === pageCount - 1;
             if (isLastPage) {
-                console.log("No more pages to check.");
                 break; // Exit loop if no longer next page
             }
         }
-        console.log(`Value "${flexibleValue}" not found.`);
 
     }
     async confirmDeleteNationality(){
@@ -231,7 +210,6 @@ export default class NationalitiesAdminPage {
         const pageCount = await this.pageNumber.count();
         let isDeleted = true;
         for (let i = 0; i < pageCount; i++) {
-            console.log(`Checking page ${i+1}`);
             await this.pageNumber.nth(i).click();
             await this.pageNumber.nth(0).waitFor();
 
@@ -241,14 +219,8 @@ export default class NationalitiesAdminPage {
             }
             const isLastPage = i === pageCount - 1;
             if (isLastPage) {
-                console.log("No more pages to check.");
                 break; // Exit loop if no longer next page
             }
-        }
-        if(isDeleted){
-            console.log('Deleted successfully!');
-        }else{
-            console.log(`Value "${flexibleValue}" is not delete.`);
         }
     }
     async selectMultipleNationalities(nameToDelete1: string, nameToDelete2: string){
@@ -272,7 +244,6 @@ export default class NationalitiesAdminPage {
         let foundValue2 = false;
         
         for (let i = 0; i < pageCount; i++) {
-          console.log(`Checking page ${i + 1}`);
           await this.pageNumber.nth(i).click();
           await this.page.waitForTimeout(3000); // Wait for page to load
           await this.pageNumber.nth(0).waitFor();
@@ -285,7 +256,6 @@ export default class NationalitiesAdminPage {
             `//div[text()="${flexibleValue}"]/parent::div/preceding-sibling::div/div[@class="oxd-table-card-cell-checkbox"]`
           );
           if (isDeleteData1Displayed && !foundValue1) {
-            console.log(`Found ${flexibleValue}`);
             await deleteDataCheckbox1.click();
             foundValue1 = true;
           }
@@ -298,21 +268,18 @@ export default class NationalitiesAdminPage {
             `//div[text()="${flexibleValue2}"]/parent::div/preceding-sibling::div/div[@class="oxd-table-card-cell-checkbox"]`
           );
           if (isDeleteData2Displayed && !foundValue2) {
-            console.log(`Found ${flexibleValue2}`);
             await deleteDataCheckbox2.click();
             foundValue2 = true;
           }
 
           // If both values are found, stop the loop
           if (foundValue1 && foundValue2) {
-            console.log("Both values found and selected.");
             break;
           }
 
           // If it's the last page and not all values are found
           const isLastPage = i === pageCount - 1;
           if (isLastPage && (!foundValue1 || !foundValue2)) {
-            console.log("Values are not found.");
             break; // Exit loop if no longer next page
           }
         }
@@ -328,7 +295,6 @@ export default class NationalitiesAdminPage {
         let isData2Deleted = true;
 
         for (let i = 0; i < pageCount; i++) {
-            console.log(`Checking page ${i+1}`);
             await this.pageNumber.nth(i).click();
             await this.page.waitForTimeout(3000); // Wait for page to load
 
@@ -346,14 +312,8 @@ export default class NationalitiesAdminPage {
             }
             const isLastPage = i === pageCount - 1;
             if (isLastPage) {
-                console.log("No more pages to check.");
                 break; // Exit loop if no longer next page
             }
-        }
-        if(isData1Deleted == false || isData2Deleted == false){
-            console.log('Deleted not successfully!');
-        }else{
-            console.log('Deleted successfully!');
         }
     }
 }

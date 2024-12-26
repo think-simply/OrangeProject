@@ -92,21 +92,13 @@ export default class StructureAdminPage {
     const nodeCount = await this.treeNodes.count();
     expect(nodeCount).toBeGreaterThan(0);
     const dataTest = inputIDTest + ": " + nameTest;
-    // Tao mot bien de kiem tra co tim duoc dong vua tao hay khong
-    // Khoi tao la false de nguoc lai voi dieu kien ben trong ham for
     let isMatch = false;
     for (let i = 0; i < nodeCount; i++) {
       const nodeValue = await this.treeNodes.nth(i).first().textContent();
       if (nodeValue.trim().toLowerCase() === dataTest.toLowerCase()) {
-        console.log("Create Successfully!");
         isMatch = true;
       }
-    }
-    // Neu khong co gia tri nao match voi data test thi hien log error
-    // Tai sao khong cho vao for: Vi log nay chi nen
-    if (!isMatch) {
-      console.log("Could not create.");
-    }
+    }    
   }
   async clickEditButton() {
     await this.changeToAddMode();
@@ -132,12 +124,8 @@ export default class StructureAdminPage {
     for (let i = 0; i < nodeCount; i++) {
       const nodeValue = await this.treeNodes.nth(i).first().textContent();
       if (nodeValue.trim().toLowerCase() === dataTest.toLowerCase()) {
-        console.log("Updated Successfully!");
         isMatch = true;
       }
-    }
-    if (!isMatch) {
-      console.log("Could not update.");
     }
   }
   async clickDeleteIcon() {
@@ -163,12 +151,8 @@ export default class StructureAdminPage {
     for (let i = 0; i < nodeCount; i++) {
       const nodeValue = await this.treeNodes.nth(i).first().textContent();
       if (nodeValue.trim().toLowerCase() === dataTest.toLowerCase()) {
-        console.log("Deleted not successfully!");
         isMatch = true;
       }
-    }
-    if (!isMatch) {
-      console.log("Delete successfully!");
     }
   }
   async clickAddSubOrganizationIcon() {
@@ -210,12 +194,8 @@ export default class StructureAdminPage {
         .nth(i)
         .textContent();
       if (nodeValue.trim().toLowerCase() === subdataTest.toLowerCase()) {
-        console.log("Create subitem Successfully!");
         isMatch = true;
       }
-    }
-    if (!isMatch) {
-      console.log("Could not create.");
     }
   }
   

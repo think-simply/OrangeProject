@@ -1,5 +1,4 @@
 import { Page, Locator, expect } from "@playwright/test";
-//import { log } from "console";
 //import exp from "constants";
 import dotenv from "dotenv";
 dotenv.config();
@@ -126,22 +125,17 @@ export default class LocationsAdminPage {
         .waitForSelector("div.oxd-toast--info", { timeout: 5000 })
         .catch(() => {});
       expect(this.noResultsToast).toBeVisible();
-      console.log(
-        "Check No result about " + this.expectedName + " successfully"
-      );
     } else {
       await this.page.waitForTimeout(1000);
       // Lấy tất cả các giá trị trong cột city
       //const cityColumn = this.cityColumnData;
       const rowCount = await this.nameColumnData.count();
-      console.log("The number of rows is", rowCount);
       for (let i = 0; i < rowCount; i++) {
         const nameValue = await this.nameColumnData
           .nth(i)
           .first()
           .textContent();
         //nth: dùng để chọn phần tử thứ i (theo chỉ số, bắt đầu từ 0) trong nhóm các phần tử được cityColumn đại diện.
-        console.log("NameValue:", nameValue);
         if (
           !nameValue
             ?.trim()
@@ -159,14 +153,6 @@ export default class LocationsAdminPage {
     await this.cityInput.fill(this.expectedCity);
   }
   async checkCity(hasNoRecord = true) {
-    //Kiem tra xem loading icon da bien mat chua
-    // await this.page
-    //   .waitForSelector("div.oxd-table-loader", {
-    //     state: "detached",
-    //     timeout: 5000,
-    //   })
-    //   .catch(() => {});
-    // Kiểm tra nếu không có kết quả
     await this.page.waitForTimeout(5000);
     let isValidValue = true; //flexible variable
     if (hasNoRecord) {
@@ -174,19 +160,16 @@ export default class LocationsAdminPage {
         .waitForSelector("div.oxd-toast--info", { timeout: 5000 })
         .catch(() => {});
       expect(this.noResultsToast).toBeVisible();
-      console.log("check No result successfully");
     } else {
       await this.page.waitForTimeout(1000);
       // Get all values in City column
       const rowCount = await this.cityColumnData.count();
-      console.log("The number of rows is", rowCount);
       for (let i = 0; i < rowCount; i++) {
         const cityValue = await this.cityColumnData
           .nth(i)
           .first()
           .textContent();
         //nth: the i element.
-        console.log("CityValue:", cityValue);
         if (
           !cityValue
             ?.trim()
@@ -207,14 +190,12 @@ export default class LocationsAdminPage {
     await this.VNOption.click();
   }
   async checkCountry() {
-    //Kiem tra xem loading icon da bien mat chua
     await this.page
       .waitForSelector("div.oxd-table-loader", {
         state: "detached",
         timeout: 5000,
       })
       .catch(() => {});
-    // Kiểm tra nếu không có kết quả
     await this.page.waitForTimeout(1000);
     const hasRecordText = await this.noResultsText.isVisible();
     let isValidValue = true; //bien co the thay doi duoc
@@ -224,20 +205,15 @@ export default class LocationsAdminPage {
         .waitForSelector("div.oxd-toast--info", { timeout: 5000 })
         .catch(() => {});
       expect(this.noResultsToast).toBeVisible();
-      console.log("check No result successfully");
     } else {
       await this.page.waitForTimeout(1000);
-      // Lấy tất cả các giá trị trong cột city
-      //const cityColumn = this.cityColumnData;
       const rowCount = await this.contryColumnData.count();
-      console.log("The number of rows is", rowCount);
       for (let i = 0; i < rowCount; i++) {
         const countryValue = await this.contryColumnData
           .nth(i)
           .first()
           .textContent();
         //nth: dùng để chọn phần tử thứ i (theo chỉ số, bắt đầu từ 0) trong nhóm các phần tử được cityColumn đại diện.
-        console.log("CountryValue:", countryValue);
         if (!countryValue
             ?.trim()
             .toLowerCase()
@@ -371,7 +347,6 @@ export default class LocationsAdminPage {
       await this.page.waitForTimeout(3000);
       //Check to delete successfully when the record is the only
       expect(this.noResultsToast).toBeVisible();
-      console.log("Deleted successfully");
   }
   async creatDataToMultiDelete() {
     //Tao moi 1
@@ -393,7 +368,6 @@ export default class LocationsAdminPage {
   }
   async selectMultiLocations() {
     await this.page.waitForTimeout(3000);
-    //Check lần lượt
     const rowCount = await this.contryColumnData.count();
     for (let i = 0; i < rowCount; i++) {
       const countryValue = await this.contryColumnData.nth(i).first().textContent();
@@ -420,6 +394,5 @@ export default class LocationsAdminPage {
     await this.selectCountry();
     await this.searchClick();
     await expect(this.noResultsToast).toBeVisible();
-    console.log("Deleted successfully");
   } 
 }

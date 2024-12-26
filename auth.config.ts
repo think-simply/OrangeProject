@@ -5,4 +5,4 @@ export const authConfig = {
     password: "Admin@1234",
     storageState: path.join(process.cwd(), 'playwright/.auth/admin.json')
   }
-};
+}; 
