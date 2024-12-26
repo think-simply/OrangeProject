@@ -30,8 +30,4 @@ Feature: Functions in Admin Menu
   Scenario: JT_05 : User delete multi job titles
     And User access job title page
     And User delete multi job title
-<<<<<<< HEAD
     Then Job titles has been deleted successfully
-=======
-    Then Job titles has been deleted successfully
->>>>>>> main

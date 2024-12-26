@@ -15,6 +15,7 @@ Then("All elements in Structure should be displayed as expected", { timeout: 300
     const adminMenuPage = new StructureAdminPage(pageFixture.adminPage);
     await adminMenuPage.checkStructureUI();
 });
+
 //ST_02: Add a new Organization unit
 When("User clicks Add button", { timeout: 30000 }, async () => {
     const adminMenuPage = new StructureAdminPage(pageFixture.adminPage);
@@ -32,6 +33,7 @@ Then("New organization unit has been created", { timeout: 30000 }, async () => {
     const adminMenuPage = new StructureAdminPage(pageFixture.adminPage);
     await adminMenuPage.verifyNewOrganizationCreated();
 });
+
 //ST_03: Edit Organization - This testcase is Failed
 When("User clicks Edit button", { timeout: 30000 }, async () => {
     const adminMenuPage = new StructureAdminPage(pageFixture.adminPage);
@@ -46,6 +48,7 @@ Then("Organization has been updated", { timeout: 30000 }, async () => {
     await adminMenuPage.clickSaveButton();
     await adminMenuPage.verifyOrganizationUpdated();
 });
+
 //ST_04: Delete Organization 
 When("User clicks Delete icon", { timeout: 30000 }, async () => {
     const adminMenuPage = new StructureAdminPage(pageFixture.adminPage);
@@ -55,6 +58,7 @@ Then("Organization has been deleted", { timeout: 30000 }, async () => {
     const adminMenuPage = new StructureAdminPage(pageFixture.adminPage);
     await adminMenuPage.verifyOrganizationDeleted();
 });
+
 //ST_05: Add a sub Organization
 When("User clicks + icon from an organization", { timeout: 30000 }, async () => {
     const adminMenuPage = new StructureAdminPage(pageFixture.adminPage);

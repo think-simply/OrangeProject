@@ -73,10 +73,6 @@ When("User clicks Delete button for Nationality", async () => {
     const adminMenuPage = new NationalitiesAdminPage(pageFixture.adminPage);
     await adminMenuPage.clickDeleteButton();
 });
-// When("User confirms delete multi Nationalities", async () => {
-//     const adminMenuPage = new NationalitiesAdminPage(pageFixture.adminPage);
-//     //await adminMenuPage.confirmDeleteNationality();
-//});
 Then("All selected nationalities have been deleted", async () => {
     const adminMenuPage = new NationalitiesAdminPage(pageFixture.adminPage);
     await adminMenuPage.verifyMultiNationalityDeleted();
