@@ -1,5 +1,6 @@
 name: Playwright Cucumber Tests
- 
+concurrency:
+  group: ${{ github.workflow }}
 on:
   pull_request:
     branches: [main, develop]
