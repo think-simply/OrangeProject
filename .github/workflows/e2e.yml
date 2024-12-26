@@ -1,32 +1,29 @@
 name: Playwright Cucumber Tests
+ 
 on:
   pull_request:
-    branches: [ main, develop]
-  schedule:
-    - cron: '0 10 * * *'
+    branches: [main, develop]
 jobs:
-  e2e:
-    timeout-minutes: 60
+  e2e_on_pull_request:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps chromium
-    - name: Install Cucumber
-      run: npm install --save-dev @cucumber/cucumber
-    - name: Run global file to get session login
-      run: npx playwright test || true
-    - name: Run automated testcase with cucumber
-      run: npm test
-      shell: bash
-    - name: Upload test results
-      uses: actions/upload-artifact@v4
-      with:
-        path: test-results/cucumber-report.*
-      if: always()
-
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+      - name: Install Cucumber
+        run: npm install --save-dev @cucumber/cucumber
+      - name: Run global file to get session login
+        run: npx playwright test || true  
+      - name: Run automated testcase with cucumber
+        run: npm run test -- --parallel 3
+        shell: bash
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          path: test-results/cucumber-report.*
+        if: always()
