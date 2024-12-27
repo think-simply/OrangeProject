@@ -8,6 +8,8 @@
   - [How-to: Set up Jenkins in AWS server](#how-to-set-up-jenkins-in-aws-server)
     - [I. Create an IAM User](#i-create-an-iam-user)
     - [II. Create a key pair](#ii-create-a-key-pair)
+    - [III. Create a Security Group](#iii-create-a-security-group)
+    - [IV. Create an EC2 instance](#iv-create-an-ec2-instance)
 
 ## Goals
 
@@ -99,3 +101,43 @@ Feature | Jenkins | GitHub Actions
 
 ### II. Create a key pair
 
+1. Navigate to **EC2**
+2. In the sidebar, under **Network & Security**, click **Key Pairs**
+   ![alt text](image-3.png)
+3. Click **Create key pair**
+4. Set name as `Jenkins-Keypair`
+5. Select `.pem` in **Private key file format**
+   ![alt text](image-4.png)
+
+### III. Create a Security Group
+
+1. Navigate to **EC2** dashboard
+2. Click **Security groups** > click **Create security group**
+3. Set details as followed:
+   - Security group name: `JenkinsSG`
+4. Under **Inbound rules**, click **Add rule**
+5. Add rules with the following details:
+   - Type: `SSH`, source: `My IP`
+   - Type: `Custom TCP`, port range: `8080`, source: `My IP`
+  ![alt text](image-6.png)
+6. Click **Create security group**
+
+### IV. Create an EC2 instance
+
+1. Navigate to **EC2** dashboard
+2. Click **Launch instance**
+3. Select as followed:
+   - **Name**: `Jenkins`
+   - **Application and OS Images**: `Amazon Linux`
+   - **Instance type**: `t2.micro`
+   - **Key pair**: select `Jenkins-Keypair` from dropdown
+   - **Network settings**: select existing security group `JenkinsSG`
+4. Click **Launch instance**
+![alt text](image-7.png)
+> For Windows:
+5. Navigate to local folder containing `.pem` file
+6. Right-click the file > Properties
+7. In **Security** tab, click **Advanced**, click **Disable inheritance**, select **Remove all inherited permissions from this object**
+8. Click **Add** > **Select a principal**
+9. In **Enter the object name to select**, input your Windows username, click **OK**
+10. Select all permissions, click **OK**
