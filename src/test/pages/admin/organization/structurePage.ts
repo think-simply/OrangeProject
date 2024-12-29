@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
+import { generateRandomName } from "../../../../helper/randomString";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -47,16 +48,6 @@ export default class StructureAdminPage {
     this.yesBtn = page.locator("div.orangehrm-modal-footer button i.bi-trash");
     this.deleteToast = page.locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]');
   }
-  generateRandomName(length: number): string {
-    const characters =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let randomName = "";
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      randomName += characters[randomIndex];
-    }
-    return randomName;
-  }
   async visit() {
     await this.page.goto(`${process.env.WEB_URL}`);
   }
@@ -76,9 +67,9 @@ export default class StructureAdminPage {
     await expect(this.addOrgDialog).toBeVisible();
   }
   async inputData() {
-    inputIDTest = this.generateRandomName(5);
+    inputIDTest = generateRandomName(5);
     await this.inputUnitId.fill(inputIDTest);
-    nameTest = this.generateRandomName(8);
+    nameTest = generateRandomName(8);
     await this.inputName.fill(nameTest);
   }
   async clickSaveButton() {
@@ -168,9 +159,9 @@ export default class StructureAdminPage {
     await expect(this.addOrgDialog).toBeVisible();
   }
   async inputSubData() {
-    inputIDTest = this.generateRandomName(5);
+    inputIDTest = generateRandomName(5);
     await this.inputUnitId.fill(inputIDTest);
-    nameTest = this.generateRandomName(8);
+    nameTest = generateRandomName(8);
     await this.inputName.fill(nameTest);
   }
   async verifySubOrganizationCreated() {

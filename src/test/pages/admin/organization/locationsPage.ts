@@ -2,6 +2,7 @@ import { Page, Locator, expect } from "@playwright/test";
 //import exp from "constants";
 import dotenv from "dotenv";
 dotenv.config();
+import { generateRandomName } from "../../../../helper/randomString";
 
 let updatedData: string = "";
 
@@ -47,7 +48,7 @@ export default class LocationsAdminPage {
   constructor(page: Page) {
     this.page = page;
     this.expectedCity = "new";
-    this.uniqueName = this.generateRandomName(5);
+    this.uniqueName = generateRandomName(5);
     this.expectedName = "New York Sales Office";
     this.expectedCountry = "Viet Nam";
     this.tableLocations = "div.orangehrm-container";
@@ -80,16 +81,6 @@ export default class LocationsAdminPage {
     this.deleteSuccessMessage = page.locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]');
     this.singleCheckbox = page.locator("div.oxd-table-card-cell-checkbox");
     this.deleteBtn = page.locator('//button[text()=" Delete Selected "]');
-  }
-  generateRandomName(length: number): string {
-    const characters =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let randomName = "";
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      randomName += characters[randomIndex];
-    }
-    return randomName;
   }
   async visit() {
     await this.page.goto(`${process.env.WEB_URL}`);
@@ -351,11 +342,11 @@ export default class LocationsAdminPage {
   async creatDataToMultiDelete() {
     //Tao moi 1
     await this.addClick();
-    await this.addValidData(this.generateRandomName(5));
+    await this.addValidData(generateRandomName(5));
     await this.saveBtnClick();
     //Tao moi 2
     await this.addClick();
-    await this.addValidData(this.generateRandomName(5));
+    await this.addValidData(generateRandomName(5));
     await this.saveBtnClick();
     //Đợi đến khi hiển thị data
     await this.page

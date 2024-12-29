@@ -3,17 +3,12 @@ import OrganizationAdminPage from "../../../pages/admin/organization/generalInfo
 import { pageFixture } from "../../../../hooks/pageFixture";
 
 //Pre-condition
-Given("User navigates to page Admin_Organization",{timeout: 30000}, async () => {
-  const adminMenuPage = new OrganizationAdminPage(pageFixture.adminPage);
-  await adminMenuPage.visit();
-  await adminMenuPage.accessOrganization();
-});
-
-//GI_01: Check UI of Organization General Information
-When("User accesses General information in Organization",{timeout: 30000}, async () => {
+Given("User accesses General information in Organization",{timeout: 30000}, async () => {
   const adminMenuPage = new OrganizationAdminPage(pageFixture.adminPage);
   await adminMenuPage.accessGI();
 });
+
+//GI_01: Check UI of Organization General Information
 Then("User should observe that all elements are displayed as expected",{timeout: 30000}, async () => {
     const adminMenuPage = new OrganizationAdminPage(pageFixture.adminPage);
     await adminMenuPage.checkUIGI();

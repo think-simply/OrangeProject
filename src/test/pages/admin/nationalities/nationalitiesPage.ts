@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
+import { generateRandomNumber } from "../../../../helper/randomString";
 import exp from "constants";
 import dotenv from "dotenv";
 dotenv.config();
@@ -34,7 +35,7 @@ export default class NationalitiesAdminPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.randomNum = this.generateRandomNumber(3);
+        this.randomNum = generateRandomNumber(3);
         this.adminSection = page.locator('//span[text()="Admin"]');
         this.nationalitiesItem = page.locator('//a[text()="Nationalities"]');
         this.mainTitle = page.locator('div.orangehrm-header-container h6');
@@ -59,15 +60,6 @@ export default class NationalitiesAdminPage {
 
 
     }
-    generateRandomNumber(length: number): string {
-        const digits = "0123456789"; // Only contains number is 0-9
-        let randomNumber = "";
-        for (let i = 0; i < length; i++) {
-          const randomIndex = Math.floor(Math.random() * digits.length);
-          randomNumber += digits[randomIndex];
-        }
-        return randomNumber;
-      }
     async accessNationalities(){
         await this.page.goto(`${process.env.WEB_URL}`);
         await this.adminSection.click();

@@ -8,7 +8,7 @@ Feature: Nationalities in Admin Menu
   Scenario: NA_01: Check UI of Nationalities page
     Then All elements are displayed as expected in Nationalities
 
-  @high @now
+  @high 
   Scenario: NA_02: Add a new nationality
     When User clicks Add button for Nationality
     And User inputs valid data for Nationality contains name "<name>"
