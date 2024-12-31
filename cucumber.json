@@ -3,9 +3,9 @@
     "formatOptions": {
       "snippetInterface": "async-await"
     },
-    "paths": ["src/test/features/"],
+    "paths": ["src/test/features/", "src/test/api/features/"],
     "dryRun": false,
-    "require": ["src/test/steps/**", "src/hooks/hooks.ts"],
+    "require": ["src/test/steps/**", "src/hooks/hooks.ts", "src/test/api/steps/**"],
     "requireModule": ["ts-node/register"],
     "format": [
       "progress",
