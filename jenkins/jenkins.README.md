@@ -260,7 +260,5 @@ Feature | Jenkins | GitHub Actions
 3. Click **Source Code Management** tab, select **Git**
 4. Paste Repo URL
 5. Click **Build Triggers** tab, check **GitHub hook trigger for GITScm polling**
-6. To trigger job run with every code commit:
-   - Click **Build Steps** tab, click **Add build step**, choose **Execute shell**
-   - Input `bzt <filename>.yml` (replace `<filename>` with your file name)
+6. Convert .yml GitHub Actions file to Jenkinsfile, move the file to root directory
 7. Click **Save**
