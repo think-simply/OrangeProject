@@ -15,6 +15,7 @@
       - [Configure Jenkins](#configure-jenkins)
     - [VI. Integrate Jenkins + GitHub](#vi-integrate-jenkins--github)
       - [Configure GitHub](#configure-github)
+      - [Install Git on EC2](#install-git-on-ec2)
       - [Configure Jenkins](#configure-jenkins-1)
 
 ## Goals
@@ -236,6 +237,21 @@ Feature | Jenkins | GitHub Actions
    ![alt text](image-13.png)
 4. In the page **Which events would you like to trigger this webhook?** choose **Let me select individual events**.
 5. Then, check **Pull Requests** and **Pushes**. At the end of this option, make sure that the **Active** option is checked and click on **Add webhook**
+
+#### Install Git on EC2
+
+1. In EC2 Console, run the system update:
+   ```
+   sudo dnf update
+   ```
+2. Install Git package for Amazon Linux:
+   ```
+   sudo dnf install git -y
+   ```
+3. Check if Git is installed:
+   ```
+   which git
+   ```
 
 #### Configure Jenkins
 
