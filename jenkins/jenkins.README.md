@@ -10,6 +10,12 @@
     - [II. Create a key pair](#ii-create-a-key-pair)
     - [III. Create a Security Group](#iii-create-a-security-group)
     - [IV. Create an EC2 instance](#iv-create-an-ec2-instance)
+    - [V. Install and Configure Jenkins](#v-install-and-configure-jenkins)
+      - [Install Jenkins](#install-jenkins)
+      - [Configure Jenkins](#configure-jenkins)
+    - [VI. Integrate Jenkins + GitHub](#vi-integrate-jenkins--github)
+      - [Configure GitHub](#configure-github)
+      - [Configure Jenkins](#configure-jenkins-1)
 
 ## Goals
 
@@ -117,10 +123,13 @@ Feature | Jenkins | GitHub Actions
    - Security group name: `JenkinsSG`
 4. Under **Inbound rules**, click **Add rule**
 5. Add rules with the following details:
-   - Type: `SSH`, source: `My IP`
-   - Type: `Custom TCP`, port range: `8080`, source: `My IP`
+   - Type: `All trafic`, source: `Anywhere-IPv4`
+   - Type: `SSH`, source: `Custom`, choose `com.amazonaws.<region>.ec2-instance-connect` from **Prefix lists** (replace `<region>` with region name, such as: `southeast-1`)
   ![alt text](image-6.png)
-6. Click **Create security group**
+6. Under **Outbound rules**, click **Add rule**
+7. Add rules with the following details:
+   - Type: `All trafic`, destination: `Anywhere-IPv4`
+8. Click **Create security group**
 
 ### IV. Create an EC2 instance
 
@@ -134,10 +143,108 @@ Feature | Jenkins | GitHub Actions
    - **Network settings**: select existing security group `JenkinsSG`
 4. Click **Launch instance**
 ![alt text](image-7.png)
-> For Windows:
-5. Navigate to local folder containing `.pem` file
-6. Right-click the file > Properties
-7. In **Security** tab, click **Advanced**, click **Disable inheritance**, select **Remove all inherited permissions from this object**
-8. Click **Add** > **Select a principal**
-9. In **Enter the object name to select**, input your Windows username, click **OK**
-10. Select all permissions, click **OK**
+5. Click **Connect**
+![alt text](image-5.png)
+6. In **EC2 Instance Connect** tab, select **Connect using EC2 Instance Connect**, click **Connect**
+![alt text](image-8.png)
+7. Connection should be made in the new tab
+![alt text](image-9.png)
+
+### V. Install and Configure Jenkins
+
+#### Install Jenkins
+
+1. Execute the following command to ensure software packages are up-to-date:
+   ```
+   sudo yum update –y
+   ```
+2. Add Jenkins repo with following command:
+   ```
+   sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+   ```
+3. Import a key file from Jenkins-CI to enable installation from the package:
+   ```
+   sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+   sudo yum upgrade
+   ```
+4. Install Java:
+   ```
+   sudo dnf install java-21-amazon-corretto
+   ```
+5. Install Jenkins:
+   ```
+   sudo yum install jenkins -y
+   ```
+6. Enable Jenkins service to auto start at boot:
+   ```
+   sudo systemctl enable jenkins
+   ```
+7. Start Jenkins as a service:
+   ```
+   sudo systemctl start jenkins
+   ```
+8. Check the status of the Jenkins service using the command:
+   ```
+   sudo systemctl status jenkins
+   ```
+9. Restart *(if needed)* Jenkins during this setup/configuration:
+   ```
+   sudo systemctl restart jenkins
+   ```
+
+#### Configure Jenkins
+1. Copy **Public IPv4 DNS** of EC2 instance, add suffix `:8080` and paste into the browser address bar. For example: `ec2-55-111-999-55.ap-southeast-1.compute.amazonaws.com:8080`
+2. Go to EC2 Instance Connect tab, get the **initialAdminPassword** using the following command:
+   ```
+   sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+   ```
+3. Go to Jenkins tab, paste the **initialAdminPassword**, click Continue
+4. Click **Install suggested plugins**
+   ![alt text](Arc_sqwsCU4WDe.png)
+5. After installation completes, input new username and password in **Create First Admin User** popup, click **Save and Continue**
+6. In **Instance Configuration** popup, click **Save and Finish** to proceed
+7. Click **Start using Jenkins**
+8. Click **Dashboard**, select **Manage Jenkins**, and then select **Plugins**
+9. Click **Available plugins**, Search and Select **Amazon EC2** and then **Install**
+    ![alt text](image-10.png)
+10. Once installation completes, click **Dashboard**, select **Manage Jenkins**, click **Clouds**, click **New cloud**
+11. Input name and select type: **Amazon EC2**
+12. Under **Amazon EC2 Credentials**, click **Add**, select **Jenkins**
+13. In **Jenkins Credentials Provider: Jenkins** popup, select **Kind** = **AWS Credentials**
+14. Enter **Access Key ID**, **Secret Access Key** and Click **Add**:
+    - In case you don't have access key yet, click your AWS username at top right of AWS dashboard
+    - Click **Security credentials**
+    - Click **Create access key**
+      ![alt text](image-11.png)
+    - Follow the steps, store access key in secure places
+15. Select region
+16. Click **Add** under **EC2 Key Pair's Private Key** and Select **Jenkins**
+    - From the **Jenkins Credentials Provider: Jenkins**, select **SSH Username with private key** as the Kind and set the Username to `ec2-user`.
+    - Select **Enter Directly** under Private Key, then select **Add**
+    - Open the private key pair you created in the creating a key pair step and paste in the contents from -----BEGIN RSA PRIVATE KEY----- to -----END RSA PRIVATE KEY-----. Select **Add** when completed
+17. Click Test Connection
+    ![alt text](image-12.png)
+18. Once connection is success, click **Save**.
+
+### VI. Integrate Jenkins + GitHub
+
+#### Configure GitHub
+
+1. Go to GitHub repository, click **Settings**
+2. In the sidebar, click **Webhooks**, click **Add webhook**
+3. In the **Payload URL** field, paste your Jenkins environment URL. At the end of this URL add `/github-webhook/`. In the **Content type** select: `application/json` and leave the **Secret** field empty.
+   ![alt text](image-13.png)
+4. In the page **Which events would you like to trigger this webhook?** choose **Let me select individual events**.
+5. Then, check **Pull Requests** and **Pushes**. At the end of this option, make sure that the **Active** option is checked and click on **Add webhook**
+
+#### Configure Jenkins
+
+1. In Jenkins, navigate to **Dashboard**, click **New Item**
+2. Name the item, select **Freestyle project**, click **OK**
+3. Click **Source Code Management** tab, select **Git**
+4. Paste Repo URL
+5. Click **Build Triggers** tab, check **GitHub hook trigger for GITScm polling**
+6. To trigger job run with every code commit:
+   - Click **Build Steps** tab, click **Add build step**, choose **Execute shell**
+   - Input `bzt <filename>.yml` (replace `<filename>` with your file name)
+7. Click **Save**
