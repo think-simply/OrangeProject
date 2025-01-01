@@ -33,12 +33,12 @@ export default class EducationPage {
         this.addLevel = page.locator('//button[normalize-space()="Add"]');
         this.eduLevel = page.locator('//label[text()="Level"]//ancestor::div[@class="oxd-form-row"]//descendant::input');
         this.saveLevel = page.locator('//button[@type="submit"]');
-        this.messageSuccess = page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]');
+        this.messageSuccess = page.locator('//p[text()="Success"]');
         this.checkbox= page.locator('//div[contains(text(), "A2")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]');
         this.deleteSelectedbtn= page.locator('//button[normalize-space()="Delete Selected"]');
         this.yesDeletebtn = page.locator('//button[normalize-space()="Yes, Delete"]');
         this.messageDelete= page.locator('//div[@class="oxd-toast oxd-toast--success oxd-toast-container--toast"]');
-        this.editBtn= page.locator('//div[text()="A2"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]');
+        this.editBtn= page.locator('//div[text()="A3"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]');
         this.saveUpdateBtn= page.locator('//button[@type="submit"]');
         this.updateMessage = page.locator('//div[@class="oxd-toast-start"]');
 
@@ -51,21 +51,14 @@ export default class EducationPage {
         await this.page.goto(`${process.env.WEB_URL}`);
     }
 
-    // async login() {
-    //     await this.userName.fill("Admin");
-    //     await this.passWord.fill("admin123");
-    //     await this.loginBtn.click();
-    // }
-
     async accessAdmin() {
         await this.adminMenu.click();
     }
-
     async createEduLevel() {
         await this.qualifications.click();
         await this.education.click();
         await this.addLevel.click();
-        await this.eduLevel.fill("A2");
+        await this.eduLevel.fill("A1");
         await this.saveLevel.click();
     }
 
@@ -77,6 +70,7 @@ export default class EducationPage {
         await this.qualifications.click();
         await this.education.click();
         await this.editBtn.click();
+        await this.eduLevel.clear();
         await this.eduLevel.fill("new name");
         await this.saveUpdateBtn.click();
         
