@@ -2,65 +2,40 @@ import { Locator, Page, expect } from "@playwright/test";
 
 export class QualificationsLicensesPage {
     readonly page: Page
-    readonly adminSection: Locator
-    readonly qualificationsItem: Locator
-    readonly qualificationsLicensesItem: Locator
-    readonly addBtn: Locator
-    readonly licenseTitle: Locator
-    readonly addLicenseTitle: Locator
-    readonly licenseNameInput: Locator
-    readonly cancelBtn: Locator
-    readonly saveBtn: Locator
-    readonly errorRequired: Locator
-    readonly recordItemNameLast: Locator
-    readonly deleteBtn: Locator
-    readonly editBtn: Locator
-    readonly dialog: Locator
-    readonly dialogTitle: Locator
-    readonly dialogMsg: Locator
-    readonly dialogCancelBtn: Locator
-    readonly dialogYesBtn: Locator
-    readonly dialogDismissBtn: Locator
     readonly licenseNamePrefix: string
     readonly licenseNameUpdateSuffix: string
-    readonly randomNum: string
-    readonly licenseName: string
-    readonly licenseNameUpdate: string
-    readonly recordNumText: Locator
-    recordNum: number
-    readonly recordItems: Locator
 
     constructor(page: Page) {
         this.page = page
-        this.adminSection = page.locator('//span[text()="Admin"]')
-        this.qualificationsItem = page.locator('//span[text()="Qualifications"]')
-        this.qualificationsLicensesItem = page.locator('a', { hasText: 'Licenses' })
-        this.addBtn = page.locator('button', { hasText: 'Add' })
-        this.licenseTitle = page.locator('//h6[text()="Licenses"]')
-        this.addLicenseTitle = page.locator('//h6[text()="Add License"]')
-        this.licenseNameInput = page.locator('//label[text()="Name"]/following::input')
-        this.cancelBtn = page.locator('button', { hasText: 'Cancel' })
-        this.saveBtn = page.locator('button[type="submit"]')
-        this.errorRequired = page.locator('span', { hasText: 'Required' })
-        this.deleteBtn = page.locator('(//div[@role="row"])[last()]/descendant::button[1]')
-        this.editBtn = page.locator('(//div[@role="row"])[last()]/descendant::button[2]')
-        this.recordItemNameLast = page.locator('(//div[@role="row"])[last()]/div[2]')
-        this.dialog = page.locator('//div[@role="document"]')
-        this.dialogTitle = page.locator('//div[@role="document"]/descendant::p[1]')
-        this.dialogMsg = page.locator('//div[@role="document"]/descendant::p[2]')
-        this.dialogDismissBtn = page.locator('button', { hasText: 'x' })
-        this.dialogCancelBtn = page.locator('//div[@role="document"]/descendant::button[2]')
-        this.dialogYesBtn = page.locator('//div[@role="document"]/descendant::button[3]')
         this.licenseNamePrefix = 'Demo License '
         this.licenseNameUpdateSuffix = ' Update'
-        this.randomNum = this.generateRandomNumber(5)
-        this.licenseName = this.generateLicenseName()
-        this.recordNumText = page.locator('//hr[@role="separator"]/following-sibling::div/span')
-        this.licenseNameUpdate = this.generateLicenseNameUpdate()
-        this.recordItems = page.locator('(//div[@role="rowgroup"])[2]/div')
-        this.recordItems.count().then(count => {
-            this.recordNum = count;
-        })
+    }
+
+    elements = {
+        adminSection: () => this.page.locator('//span[text()="Admin"]'),
+        qualificationsItem: () => this.page.locator('//span[text()="Qualifications"]'),
+        qualificationsLicensesItem: () => this.page.locator('a', { hasText: 'Licenses' }),
+        addBtn: () => this.page.locator('button', { hasText: 'Add' }),
+        licenseTitle: () => this.page.locator('//h6[text()="Licenses"]'),
+        addLicenseTitle: () => this.page.locator('//h6[text()="Add License"]'),
+        licenseNameInput: () => this.page.locator('//label[text()="Name"]/following::input'),
+        cancelBtn: () => this.page.locator('button', { hasText: 'Cancel' }),
+        saveBtn: () => this.page.locator('button[type="submit"]'),
+        errorRequired: () => this.page.locator('span', { hasText: 'Required' }),
+        deleteBtn: () => this.page.locator('(//div[@role="row"])[last()]/descendant::button[1]'),
+        editBtn: () => this.page.locator('(//div[@role="row"])[last()]/descendant::button[2]'),
+        recordItemNameLast: () => this.page.locator('(//div[@role="row"])[last()]/div[2]'),
+        dialog: () => this.page.locator('//div[@role="document"]'),
+        dialogTitle: () => this.page.locator('//div[@role="document"]/descendant::p[1]'),
+        dialogMsg: () => this.page.locator('//div[@role="document"]/descendant::p[2]'),
+        dialogDismissBtn: () => this.page.locator('button', { hasText: 'x' }),
+        dialogCancelBtn: () => this.page.locator('//div[@role="document"]/descendant::button[2]'),
+        dialogYesBtn: () => this.page.locator('//div[@role="document"]/descendant::button[3]'),
+        randomNum: () => this.generateRandomNumber(5),
+        licenseName: () => this.generateLicenseName(),
+        recordNumText: () => this.page.locator('//hr[@role="separator"]/following-sibling::div/span'),
+        licenseNameUpdate: () => this.generateLicenseNameUpdate(),
+        recordItems: () => this.page.locator('(//div[@role="rowgroup"])[2]/div'),
     }
 
     generateRandomNumber(length: number): string {
@@ -74,112 +49,112 @@ export class QualificationsLicensesPage {
     }
 
     generateLicenseName() {
-        let licenseName = this.licenseNamePrefix + this.randomNum
+        let licenseName = this.licenseNamePrefix + this.elements.randomNum()
         return licenseName
     }
 
     generateLicenseNameUpdate() {
-        let licenseNameUpdate = this.licenseName + this.licenseNameUpdateSuffix
+        let licenseNameUpdate = this.elements.licenseName() + this.licenseNameUpdateSuffix
         return licenseNameUpdate
     }
 
     getRecordNumText() {
-        const text = this.recordNumText.innerText()
+        const text = this.elements.recordNumText().innerText()
         return text
     }
 
     async accessLicenses(){
         await this.page.goto(`${process.env.WEB_URL}`);
-        await this.qualificationsItem.click()
-        await this.qualificationsLicensesItem.click()
+        await this.elements.qualificationsItem().click()
+        await this.elements.qualificationsLicensesItem().click()
     }
 
     async visitQualificationsLicenses() {
-        await this.qualificationsItem.click()
-        await this.qualificationsLicensesItem.click()
+        await this.elements.qualificationsItem().click()
+        await this.elements.qualificationsLicensesItem().click()
     }
 
     async clickAddBtn() {
-        await this.addBtn.click()
+        await this.elements.addBtn().click()
     }
 
     async clickCancelBtn() {
-        await this.cancelBtn.click()
+        await this.elements.cancelBtn().click()
     }
 
     async clickSaveBtn() {
-        await this.saveBtn.click()
+        await this.elements.saveBtn().click()
     }
 
     async verifyLicensesPage() {
-        await expect(this.licenseTitle).toBeVisible()
-        await expect(this.addBtn).toBeVisible()
+        await expect(this.elements.licenseTitle()).toBeVisible()
+        await expect(this.elements.addBtn()).toBeVisible()
     }
 
     async verifyAddLicensePage() {
-        await expect(this.licenseNameInput).toBeVisible()
-        await expect(this.cancelBtn).toBeVisible()
-        await expect(this.saveBtn).toBeVisible()
+        await expect(this.elements.licenseNameInput()).toBeVisible()
+        await expect(this.elements.cancelBtn()).toBeVisible()
+        await expect(this.elements.saveBtn()).toBeVisible()
     }
 
     async addLicense() {
-        await this.licenseNameInput.fill(this.licenseName)
+        await this.elements.licenseNameInput().fill(this.elements.licenseName())
     }
 
     async updateLicense() {
-        await this.licenseNameInput.clear()
-        await this.licenseNameInput.fill(this.licenseNameUpdate)
+        await this.elements.licenseNameInput().clear()
+        await this.elements.licenseNameInput().fill(this.elements.licenseNameUpdate())
     }
 
     async verifyErrorRequired() {
-        await expect(this.errorRequired).toBeVisible()
+        await expect(this.elements.errorRequired()).toBeVisible()
     }
 
     async verifyRecordAdded() {
-        await expect(this.recordItemNameLast).toHaveText(this.licenseName)
+        await expect(this.elements.recordItemNameLast()).toHaveText(this.elements.licenseName())
     }
 
     async verifyRecordUpdated() {
-        await expect(this.recordItemNameLast).toHaveText(this.licenseNameUpdate)
+        await expect(this.elements.recordItemNameLast()).toHaveText(this.elements.licenseNameUpdate())
     }
 
     async verifyRecordDeleted() {
-        await expect(this.page.locator(`//div[text()="${this.licenseNameUpdate}"]`)).toBeHidden()
+        await expect(this.page.locator(`//div[text()="${this.elements.licenseNameUpdate}"]`)).toBeHidden()
     }
 
     async verifyActionsBtn() {
-        await expect(this.deleteBtn).toBeVisible()
-        await expect(this.editBtn).toBeVisible()
+        await expect(this.elements.deleteBtn()).toBeVisible()
+        await expect(this.elements.editBtn()).toBeVisible()
     }
 
     async clickDeleteBtn() {
-        await this.deleteBtn.click()
+        await this.elements.deleteBtn().click()
     }
 
     async clickEditBtn() {
-        await this.editBtn.click()
+        await this.elements.editBtn().click()
     }
 
     async dimissDialog() {
-        await this.dialogDismissBtn.click()
+        await this.elements.dialogDismissBtn().click()
     }
 
     async verifyDialogDismissed() {
-        await expect(this.dialog).toBeHidden()
+        await expect(this.elements.dialog()).toBeHidden()
     }
 
     async verifyDialog() {
-        await expect(this.dialogTitle).toHaveText('Are you Sure?')
-        await expect(this.dialogMsg).toHaveText('The selected record will be permanently deleted. Are you sure you want to continue?')
-        await expect(this.dialogCancelBtn).toContainText('No, Cancel')
-        await expect(this.dialogYesBtn).toContainText('Yes, Delete')
+        await expect(this.elements.dialogTitle()).toHaveText('Are you Sure?')
+        await expect(this.elements.dialogMsg()).toHaveText('The selected record will be permanently deleted. Are you sure you want to continue?')
+        await expect(this.elements.dialogCancelBtn()).toContainText('No, Cancel')
+        await expect(this.elements.dialogYesBtn()).toContainText('Yes, Delete')
     }
 
     async clickDialogCancelBtn() {
-        await this.dialogCancelBtn.click()
+        await this.elements.dialogCancelBtn().click()
     }
 
     async clickDialogDeleteBtn() {
-        await this.dialogYesBtn.click()
+        await this.elements.dialogYesBtn().click()
     }
 }
