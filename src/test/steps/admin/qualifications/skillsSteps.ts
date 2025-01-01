@@ -25,3 +25,11 @@ Then ("new skill is added successfully", {timeout:2000}, async()=>{
     const skillPage = new SkillPage(pageFixture.adminPage);
     await skillPage.afterCreateNewSkill();
 });
+When ("Update an existing skill successfully", {timeout: 20000}, async()=>{
+    const skillPage = new SkillPage(pageFixture.adminPage);
+    await skillPage.updateLevel();
+});
+Then ("the skill is updated successfully", {timeout:20000}, async()=>{
+    const skillPage = new SkillPage(pageFixture.adminPage);
+    await skillPage.afterupdateSkill();
+});
