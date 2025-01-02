@@ -23,7 +23,7 @@ When("User clicks Add button for Licenses", async() => {
     await licensesPage.clickAddBtn()
 })
 When("User input valid data for Licenses", async() => {
-    await licensesPage.addLicense()
+    await licensesPage.inputLicense()
 })
 When("User clicks Cancel button after data input for Licenses", async() => {
     await licensesPage.clickCancelBtn()
@@ -49,6 +49,9 @@ Then("New license record is created", async() => {
 // QL_05: Update new license record
 When("User clicks Edit button for Licenses", async() => {
     await licensesPage.clickEditBtn()
+})
+When("User update valid data for Licenses", async() => {
+    await licensesPage.updateLicense()
 })
 Then("License record is updated for Licenses", async() => {
     await licensesPage.waitForRecordItem()
@@ -82,5 +85,6 @@ When("User clicks Yes in delete dialog for Licenses", async() => {
 })
 Then("Delete confirmation dialog disappears & record is deleted for Licenses", async() => {
     await licensesPage.verifyDialogDismissed()
+    await licensesPage.waitForRecordItem()
     await licensesPage.verifyRecordDeleted()
 })

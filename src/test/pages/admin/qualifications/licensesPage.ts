@@ -7,11 +7,16 @@ export class LicensesPage {
     readonly page: Page
     readonly licenseNamePrefix: string
     readonly licenseNameUpdateSuffix: string
+    readonly licenseName: string
+    readonly licenseNameUpdate: string
+    static readonly randomNum: number = LicensesPage.generateRandomNumber(5)
 
     constructor(page: Page) {
         this.page = page
         this.licenseNamePrefix = 'Demo License '
         this.licenseNameUpdateSuffix = ' Update'
+        this.licenseName = this.licenseNamePrefix + LicensesPage.randomNum
+        this.licenseNameUpdate = this.licenseName + this.licenseNameUpdateSuffix
     }
 
     elements = {
@@ -26,41 +31,24 @@ export class LicensesPage {
         saveBtn: () => this.page.locator('button[type="submit"]'),
         errorRequired: () => this.page.locator('span', { hasText: 'Required' }),
         deleteBtn: (text: string) => this.page.locator(`//div[text()="${text}"]/../following-sibling::div/descendant::button[1]`),
+        deleteBtnWait: (text: string) => this.page.waitForSelector(`//div[text()="${text}"]/../following-sibling::div/descendant::button[1]`),
         editBtn: (text: string) => this.page.locator(`//div[text()="${text}"]/../following-sibling::div/descendant::button[2]`),
+        editBtnWait: (text: string) => this.page.waitForSelector(`//div[text()="${text}"]/../following-sibling::div/descendant::button[2]`),
         recordItemNameSpecific: (text: string) => this.page.locator(`//div[text()="${text}"]`),
         recordItemName: (index: number) => this.page.locator(`(//div[@role="row"])[${index}]/div[2]`),
         recordTable: () => this.page.locator('//div[@role="table"]'),
         dialog: () => this.page.locator('//div[@role="document"]'),
         dialogTitle: () => this.page.locator('//div[@role="document"]/descendant::p[1]'),
         dialogMsg: () => this.page.locator('//div[@role="document"]/descendant::p[2]'),
-        dialogDismissBtn: () => this.page.locator('button', { hasText: '×' }),
+        dialogDismissBtn: () => this.page.locator('(//div[@role="document"]//button)[1]'),
         dialogCancelBtn: () => this.page.locator('//div[@role="document"]/descendant::button[2]'),
         dialogYesBtn: () => this.page.locator('//div[@role="document"]/descendant::button[3]'),
-        randomNum: () => this.generateRandomNumber(5),
-        licenseName: () => this.generateLicenseName(),
         recordNumText: () => this.page.locator('//hr[@role="separator"]/following-sibling::div/span'),
-        licenseNameUpdate: () => this.generateLicenseNameUpdate(),
         recordItems: () => this.page.locator('(//div[@role="rowgroup"])[2]/div'),
     }
 
-    generateRandomNumber(length: number): string {
-        const digits = "0123456789"; // Only contains number is 0-9
-        let randomNum = ""
-        for (let i = 0; i < length; i++) {
-          const randomIndex = Math.floor(Math.random() * digits.length)
-          randomNum += digits[randomIndex]
-        }
-        return randomNum
-    }
-
-    generateLicenseName() {
-        let licenseName = this.licenseNamePrefix + this.elements.randomNum()
-        return licenseName
-    }
-
-    generateLicenseNameUpdate() {
-        let licenseNameUpdate = this.elements.licenseName() + this.licenseNameUpdateSuffix
-        return licenseNameUpdate
+    private static generateRandomNumber(length: number): number {
+        return Math.floor(Math.random() * Math.pow(10, length));
     }
 
     getRecordNumText() {
@@ -104,13 +92,15 @@ export class LicensesPage {
         await expect(this.elements.saveBtn()).toBeVisible()
     }
 
-    async addLicense() {
-        await this.elements.licenseNameInput().fill(this.elements.licenseName())
+    async inputLicense() {
+        await this.elements.licenseNameInput().fill(this.licenseName)
+        
     }
 
     async updateLicense() {
+        await this.elements.licenseNameInput().click()
         await this.elements.licenseNameInput().clear()
-        await this.elements.licenseNameInput().fill(this.elements.licenseNameUpdate())
+        await this.elements.licenseNameInput().fill(this.licenseNameUpdate)
     }
 
     async verifyErrorRequired() {
@@ -126,7 +116,7 @@ export class LicensesPage {
         const itemsCount = await this.elements.recordItems().count()
         for (let i = 2; i <= itemsCount; i++) {
             const text = await this.elements.recordItemName(i).innerText()
-            if (text === this.elements.licenseName()) {
+            if (text === this.licenseName) {
                 isAdded = true
                 break
             }
@@ -138,7 +128,7 @@ export class LicensesPage {
         const itemsCount = await this.elements.recordItems().count()
         for (let i = 2; i <= itemsCount; i++) {
             const text = await this.elements.recordItemName(i).innerText()
-            if (text === this.elements.licenseNameUpdate()) {
+            if (text === this.licenseNameUpdate) {
                 isUpdated = true
                 break
             }
@@ -146,20 +136,22 @@ export class LicensesPage {
     }
 
     async verifyRecordDeleted() {
-        await expect(this.elements.recordItemNameSpecific(this.elements.licenseNameUpdate())).toBeHidden()
+        await expect(this.elements.recordItemNameSpecific(this.licenseNameUpdate)).toBeHidden()
     }
 
     async verifyActionsBtn() {
-        await expect(this.elements.deleteBtn(this.elements.licenseName())).toBeVisible()
-        await expect(this.elements.editBtn(this.elements.licenseName())).toBeVisible()
+        await expect(this.elements.deleteBtn(this.licenseName)).toBeVisible()
+        await expect(this.elements.editBtn(this.licenseName)).toBeVisible()
     }
 
     async clickDeleteBtn() {
-        await this.elements.deleteBtn(this.elements.licenseNameUpdate()).click()
+        await this.elements.deleteBtnWait(this.licenseNameUpdate)
+        await this.elements.deleteBtn(this.licenseNameUpdate).click()
     }
 
     async clickEditBtn() {
-        await this.elements.editBtn(this.elements.licenseName()).click()
+        await this.elements.editBtnWait(this.licenseName)
+        await this.elements.editBtn(this.licenseName).click()
     }
 
     async dimissDialog() {
