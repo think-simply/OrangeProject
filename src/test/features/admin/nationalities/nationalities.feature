@@ -19,7 +19,7 @@ Feature: Nationalities in Admin Menu
       | name       |
       | NationTest |
 
-  @high
+  @high @now
   Scenario: NA_03: Update a nationality
     When User clicks Update icon for Nationality with name "<name>"
     And User updates data for Nationality

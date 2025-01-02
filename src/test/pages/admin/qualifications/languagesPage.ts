@@ -32,8 +32,8 @@ export default class LanguagesAdminPage {
         confirmDeletePopup: () => this.page.locator('div.orangehrm-dialog-popup'),
         yesBtn: () => this.page.locator('//button[text()=" Yes, Delete "]'),
         deleteToastSuccess: () => this.page.locator('//p[text()="Successfully Deleted"]'),
-        checkbox1: () => this.page.locator(`//div[text()="${flexibleValue}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//div[@class="oxd-checkbox-wrapper"]`),
-        checkbox2: () => this.page.locator(`//div[text()="${flexibleValue2}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//div[@class="oxd-checkbox-wrapper"]`),
+        checkboxForData1: () => this.page.locator(`//div[text()="${flexibleValue}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//div[@class="oxd-checkbox-wrapper"]`),
+        checkboxForData2: () => this.page.locator(`//div[text()="${flexibleValue2}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//div[@class="oxd-checkbox-wrapper"]`),
         deleteBtn: () => this.page.locator('button i.bi-trash-fill'),
         languageData: () => this.elements.allNameTable().locator(`//div[text()="${flexibleValue}"]`),
         languageData2: () => this.elements.allNameTable().locator(`//div[text()="${flexibleValue2}"]`),
@@ -198,8 +198,8 @@ export default class LanguagesAdminPage {
         await this.elements.iconTable().nth(0).waitFor();
 
         //select checkboxes
-        await this.elements.checkbox1().click();
-        await this.elements.checkbox2().click();
+        await this.elements.checkboxForData1().click();
+        await this.elements.checkboxForData2().click();
     }
     async clickDeleteButton(){
         await this.elements.deleteBtn().click();

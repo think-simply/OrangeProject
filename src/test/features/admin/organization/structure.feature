@@ -15,7 +15,7 @@ Feature: Organization_Structure in Admin Menu
     And User clicks Save button
     Then New organization unit has been created
 
-  @high @tructure @demo @now
+  @high @tructure @demo 
   Scenario: ST_03: Edit Organization
     When User clicks Edit button
     And User updates data
