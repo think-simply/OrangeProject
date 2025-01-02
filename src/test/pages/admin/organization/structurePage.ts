@@ -5,189 +5,133 @@ dotenv.config();
 
 let nameTest: string = "";
 let inputIDTest: string = "";
-let dataTest1: string ="";
+let flexibleData: string = "";
 
 export default class StructureAdminPage {
   readonly page: Page;
-  readonly adminSection: Locator;
-  readonly structureItem: Locator;
-  readonly organizationItem: Locator;
-  //-------------------
-  readonly mainTitle: Locator;
-  readonly editToggle: Locator;
-  readonly addBtn: Locator;
-  readonly addOrgDialog: Locator;
-  readonly inputUnitId: Locator;
-  readonly inputName: Locator;
-  readonly saveBtn: Locator;
-  readonly successToast: Locator;
-  readonly treeNodes: Locator;
-  readonly editOrgDialog: Locator;
-  readonly deletePopup: Locator;
-  readonly yesBtn: Locator;
-  readonly deleteToast: Locator;
-
   constructor(page: Page) {
     this.page = page;
-    this.organizationItem = page.locator('//span[text()="Organization "]');
-    this.adminSection = page.locator('//span[text()="Admin"]');
-    this.mainTitle = page.locator('//h6[text()="Organization Structure"]');
-    this.structureItem = page.locator('//a[@class="oxd-topbar-body-nav-tab-link" and text()="Structure"]');
-    this.editToggle = page.locator("div.oxd-switch-wrapper");
-    this.addBtn = page.locator("button.org-structure-add");
-    this.addOrgDialog = page.locator("div.orangehrm-dialog-modal");
-    this.inputUnitId = page.locator('//label[text()="Unit Id"]/following::input[1]');
-    this.inputName = page.locator('//label[text()="Name"]/following::input[1]');
-    this.saveBtn = page.locator('button[type="submit"]');
-    this.successToast = page.locator("div.oxd-toast-content--success");
-    this.treeNodes = page.locator("div.oxd-tree-node-content div.org-structure-card");
-    this.editOrgDialog = page.locator('//div[@class="orangehrm-modal-header"]/p[text()="Edit Organization Unit"]');
-    this.deletePopup = page.locator(
-      '//div[@class="oxd-dialog-container-default--inner"]//div[@class="orangehrm-modal-header"]/p[text()="Are you Sure?"]'
-    );
-    this.yesBtn = page.locator("div.orangehrm-modal-footer button i.bi-trash");
-    this.deleteToast = page.locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]');
   }
-  async visit() {
-    await this.page.goto(`${process.env.WEB_URL}`);
+  elements = {
+    organizationItem: () => this.page.locator('//span[text()="Organization "]'),
+    adminSection: () => this.page.locator('//span[text()="Admin"]'),
+    mainTitle: () => this.page.locator('//h6[text()="Organization Structure"]'),
+    structureItem: () => this.page.locator('//a[@class="oxd-topbar-body-nav-tab-link" and text()="Structure"]'),
+    editToggle: () => this.page.locator("div.oxd-switch-wrapper"),
+    plusIcon: (dataName: string) => this.page.locator(`//div[text()="${dataName}"]/following-sibling::div//i[@class="oxd-icon bi-plus"]`),
+    editIcon: (dataName: string) => this.page.locator(`//div[text()="${dataName}"]/following-sibling::div//i[@class="oxd-icon bi-pencil-fill"]`),
+    addBtn: () => this.page.locator("button.org-structure-add"),
+    addOrgDialog: () => this.page.locator("div.orangehrm-dialog-modal"),
+    inputUnitId: () => this.page.locator('//label[text()="Unit Id"]/following::input[1]'),
+    inputName: () => this.page.locator('//label[text()="Name"]/following::input[1]'),
+    saveBtn: () => this.page.locator('button[type="submit"]'),
+    successToast: () => this.page.locator("div.oxd-toast-content--success"),
+    treeNodes: () => this.page.locator("div.oxd-tree-node-content div.org-structure-card"),
+    editOrgDialog: () => this.page.locator('//div[@class="orangehrm-modal-header"]/p[text()="Edit Organization Unit"]'),
+    deleteIcon:(dataName: string) => this.page.locator(`//div[text()="${dataName}"]/following-sibling::div//i[@class="oxd-icon bi-trash-fill"]`),
+    deletePopup: () => this.page.locator('//div[@class="oxd-dialog-container-default--inner"]//div[@class="orangehrm-modal-header"]/p[text()="Are you Sure?"]'),
+    yesBtn: () => this.page.locator("div.orangehrm-modal-footer button i.bi-trash"),
+    deleteToast: () => this.page.locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]'),
   }
-  async accessOrganization() {
-    await this.adminSection.click();
-    await this.organizationItem.click();
-  }
+
   async accessStructure() {
-    await this.structureItem.click();
+    await this.page.goto(`${process.env.WEB_URL}`);
+    await this.elements.adminSection().click();
+    await this.elements.organizationItem().click();
+    await this.elements.structureItem().click();
   }
   async checkStructureUI() {
-    await expect(this.mainTitle).toBeVisible();
+    await expect(this.elements.mainTitle()).toBeVisible();
   }
   async changeToAddMode() {
-    await this.editToggle.click();
-    await this.addBtn.click();
-    await expect(this.addOrgDialog).toBeVisible();
+    await this.elements.editToggle().click();
+    await this.elements.addBtn().click();
+    await expect(this.elements.addOrgDialog()).toBeVisible();
   }
   async inputData() {
     inputIDTest = generateRandomName(5);
-    await this.inputUnitId.fill(inputIDTest);
+    await this.elements.inputUnitId().fill(inputIDTest);
     nameTest = generateRandomName(8);
-    await this.inputName.fill(nameTest);
+    await this.elements.inputName().fill(nameTest);
+    flexibleData = inputIDTest + ": " + nameTest;
   }
   async clickSaveButton() {
-    await this.saveBtn.click();
-    await expect(this.successToast, "Could not Save data").toBeVisible();
+    await this.elements.saveBtn().click();
+    await expect(this.elements.successToast()).toBeVisible();
+  }
+  async verifyData(dataTest: string){
+    await this.page.waitForTimeout(5000); //time to wait for adding done
+    const nodeCount = await this.elements.treeNodes().count();
+    let isMatch = false;
+    for (let i = 0; i < nodeCount; i++) {
+      const nodeValue = await this.elements.treeNodes().nth(i).first().textContent();
+      if (nodeValue.trim().toLowerCase() === dataTest.toLowerCase()) {
+        isMatch = true;
+        return;
+      }
+    }
+    expect(isMatch = true, "Unsuccessfully!");
   }
   async verifyNewOrganizationCreated() {
-    //Wait until created data are displaying all
-    await this.page.waitForTimeout(5000);
-    //Start to check
-    const nodeCount = await this.treeNodes.count();
-    expect(nodeCount).toBeGreaterThan(0);
-    const dataTest = inputIDTest + ": " + nameTest;
-    let isMatch = false;
-    for (let i = 0; i < nodeCount; i++) {
-      const nodeValue = await this.treeNodes.nth(i).first().textContent();
-      if (nodeValue.trim().toLowerCase() === dataTest.toLowerCase()) {
-        isMatch = true;
-      }
-    }    
+    await this.verifyData(flexibleData);
   }
   async clickEditButton() {
+    //Create new data to edit
     await this.changeToAddMode();
     await this.inputData();
     await this.clickSaveButton();
-    const dataTest = inputIDTest + ": " + nameTest;
-    const editIcon =
-      '//div[text()="' +
-      dataTest +
-      '"]/following-sibling::div//i[@class="oxd-icon bi-pencil-fill"]';
-    await this.page.locator(editIcon).click();
-    await expect(this.editOrgDialog).toBeVisible();
+
+    //Click edit icon
+    await this.elements.editIcon(flexibleData).click();
+    await expect(this.elements.editOrgDialog()).toBeVisible();
   }
   async verifyOrganizationUpdated() {
-    await this.clickSaveButton();
-    await this.page.waitForTimeout(5000);
-
-    const nodeCount = await this.treeNodes.count();
-    expect(nodeCount).toBeGreaterThan(0);
-    const dataTest = inputIDTest + ": " + nameTest;
-
-    let isMatch = false;
-    for (let i = 0; i < nodeCount; i++) {
-      const nodeValue = await this.treeNodes.nth(i).first().textContent();
-      if (nodeValue.trim().toLowerCase() === dataTest.toLowerCase()) {
-        isMatch = true;
-      }
-    }
+    const updatedData = flexibleData;
+    await this.verifyData(updatedData);
   }
   async clickDeleteIcon() {
+    //Create new data to edit
     await this.changeToAddMode();
     await this.inputData();
     await this.clickSaveButton();
-    const dataTest = inputIDTest + ": " + nameTest;
-    const deleteIcon =
-      '//div[text()="' +
-      dataTest +
-      '"]/following-sibling::div//i[@class="oxd-icon bi-trash-fill"]';
-    await this.page.locator(deleteIcon).click();
-    await expect(this.deletePopup).toBeVisible();
-    await this.yesBtn.click();
+
+    //Click Delete Icon
+    await this.elements.deleteIcon(flexibleData).click();
+    await expect(this.elements.deletePopup()).toBeVisible();
+    await this.elements.yesBtn().click();
   }
   async verifyOrganizationDeleted() {
-    await expect(this.deleteToast).toBeVisible();
+    await expect(this.elements.deleteToast()).toBeVisible();
+    //Verify deleted successfully
     await this.page.waitForTimeout(5000);
-
-    const nodeCount = await this.treeNodes.count();
-    const dataTest = inputIDTest + ": " + nameTest;
+    const nodeCount = await this.elements.treeNodes().count();
     let isMatch = false;
     for (let i = 0; i < nodeCount; i++) {
-      const nodeValue = await this.treeNodes.nth(i).first().textContent();
-      if (nodeValue.trim().toLowerCase() === dataTest.toLowerCase()) {
+      const nodeValue = await this.elements.treeNodes().nth(i).first().textContent();
+      if (nodeValue.trim().toLowerCase() === flexibleData.toLowerCase()) {
         isMatch = true;
+        return;
       }
     }
+    expect(isMatch = false, "Unsuccessfully!");
   }
   async clickAddSubOrganizationIcon() {
+    //Create new data to edit
     await this.changeToAddMode();
     await this.inputData();
     await this.clickSaveButton();
-    dataTest1 = inputIDTest + ": " + nameTest;
-    const plusIcon =
-      '//div[text()="' +
-      dataTest1 +
-      '"]/following-sibling::div//i[@class="oxd-icon bi-plus"]';
-    await this.page.locator(plusIcon).click();
-    await expect(this.addOrgDialog).toBeVisible();
+
+    //Click plusIcon
+    await this.elements.plusIcon(flexibleData).click();
+    await expect(this.elements.addOrgDialog()).toBeVisible();
   }
   async inputSubData() {
     inputIDTest = generateRandomName(5);
-    await this.inputUnitId.fill(inputIDTest);
+    await this.elements.inputUnitId().fill(inputIDTest);
     nameTest = generateRandomName(8);
-    await this.inputName.fill(nameTest);
+    await this.elements.inputName().fill(nameTest);
   }
   async verifySubOrganizationCreated() {
-    await expect(this.successToast).toBeVisible();
-    const expandIcon =
-      '//div[text()="' +
-      dataTest1 +
-      '"]/ancestor::div[@class="oxd-tree-node-content"]/preceding-sibling::span//i[@class="oxd-icon bi-chevron-down"]';
-    await this.page.locator(expandIcon).click();
-    //Check subitem is created
-    const subdataTest = inputIDTest + ": " + nameTest;
-    const nodeChilds =
-      '//div[text()="' +
-      dataTest1 +
-      '"]/ancestor::div[@class="--parent --open --last oxd-tree-node-wrapper"]/following-sibling::ul/li//div[@class="org-name"]';
-    const nodeCount = await this.page.locator(nodeChilds).count();
-    let isMatch = false;
-    for (let i = 0; i < nodeCount; i++) {
-      const nodeValue = await this.page
-        .locator(nodeChilds)
-        .nth(i)
-        .textContent();
-      if (nodeValue.trim().toLowerCase() === subdataTest.toLowerCase()) {
-        isMatch = true;
-      }
-    }
+    await expect(this.elements.successToast()).toBeVisible();
   }
-  
 }

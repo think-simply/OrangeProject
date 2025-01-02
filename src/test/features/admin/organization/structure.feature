@@ -1,3 +1,4 @@
+@Structure
 Feature: Organization_Structure in Admin Menu
 
   Background:
@@ -14,19 +15,19 @@ Feature: Organization_Structure in Admin Menu
     And User clicks Save button
     Then New organization unit has been created
 
-  @high @tructure @demo
+  @high @tructure @demo @now
   Scenario: ST_03: Edit Organization
     When User clicks Edit button
     And User updates data
     And User clicks Save button
     Then Organization has been updated
 
-  @high @tructure @demo
+  @high @tructure @demo 
   Scenario: ST_04: Delete Organization
     When User clicks Delete icon
     Then Organization has been deleted
 
-  @medium @tructure @demo
+  @medium @tructure @demo 
   Scenario: ST_05: Add a sub Organization
     When User clicks + icon from an organization
     And User inputs valid subdata

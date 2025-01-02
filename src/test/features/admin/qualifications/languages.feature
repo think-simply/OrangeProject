@@ -15,7 +15,7 @@ Feature: Manage Languages - Qualifications
     And Click Save button for Language
     Then New language has been created
 
-  @high @now
+  @high 
   Scenario: LA_03: Update a Language
     When User clicks Update icon for Language has name "LanguageToUpdate"
     And User updates data for Language
