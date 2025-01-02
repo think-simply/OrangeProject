@@ -27,7 +27,7 @@ Then("new Education level is created successfully", { timeout: 20000 }, async ()
   const educationPage = new EducationPage(pageFixture.adminPage);
   await educationPage.AftercreateEduLevel();
 });
-When("user updates an exisiting level",{timeout:20000},async()=>{
+When("user updates an existing level",{timeout:20000},async()=>{
   const educationPage= new EducationPage(pageFixture.adminPage);
   await educationPage.updateLevel();
 });
