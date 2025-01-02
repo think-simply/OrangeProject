@@ -23,7 +23,8 @@ Feature: Licenses in Admin > Qualifications menu
 
     @high
     Scenario: QL_04: Add new license record -> Save
-        When User input valid data for Licenses
+        When User clicks Add button for Licenses
+        And User input valid data for Licenses
         And User clicks Save button after data input for Licenses
         Then New license record is created
 

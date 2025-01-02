@@ -1,14 +1,16 @@
-import { Given, Then, When, Before } from "@cucumber/cucumber";
-import { QualificationsLicensesPage } from "../../../pages/admin/qualifications/licensesPage";
+import { Given, Then, When, BeforeStep } from "@cucumber/cucumber";
+import { LicensesPage } from "../../../pages/admin/qualifications/licensesPage";
 import { pageFixture } from "../../../../hooks/pageFixture";
-let licensesPage: QualificationsLicensesPage
+let licensesPage: LicensesPage;
 
 // Pre-condition
-Before(async () => {
-    licensesPage = new QualificationsLicensesPage(pageFixture.page)
+BeforeStep(async () => {
+    licensesPage = new LicensesPage(pageFixture.adminPage)
 })
 Given("User go to Qualifications > Licenses page", async() => {
-    await licensesPage.accessLicenses()
+    await licensesPage.visit()
+    await licensesPage.clickAdminSection()
+    await licensesPage.visitQualificationsLicenses()
 })
 
 // QL_01: Verify UI of Licenses page
@@ -31,9 +33,6 @@ Then("User is taken back to Licenses page", async() => {
 })
 
 // QL_03: Add new license record -> Empty input
-When("User clicks Add button for Licenses", async() => {
-    await licensesPage.clickAddBtn()
-})
 When("User clicks Save button after data input for Licenses", async() => {
     await licensesPage.clickSaveBtn()
 })
@@ -42,13 +41,8 @@ Then("Error message appears for required field for Licenses", async() => {
 })
 
 // QL_04: Add new license record -> Save
-When("User input valid data for Licenses", async() => {
-    await licensesPage.addLicense()
-})
-When("User clicks Save button after data input for Licenses", async() => {
-    await licensesPage.clickSaveBtn()
-})
 Then("New license record is created", async() => {
+    await licensesPage.waitForRecordItem()
     await licensesPage.verifyRecordAdded()
 })
 
@@ -56,13 +50,8 @@ Then("New license record is created", async() => {
 When("User clicks Edit button for Licenses", async() => {
     await licensesPage.clickEditBtn()
 })
-When("User input valid data for Licenses", async() => {
-    await licensesPage.updateLicense()
-})
-When("User clicks Save button after data input for Licenses", async() => {
-    await licensesPage.clickSaveBtn()
-})
 Then("License record is updated for Licenses", async() => {
+    await licensesPage.waitForRecordItem()
     await licensesPage.verifyRecordUpdated()
 })
 
@@ -86,14 +75,8 @@ Then("Delete confirmation dialog disappears for Licenses", async() => {
 When("User clicks Cancel button for Licenses", async() => {
     await licensesPage.clickDialogCancelBtn()
 })
-Then("Delete confirmation dialog disappears for Licenses", async() => {
-    await licensesPage.verifyDialogDismissed()
-})
 
 // QL_09: Delete dialog -> Delete
-When("User clicks Delete button for Licenses", async() => {
-    await licensesPage.clickDeleteBtn()
-})
 When("User clicks Yes in delete dialog for Licenses", async() => {
     await licensesPage.clickDialogDeleteBtn()
 })
