@@ -2,13 +2,17 @@ import { Given, When, Then } from "@cucumber/cucumber";
 import { pageFixture } from "../../../../hooks/pageFixture";
 import PayGradePage from "../../../pages/admin/job/payGrades";
 
+When("User go to Pay Grade page", async() => {
+    const payGradePage = new PayGradePage(pageFixture.adminPage);
+    await payGradePage.goToPayGradePage()
+})
 When("User create Pay Grade with Pay Grade Name: {string}", async (payGradeName) => {
     const payGradePage = new PayGradePage(pageFixture.adminPage);
-    await payGradePage.accessToPayGradePage(payGradeName);
+    await payGradePage.userCreateNewPayGradePage(payGradeName);
 });
-Then("New Pay Grade has been created successfully", async () => {
+Then("New Pay Grade has been created successfully with name: {string}", async (payGradeName) => {
     const payGradePage = new PayGradePage(pageFixture.adminPage);
-    await payGradePage.verifyCreatePayGradeSuccessfully();
+    await payGradePage.verifyCreatePayGradeSuccessfully(payGradeName);
 });
 When("User update Pay Grade from Pay Grade Name: {string} to {string}", async (payGradeName, newPayGrade) => {
     const payGradePage = new PayGradePage(pageFixture.adminPage);

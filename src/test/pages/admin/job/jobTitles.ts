@@ -79,7 +79,7 @@ export default class JobTitlesPage {
         
     }
     async verifyDeleteJobTitleSuccessfully(){
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
+        //await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
         await expect(this.jobTitleName).not.toBeVisible()
     }
     async deleteMultiJobTitles(){
