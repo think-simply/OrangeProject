@@ -3,16 +3,38 @@ Feature: Functions in Admin Menu
     Background:
         Given User navigates to page
 
-    @high @payGrade
-    Scenario: PG_02: Admin add,update and delete pay grade
-        When User create Pay Grade with Pay Grade Name: "Hoa test 52"
-        Then New Pay Grade has been created successfully
-        When User update Pay Grade from Pay Grade Name: "Hoa test 52" to "Hoa test 53"
-        Then Pay Grade has been updated successfully to "Hoa test 53"
-        When User delete Pay Grade from Pay Grade Name: 'Hoa test 53'
-        Then Pay Grade has been deleted successfully with Pay Grade Name: 'Hoa test 53'
+    @high @payGrade @addPayGrade
+    Scenario: PG_02: Admin add new pay grade
+        When User create Pay Grade with Pay Grade Name: "<payGradeName>"
+        And User go to Pay Grade page
+        Then New Pay Grade has been created successfully with name: "<payGradeName>"
+        When User delete Pay Grade from Pay Grade Name: "<payGradeName>"
+        Then Pay Grade has been deleted successfully with Pay Grade Name: "<payGradeName>"
 
-#   @high @payGrade
-#   Scenario: PG_03: Admin edit new pay grade
-#     And User update Pay Grade from Pay Grade Name: "Name 1" to Pay Grade Name: "Name 2"
-#     Then New Pay Grade has been updated successfully
+
+        Examples:
+            | payGradeName        |
+            | Pay Grade name test |
+
+    @high @payGrade
+    Scenario: PG_03: Admin update a pay grade
+        When User create Pay Grade with Pay Grade Name: "<payGradeName>"
+        And User update Pay Grade from Pay Grade Name: "<payGradeName>" to "<newPayGrade>"
+        Then Pay Grade has been updated successfully to "<newPayGrade>"
+        When User delete Pay Grade from Pay Grade Name: "<newPayGrade>"
+        Then Pay Grade has been deleted successfully with Pay Grade Name: "<payGradeName>"
+
+        Examples:
+            | payGradeName             | newPayGrade                 |
+            | Pay Grade name test edit | Pay Grade name test updated |
+
+    @high @payGrade @delete
+    Scenario: PG_04: Admin delete a pay grade
+        When User create Pay Grade with Pay Grade Name: "<payGradeName>"
+        And User go to Pay Grade page
+        And User delete Pay Grade from Pay Grade Name: "<payGradeName>"
+        Then Pay Grade has been deleted successfully with Pay Grade Name: "<payGradeName>"
+
+        Examples:
+            | payGradeName               |
+            | Pay Grade name test delete |
