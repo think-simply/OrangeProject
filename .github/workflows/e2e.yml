@@ -2,6 +2,8 @@ name: Playwright Cucumber Tests
 concurrency:
   group: ${{ github.workflow }}
 on:
+  push:
+    branches: [main, develop]
   pull_request:
     branches: [main, develop]
 jobs:
@@ -21,10 +23,12 @@ jobs:
       - name: Run global file to get session login
         run: npx playwright test || true  
       - name: Run automated testcase with cucumber
-        run: npm run test -- --parallel 3
+        run: npm run test -- --parallel 5
         shell: bash
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          path: test-results/cucumber-report.*
+          path: |
+            test-results/cucumber-report.*
+            test-results/screenshots/*.png
         if: always()
