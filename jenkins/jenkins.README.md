@@ -13,10 +13,10 @@
     - [V. Install and Configure Jenkins](#v-install-and-configure-jenkins)
       - [Install Jenkins](#install-jenkins)
       - [Configure Jenkins](#configure-jenkins)
-    - [VI. Integrate Jenkins + GitHub](#vi-integrate-jenkins--github)
-      - [Configure GitHub](#configure-github)
+    - [VI. Configure Jenkins \& EC2](#vi-configure-jenkins--ec2)
       - [Install Git on EC2](#install-git-on-ec2)
-      - [Configure Jenkins](#configure-jenkins-1)
+      - [Create the first Jenkins job](#create-the-first-jenkins-job)
+      - [Configure storage on EC2](#configure-storage-on-ec2)
 
 ## Goals
 
@@ -227,16 +227,7 @@ Feature | Jenkins | GitHub Actions
     ![alt text](image-12.png)
 18. Once connection is success, click **Save**.
 
-### VI. Integrate Jenkins + GitHub
-
-#### Configure GitHub
-
-1. Go to GitHub repository, click **Settings**
-2. In the sidebar, click **Webhooks**, click **Add webhook**
-3. In the **Payload URL** field, paste your Jenkins environment URL. At the end of this URL add `/github-webhook/`. In the **Content type** select: `application/json` and leave the **Secret** field empty.
-   ![alt text](image-13.png)
-4. In the page **Which events would you like to trigger this webhook?** choose **Let me select individual events**.
-5. Then, check **Pull Requests** and **Pushes**. At the end of this option, make sure that the **Active** option is checked and click on **Add webhook**
+### VI. Configure Jenkins & EC2
 
 #### Install Git on EC2
 
@@ -253,7 +244,7 @@ Feature | Jenkins | GitHub Actions
    which git
    ```
 
-#### Configure Jenkins
+#### Create the first Jenkins job
 
 1. In Jenkins, navigate to **Dashboard**, click **New Item**
 2. Name the item, select **Freestyle project**, click **OK**
@@ -262,3 +253,18 @@ Feature | Jenkins | GitHub Actions
 5. Click **Build Triggers** tab, check **GitHub hook trigger for GITScm polling**
 6. Convert .yml GitHub Actions file to Jenkinsfile, move the file to root directory
 7. Click **Save**
+
+#### Configure storage on EC2
+
+1. In Jenkins, navigate to **Dashboard** > **Manage Jenkins** > **Nodes**
+2. Check Free space: if you don't see any warnings, skip the following steps. If you do, proceed with the following steps:
+   ![alt text](msedge_25-01-03_163927266.png)
+3. Go to AWS, navigate to **EC2** > **Instances**, select your active instance
+4. Click Storage tab, click Volume ID under Block devices
+   ![alt text](msedge_25-01-03_164106845.png)
+5. Select volume, click **Actions** > **Modify volume**
+6. Change the size in GB, click **Modify**
+   <br>***Tips**: Make sure to check AWS storage pricing model before increasing storage size at https://aws.amazon.com/ebs/pricing/?nc1=h_ls*
+7. In the warning popup, click **Modify**
+8. Wait until modifying process completes
+9. Navigate to **Instances**, select active instance, click **Instance state** > **Reboot instance**
