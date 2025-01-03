@@ -5,55 +5,55 @@ Feature: Licenses in Admin > Qualifications menu
         Given User go to Qualifications > Licenses page
 
     @low
-    Scenario: QL_01: Verify UI of Licenses page
+    Scenario: QL-01 - Verify UI of Licenses page
         Then UI of Licenses page is displayed as expected
 
     @medium
-    Scenario: QL_02: Add new license record -> Cancel
+    Scenario: QL-02 - Add new license record then Cancel
         When User clicks Add button for Licenses
         And User input valid data for Licenses
         And User clicks Cancel button after data input for Licenses
         Then User is taken back to Licenses page
 
     @medium
-    Scenario: QL_03: Add new license record -> Empty input
+    Scenario: QL-03 - Add new license record then Empty input
         When User clicks Add button for Licenses
         And User clicks Save button after data input for Licenses
         Then Error message appears for required field for Licenses
 
     @high
-    Scenario: QL_04: Add new license record -> Save
+    Scenario: QL-04 - Add new license record then Save
         When User clicks Add button for Licenses
         And User input valid data for Licenses
         And User clicks Save button after data input for Licenses
         Then New license record is created
 
     @high
-    Scenario: QL_05: Update new license record
+    Scenario: QL-05 - Update new license record
         When User clicks Edit button for Licenses
         And User update valid data for Licenses
         And User clicks Save button after data input for Licenses
         Then License record is updated for Licenses
 
     @low
-    Scenario: QL_06: Verify Delete dialog
+    Scenario: QL-06 - Verify Delete dialog
         When User clicks Delete button for Licenses
         Then Delete confirmation dialog appears as expected for Licenses
 
     @medium
-    Scenario: QL_07: Delete dialog -> Dismiss
+    Scenario: QL-07 - Delete dialog then Dismiss
         When User clicks Delete button for Licenses
         And User clicks Close button for Licenses
         Then Delete confirmation dialog disappears for Licenses
 
     @medium
-    Scenario: QL_08: Delete dialog -> Cancel
+    Scenario: QL-08 - Delete dialog then Cancel
         When User clicks Delete button for Licenses
         And User clicks Cancel button for Licenses
         Then Delete confirmation dialog disappears for Licenses
 
     @high
-    Scenario: QL_09: Delete dialog -> Delete
+    Scenario: QL-09 - Delete dialog then Delete
         When User clicks Delete button for Licenses
         And User clicks Yes in delete dialog for Licenses
         Then Delete confirmation dialog disappears & record is deleted for Licenses
