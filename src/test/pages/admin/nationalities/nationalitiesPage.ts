@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
+import { generateRandomNumber } from "../../../../helper/randomString";
 import exp from "constants";
 import dotenv from "dotenv";
 dotenv.config();
@@ -34,7 +35,7 @@ export default class NationalitiesAdminPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.randomNum = this.generateRandomNumber(3);
+        this.randomNum = generateRandomNumber(3);
         this.adminSection = page.locator('//span[text()="Admin"]');
         this.nationalitiesItem = page.locator('//a[text()="Nationalities"]');
         this.mainTitle = page.locator('div.orangehrm-header-container h6');
@@ -59,15 +60,6 @@ export default class NationalitiesAdminPage {
 
 
     }
-    generateRandomNumber(length: number): string {
-        const digits = "0123456789"; // Only contains number is 0-9
-        let randomNumber = "";
-        for (let i = 0; i < length; i++) {
-          const randomIndex = Math.floor(Math.random() * digits.length);
-          randomNumber += digits[randomIndex];
-        }
-        return randomNumber;
-      }
     async accessNationalities(){
         await this.page.goto(`${process.env.WEB_URL}`);
         await this.adminSection.click();
@@ -107,19 +99,11 @@ export default class NationalitiesAdminPage {
                 break; // Exit loop if no longer next page
             }
         }
-
     }
     async clickUpdateIcon(name: string){
         this.clickAddButton();
         this.inputNationalityData(name);
         this.clickSaveButton();
-        //The second way
-        //  we have 2 way to wait to count page number.
-        // 1 is use expect poll fn to wait until count greater than 1
-        // await expect.poll(async () => this.pageNumber.count(), {
-        //     timeout: 5000
-        // }).toBeGreaterThan(1);
-        // 2 is use waitFor fn to wait until the first page number to be visible on dom
         await this.pageNumber.nth(0).waitFor();
         const pageCount = await this.pageNumber.count();
         for (let i = 0; i < pageCount; i++) {
@@ -132,7 +116,7 @@ export default class NationalitiesAdminPage {
                 await flexibleUpdatedIcon.click();
                 await this.page.waitForTimeout(3000);
                 await expect(this.editTitle).toBeVisible();
-                return; //Found but still go to page 5???
+                return;
             }
             const isLastPage = i === pageCount - 1;
             if (isLastPage) {
@@ -142,7 +126,7 @@ export default class NationalitiesAdminPage {
     }
     async updateNationalityData(){
         flexibleValue2 = flexibleValue+this.randomNum
-        //await this.page.waitForTimeout(3000);
+        await expect(this.inputName).not.toHaveValue("");
         await this.inputName.fill(flexibleValue2);
     }
     async clickSaveForUpdate(){
