@@ -9,4 +9,3 @@ node_modules/
 index.html
 /playwright/.auth/
 @rerun.txt
-package-lock.json
