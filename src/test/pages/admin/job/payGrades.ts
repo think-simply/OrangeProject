@@ -7,9 +7,6 @@ export default class PayGradePage {
   constructor(page: Page) {
     this.page = page
   }
-        // //label[text()="Name"]/ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//input[@class="oxd-input oxd-input--active"]
-        // //label[text()='Name']/ancestor::div[contains(@class,'oxd-input-group')]//input[@class='oxd-input oxd-input--active']
-        // '//*[@id="app"]/div[1]/div[2]/div[2]/div[1]/div/form/div[1]/div/div/div/div[2]/input'
   element = {
     adminMenu: () => this.page.locator('//span[text()="Admin"]'),
     jobMenu: () => this.page.locator('//span[text()="Job "]'),
@@ -52,7 +49,6 @@ export default class PayGradePage {
     await this.element.nameInput().fill(payGradeName)
     await this.element.saveBtn().click({timeout: 30000})
     await expect(this.element.editTitlePage()).toBeVisible()
-    //await this.page.pause()
   }
   async verifyCreatePayGradeSuccessfully(payGradeName: string) {
     await expect(this.element.nameColumn(payGradeName)).toBeVisible()
