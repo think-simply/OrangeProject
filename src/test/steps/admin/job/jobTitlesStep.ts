@@ -1,57 +1,41 @@
-import { Given, When, Then } from "@cucumber/cucumber";
+import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
 import AdminMenuPage from "../../../pages/admin/userManagement/userPage";
 import JobTitlesPage from "../../../pages/admin/job/jobTitles";
 import { pageFixture } from "../../../../hooks/pageFixture";
 
-
-// Given("User navigates to page", { timeout: 30000 }, async () => {
-//     const adminMenuPage = new AdminMenuPage(pageFixture.page);
-//     await adminMenuPage.visit();
-// });
-// When("User logs in as Admin", { timeout: 30000 }, async () => {
-//     const adminMenuPage = new AdminMenuPage(pageFixture.page);
-//     await adminMenuPage.login();
-// });
-// Please remove comment after check login completed
+let jobTitlesPage: JobTitlesPage
+BeforeStep(async() => {
+    jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
+})
 When("User access job title page", async () => {
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
     await jobTitlesPage.userGoToJobTitles(); 
 });
 Then("Job title page has been displayed", async () => {
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
     await jobTitlesPage.verifyJobTitlesPage();
 });
-When("User create new job title", async () => {
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
-    await jobTitlesPage.createJobTitle(); 
+When("User create new job title with {string}", async (jobTitleName: string) => {
+    await jobTitlesPage.createJobTitle(jobTitleName); 
 });
-Then("New title has been created successfully", async () => {
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
-    await jobTitlesPage.verifyCreateJobTitleSuccessfully();
+Then("New title has been created successfully with {string}", async (jobTitleName: string) => {
+    await jobTitlesPage.verifyCreateJobTitleSuccessfully(jobTitleName);
 });
-When("User update an job title", async()=>{
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
-    await jobTitlesPage.updateJobTitles();
+When("User update an job title from {string} to {string}", async(jobTitleName: string, newName: string)=>{
+    await jobTitlesPage.updateJobTitles(jobTitleName,newName);
 })
-Then("Job title has been updated successfully", async () => {
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
-    await jobTitlesPage.verifyUpdateJobTitleSuccessfully();
+Then("Job title has been updated successfully with {string}", async (newName: string) => {
+    await jobTitlesPage.verifyUpdateJobTitleSuccessfully(newName);
 })
-When("User delete an job title", async()=>{
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
-    await jobTitlesPage.deleteJobTitles();
+When("User delete an job title: {string}", async(jobTitleName: string)=>{
+    await jobTitlesPage.deleteJobTitles(jobTitleName);
 })
-Then("Job title has been deleted successfully", async () => {
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
-    await jobTitlesPage.verifyDeleteJobTitleSuccessfully();
+Then("Job title has been deleted successfully: {string}", async (jobTitleName: string) => {
+    await jobTitlesPage.verifyDeleteJobTitleSuccessfully(jobTitleName);
 })
 When("User delete multi job title", async()=>{
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
     await jobTitlesPage.deleteMultiJobTitles();
 })
-Then("Job titles has been deleted successfully", async () => {
-    const jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
-    await jobTitlesPage.verifyDeleteMultiJobTitleSuccessfully();
+Then("Job titles has been deleted successfully: {string}", async (jobTitleName: string) => {
+    await jobTitlesPage.verifyDeleteMultiJobTitleSuccessfully(jobTitleName);
 })
 
 
