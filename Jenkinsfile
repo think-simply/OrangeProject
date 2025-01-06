@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Install pnpm') {
             steps {
-                sh 'npm install pnpm'
+                sh 'npm install -g pnpm'
             }
         }
         stage('Install Dependencies') {
