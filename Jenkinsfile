@@ -35,7 +35,7 @@ pipeline {
             steps {
                 sh 'pnpm install --save-dev @cucumber/cucumber'
             }
-        } */ */
+        } */
         stage('Run Global File to Get Session Login') {
             steps {
                 sh 'npx playwright test || true'
