@@ -16,6 +16,11 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Install pnpm') {
+            steps {
+                sh 'npm install pnpm'
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 sh 'pnpm install --frozen-lockfile'
@@ -38,7 +43,7 @@ pipeline {
         }
         stage('Run Automated Test Case with Cucumber') {
             steps {
-                sh 'npm run test -- --parallel 5'
+                sh 'pnpm run test -- --parallel 5'
             }
         }
         stage('Archive Test Results') {
