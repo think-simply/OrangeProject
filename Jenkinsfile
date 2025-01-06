@@ -51,6 +51,15 @@ pipeline {
                 archiveArtifacts artifacts: 'test-results/cucumber-report.*,test-results/screenshots/*.png', allowEmptyArchive: true
             }
         }
+        stage("Clean Workspace") {
+            steps {
+                script {
+                    sh "ls"
+                    deleteDir()
+                    sh "ls"
+                }
+            }
+        }
     }
     post {
         always {

@@ -17,6 +17,7 @@
       - [Install Git on EC2](#install-git-on-ec2)
       - [Configure nodes on Jenkins](#configure-nodes-on-jenkins)
       - [Add Node.js plugin to Jenkins](#add-nodejs-plugin-to-jenkins)
+      - [Check and increase swap size on EC2](#check-and-increase-swap-size-on-ec2)
       - [Create the first Jenkins Pipeline job](#create-the-first-jenkins-pipeline-job)
 
 ## Goals
@@ -263,6 +264,39 @@ Feature | Jenkins | GitHub Actions
 4. Navigate to **Manage Jenkins** > **Tools**
 5. Scroll down to **NodeJS installations**, click **Add NodeJS**
 6. Input a name, e.g. `NodeJS`, check **Install automatically**, select version, click **Save**
+
+#### Check and increase swap size on EC2
+
+1. In EC2 console, run the following command to check current swap space:
+   ```
+   free -h
+   ```
+   ![alt text](msedge_25-01-06_143016326.png)
+2. If swap space is 0B, then run command to make a large file *(e.g. 2GB)*:
+   ```
+   sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
+   ```
+3. Next, format the file as a swap partition:
+   ```
+   sudo mkswap /swapfile
+   ```
+4. Enable the swap file:
+   ```
+   sudo swapon /swapfile
+   ```
+5. Open file `/etc/fstab`:
+   ```
+   sudo nano /etc/fstab
+   ```
+6. Add the following line to the file then save and exit:
+   ```
+   /swapfile none swap sw 0 0
+   ```
+7. Lastly, enable swap:
+   ```
+   sudo swapon -a
+   ```
+8. Restart Jenkins service *(if running)*
 
 #### Create the first Jenkins Pipeline job
 
