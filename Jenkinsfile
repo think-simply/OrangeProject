@@ -18,17 +18,17 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                sh 'pnpm install --frozen-lockfile'
             }
         }
         stage('Install Playwright Browsers') {
             steps {
-                sh 'npx playwright install --with-deps chromium'
+                sh 'pnpm exec playwright install --with-deps chromium'
             }
         }
         stage('Install Cucumber') {
             steps {
-                sh 'npm install --save-dev @cucumber/cucumber'
+                sh 'pnpm install --save-dev @cucumber/cucumber'
             }
         }
         stage('Run Global File to Get Session Login') {
