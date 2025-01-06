@@ -1,9 +1,10 @@
 pipeline {
-    agent {
-        label 'ubuntu'
-    }
+    agent any
     triggers {
         pollSCM('H/5 * * * *')
+    }
+    tools {
+        nodejs 'NodeJS' // Use the name you provided in the Global Tool Configuration
     }
     options {
         timestamps()
@@ -13,15 +14,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-            }
-        }
-        stage('Set Up Node.js') {
-            steps {
-                script {
-                    def nodejsVersion = 'lts/*'
-                    sh "nvm install ${nodejsVersion}"
-                    sh "nvm use ${nodejsVersion}"
-                }
             }
         }
         stage('Install Dependencies') {
