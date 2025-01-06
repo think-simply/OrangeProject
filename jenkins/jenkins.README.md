@@ -127,8 +127,8 @@ Feature | Jenkins | GitHub Actions
 4. Under **Inbound rules**, click **Add rule**
 5. Add rules with the following details:
    - Type: `All trafic`, source: `Anywhere-IPv4`
-   - Type: `SSH`, source: `Custom`, choose `com.amazonaws.<region>.ec2-instance-connect` from **Prefix lists** (replace `<region>` with region name, such as: `southeast-1`)
-  ![alt text](image-6.png)
+   - Type: `SSH`, source: `Custom`, choose `com.amazonaws.<region>.ec2-instance-connect` *(the one without `ipv6`)* from **Prefix lists** (replace `<region>` with region name, such as: `southeast-1`)
+  ![alt text](msedge_25-01-06_150602661.png)
 6. Under **Outbound rules**, click **Add rule**
 7. Add rules with the following details:
    - Type: `All trafic`, destination: `Anywhere-IPv4`

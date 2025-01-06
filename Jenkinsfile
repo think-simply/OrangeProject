@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    triggers {
+    /* triggers {
         pollSCM('H/5 * * * *')
-    }
+    } */
     tools {
         nodejs 'NodeJS' // Use the name you provided in the Global Tool Configuration
     }
