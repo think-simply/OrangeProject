@@ -26,16 +26,16 @@ pipeline {
                 sh 'pnpm install'
             }
         }
-        /* stage('Install Playwright Browsers') {
+        stage('Install Playwright Browsers') {
             steps {
                 sh 'pnpm exec playwright install --with-deps chromium'
             }
         }
-        stage('Install Cucumber') {
+        /* stage('Install Cucumber') {
             steps {
                 sh 'pnpm install --save-dev @cucumber/cucumber'
             }
-        } */
+        } */ */
         stage('Run Global File to Get Session Login') {
             steps {
                 sh 'npx playwright test || true'
