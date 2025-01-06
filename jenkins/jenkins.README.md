@@ -15,8 +15,9 @@
       - [Configure Jenkins](#configure-jenkins)
     - [VI. Configure Jenkins \& EC2](#vi-configure-jenkins--ec2)
       - [Install Git on EC2](#install-git-on-ec2)
-      - [Create the first Jenkins job](#create-the-first-jenkins-job)
-      - [Configure storage on EC2](#configure-storage-on-ec2)
+      - [Configure nodes on Jenkins](#configure-nodes-on-jenkins)
+      - [Add Node.js plugin to Jenkins](#add-nodejs-plugin-to-jenkins)
+      - [Create the first Jenkins Pipeline job](#create-the-first-jenkins-pipeline-job)
 
 ## Goals
 
@@ -244,27 +245,35 @@ Feature | Jenkins | GitHub Actions
    which git
    ```
 
-#### Create the first Jenkins job
-
-1. In Jenkins, navigate to **Dashboard**, click **New Item**
-2. Name the item, select **Freestyle project**, click **OK**
-3. Click **Source Code Management** tab, select **Git**
-4. Paste Repo URL
-5. Click **Build Triggers** tab, check **GitHub hook trigger for GITScm polling**
-6. Convert .yml GitHub Actions file to Jenkinsfile, move the file to root directory
-7. Click **Save**
-
-#### Configure storage on EC2
+#### Configure nodes on Jenkins
 
 1. In Jenkins, navigate to **Dashboard** > **Manage Jenkins** > **Nodes**
-2. Check Free space: if you don't see any warnings, skip the following steps. If you do, proceed with the following steps:
-   ![alt text](msedge_25-01-03_163927266.png)
-3. Go to AWS, navigate to **EC2** > **Instances**, select your active instance
-4. Click Storage tab, click Volume ID under Block devices
-   ![alt text](msedge_25-01-03_164106845.png)
-5. Select volume, click **Actions** > **Modify volume**
-6. Change the size in GB, click **Modify**
-   <br>***Tips**: Make sure to check AWS storage pricing model before increasing storage size at https://aws.amazon.com/ebs/pricing/?nc1=h_ls*
-7. In the warning popup, click **Modify**
-8. Wait until modifying process completes
-9. Navigate to **Instances**, select active instance, click **Instance state** > **Reboot instance**
+2. Click **Built-In Node**, click Status in sidebar
+3. In case the node is offline due to insufficent storage, go back to **Nodes**
+4. Click **Configure Monitors**, check **Don't mark agents temporarily offline** then click **Save**
+   ![alt text](msedge_25-01-06_104941256.png)
+
+#### Add Node.js plugin to Jenkins
+
+> For reference, go to https://github.com/thanhbinhbent/playwright-jenkins
+
+1. In Jenkins, navigate to **Dashboard** > **Manage Jenkins** > **Plugins**
+2. Click Available plugins in the sidebar, search for `NodeJS`
+3. Select and click **Install**
+4. Navigate to **Manage Jenkins** > **Tools**
+5. Scroll down to **NodeJS installations**, click **Add NodeJS**
+6. Input a name, e.g. `NodeJS`, check **Install automatically**, select version, click **Save**
+
+#### Create the first Jenkins Pipeline job
+
+1. In Jenkins, navigate to **Dashboard**, click **New Item**
+2. Name the item, select **Pipeline**, click **OK**
+3. Under **Build Triggers**, check **GitHub hook trigger for GITScm polling**
+4. Click **Pipeline** tab in the sidebar, select **Pipeline script from SCM** in **Definition** dropdown
+5. Select **Git** in **SCM** dropdown
+6. Paste repository link in **Repository URL**
+7. Define branch name under **Branches to build**
+   ![alt text](msedge_25-01-06_111756023.png)
+8. Input `Jenkinsfile` in **Script Path**
+9.  Click **Save**
+10. In the Git branch specified above, create a file named `Jenkinsfile` and put it in the root directory

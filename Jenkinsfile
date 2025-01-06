@@ -9,9 +9,6 @@ pipeline {
         timestamps()
         disableConcurrentBuilds()
     }
-    environment {
-        // Define any environment variables here if needed
-    }
     stages {
         stage('Checkout') {
             steps {
