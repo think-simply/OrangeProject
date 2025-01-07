@@ -26,7 +26,7 @@ pipeline {
                 sh 'pnpm install --no-frozen-lockfile'
             }
         }
-        stage('Install Playwright Browsers') {
+        stage('Install Playwright Browser') {
             steps {
                 sh 'pnpm exec playwright install --with-deps chromium'
             }
