@@ -18,6 +18,7 @@
       - [Configure nodes on Jenkins](#configure-nodes-on-jenkins)
       - [Add Node.js plugin to Jenkins](#add-nodejs-plugin-to-jenkins)
       - [Check and increase swap size on EC2](#check-and-increase-swap-size-on-ec2)
+      - [Grant sudo priviledges to Jenkins user](#grant-sudo-priviledges-to-jenkins-user)
       - [Create the first Jenkins Pipeline job](#create-the-first-jenkins-pipeline-job)
 
 ## Goals
@@ -140,10 +141,11 @@ Feature | Jenkins | GitHub Actions
 2. Click **Launch instance**
 3. Select as followed:
    - **Name**: `Jenkins`
-   - **Application and OS Images**: `Amazon Linux`
+   - **Application and OS Images**: `Ubuntu`
    - **Instance type**: `t2.micro`
    - **Key pair**: select `Jenkins-Keypair` from dropdown
    - **Network settings**: select existing security group `JenkinsSG`
+   - Increase storage *(max: 30GB in free tier)* if needed
 4. Click **Launch instance**
 ![alt text](image-7.png)
 5. Click **Connect**
@@ -159,38 +161,42 @@ Feature | Jenkins | GitHub Actions
 
 1. Execute the following command to ensure software packages are up-to-date:
    ```
-   sudo yum update –y
+   sudo apt update
+   sudo apt upgrade -y
    ```
 2. Add Jenkins repo with following command:
    ```
-   sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+   curl -fsSL https://pkg.jenkins.io/debian/jenkins.io-2023.key | sudo tee \
+   /usr/share/keyrings/jenkins-keyring.asc > /dev/null
    ```
-3. Import a key file from Jenkins-CI to enable installation from the package:
    ```
-   sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
-   sudo yum upgrade
+   echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+   https://pkg.jenkins.io/debian binary/ | sudo tee \
+   /etc/apt/sources.list.d/jenkins.list > /dev/null
    ```
-4. Install Java:
+3. Install Java:
    ```
-   sudo dnf install java-21-amazon-corretto
+   sudo apt install openjdk-21-jdk -y
+   java -version
    ```
-5. Install Jenkins:
+4. Install Jenkins:
    ```
-   sudo yum install jenkins -y
+   sudo apt update
+   sudo apt install jenkins -y
    ```
-6. Enable Jenkins service to auto start at boot:
+5. Enable Jenkins service to auto start at boot:
    ```
    sudo systemctl enable jenkins
    ```
-7. Start Jenkins as a service:
+6. Start Jenkins as a service:
    ```
    sudo systemctl start jenkins
    ```
-8. Check the status of the Jenkins service using the command:
+7. Check the status of the Jenkins service using the command:
    ```
    sudo systemctl status jenkins
    ```
-9. Restart *(if needed)* Jenkins during this setup/configuration:
+8. Restart *(if needed)* Jenkins during this setup/configuration:
    ```
    sudo systemctl restart jenkins
    ```
@@ -297,6 +303,21 @@ Feature | Jenkins | GitHub Actions
    sudo swapon -a
    ```
 8. Restart Jenkins service *(if running)*
+
+#### Grant sudo priviledges to Jenkins user
+
+1. In EC2 console, add the Jenkins user to the sudoers group:
+   ```
+   sudo usermod -aG wheel jenkins
+   ```
+2. Make sure the Jenkins user has sudo priviledges without password:
+   ```
+   sudo visudo
+   ```
+3. Add the following line at the end:
+   ```
+   jenkins ALL=(ALL) NOPASSWD: ALL
+   ```
 
 #### Create the first Jenkins Pipeline job
 
