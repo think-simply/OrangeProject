@@ -8,89 +8,84 @@ const randomJobTitle = generateRandomString(data.jobTitle.jobTitles)+"Test";
 
 export default class JobTitlesPage {
     readonly page: Page;
-    readonly adminMenu: Locator;
-    readonly jobMenu: Locator;
-    readonly jobTitlesMenu: Locator;
-    readonly jobTitlesLabel: Locator;
-    readonly addJobTitleBtn: Locator;
-    readonly jobTitleTxb: Locator;
-    readonly jobDescriptionInput: Locator;
-    readonly saveJobTitleBtn: Locator;
-    readonly jobTitleName: Locator;
-    readonly editJobTitlesBtn: Locator;
-    readonly deleteJobTitleBtn: Locator;
-    readonly deleteConfirmBtn: Locator;
-    readonly checkAllItem: Locator;
-    readonly deleteSelectedBtn: Locator;
-
     constructor(page: Page) {
         this.page = page;
         // Locator
-        this.adminMenu = page.locator('//span[text()="Admin"]');
-        this.jobMenu = page.locator('//span[text()="Job "]');
-        this.jobTitlesMenu = page.locator('//a[text()="Job Titles"]');
-        this.jobTitlesLabel = page.locator('//h6[text()="Job Titles"]')
-        this.addJobTitleBtn = page.locator('//button[text()=" Add "]')
-        this.jobTitleTxb = page.locator("//div[@class='oxd-input-group oxd-input-field-bottom-space']//input[@class='oxd-input oxd-input--active']")
-        this.jobDescriptionInput = page.locator('//textarea[@placeholder="Type description here"]')
-        this.saveJobTitleBtn = page.locator('//button[text()=" Save "]')
-        this.jobTitleName = page.locator(`//div[text()="${randomJobTitle}"]`)
-        this.editJobTitlesBtn = page.locator(`//div[text()="${randomJobTitle}"]//ancestor::div[@role="row"]//button[i[contains(@class, "bi-pencil-fill")]]/i`)
-        this.deleteJobTitleBtn = page.locator(`//div[text()="${randomJobTitle}"]//ancestor::div[@role="row"]//button[i[contains(@class, "bi-trash")]]/i`)
-        this.deleteConfirmBtn = page.locator('//button[text()=" Yes, Delete "]')
-        this.checkAllItem = page.locator('//div[@class="oxd-table-header"]//div[@class="oxd-checkbox-wrapper"]')
-        this.deleteSelectedBtn = page.locator('//button[text()=" Delete Selected "]')
+        
+    }
+    element = {
+        adminMenu: () => this.page.locator('//span[text()="Admin"]'),
+        jobMenu: () => this.page.locator('//span[text()="Job "]'),
+        jobTitlesMenu: () => this.page.locator('//a[text()="Job Titles"]'),
+        jobTitlesLabel: () => this.page.locator('//h6[text()="Job Titles"]'),
+        addJobTitleBtn: () => this.page.locator('//button[text()=" Add "]'),
+        jobTitleTxb: () => this.page.locator("//label[text()='Job Title']/ancestor::div[@class='oxd-input-group oxd-input-field-bottom-space']//descendant::input"),
+        jobDescriptionInput: () => this.page.locator('//textarea[@placeholder="Type description here"]'),
+        saveJobTitleBtn: () => this.page.locator('//button[text()=" Save "]'),
+        jobTitleName: (jobName: string) => this.page.locator(`//div[text()="${jobName}"]`),
+        newJob: (newName: string) => this.page.locator(`//div[text()="${newName}"]`),
+        editJobTitlesBtn: (jobName: string) => this.page.locator(`//div[text()="${jobName}"]//ancestor::div[@role="row"]//button[i[contains(@class, "bi-pencil-fill")]]/i`),
+        deleteJobTitleBtn: (jobName: string) => this.page.locator(`//div[text()="${jobName}"]//ancestor::div[@role="row"]//button[i[contains(@class, "bi-trash")]]/i`),
+        deleteConfirmBtn: () => this.page.locator('//button[text()=" Yes, Delete "]'),
+        checkAllItem: () => this.page.locator('//div[@class="oxd-table-header"]//div[@class="oxd-checkbox-wrapper"]'),
+        deleteSelectedBtn: () => this.page.locator('//button[text()=" Delete Selected "]')
     }
     async userGoToJobTitles() {
-        await this.adminMenu.click();
-        await this.jobMenu.click();
-        await this.jobTitlesMenu.click({timeout: 35000});
+        await this.element.adminMenu().click();
+        await this.element.jobMenu().click();
+        await this.element.jobTitlesMenu().click({timeout: 35000});
     }
     async verifyJobTitlesPage(){
         await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
-        await expect(this.jobTitlesLabel).toHaveText('Job Titles')
-        await expect(this.addJobTitleBtn).toBeVisible()
+        await expect(this.element.jobTitlesLabel()).toHaveText('Job Titles')
+        await expect(this.element.addJobTitleBtn()).toBeVisible()
     }
-    async createJobTitle(){
-        await this.addJobTitleBtn.click()
-        await this.jobTitleTxb.fill(randomJobTitle)
-        await this.jobDescriptionInput.fill(generateRandomString(data.jobTitle.jobDescription))
-        await this.saveJobTitleBtn.click()
+    async createJobTitle(jobTitleName: string){
+        await this.element.addJobTitleBtn().click()
+        await this.element.jobTitleTxb().fill(jobTitleName)
+        await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
+        await this.element.saveJobTitleBtn().click()
+        await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
-    async verifyCreateJobTitleSuccessfully(){
+    async verifyCreateJobTitleSuccessfully(jobTitleName: string){
         await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
-        await expect(this.jobTitleName).toBeVisible()
+        await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
-    async updateJobTitles(){
-        await this.editJobTitlesBtn.click()
-        await this.jobTitleTxb.fill(randomJobTitle)
-        await this.jobDescriptionInput.fill(generateRandomString(data.jobTitle.jobDescription))
-        await this.saveJobTitleBtn.click()
+    async updateJobTitles(jobTitleName:string, newName: string){
+        await this.element.editJobTitlesBtn(jobTitleName).click()
+        await this.element.jobTitleTxb().click()
+        await this.element.jobTitleTxb().fill(newName)
+        await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
+        await this.element.saveJobTitleBtn().click({timeout: 30000})
+        await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
-    async verifyUpdateJobTitleSuccessfully(){
+    async verifyUpdateJobTitleSuccessfully(jobTitleName: string){
         await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
-        await expect(this.jobTitleName).toBeVisible()
+        await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
-    async deleteJobTitles(){
-        await this.deleteJobTitleBtn.click()
-        await this.deleteConfirmBtn.click()
+    async deleteJobTitles(jobTtileName: string){
+        await this.element.deleteJobTitleBtn(jobTtileName).click()
+        await this.element.deleteConfirmBtn().click()
+        await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
         
     }
-    async verifyDeleteJobTitleSuccessfully(){
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
-        await expect(this.jobTitleName).not.toBeVisible()
+    async verifyDeleteJobTitleSuccessfully(jobTitleName: string){
+        //await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
+        await expect(this.element.jobTitleName(jobTitleName)).not.toBeVisible()
     }
     async deleteMultiJobTitles(){
-        await this.checkAllItem.click()
-        await this.deleteSelectedBtn.click()
-        await this.deleteConfirmBtn.click()
+        await this.element.checkAllItem().click({force: true})
+        await this.element.deleteSelectedBtn().click()
+        await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
+        await this.element.deleteConfirmBtn().click()
+        await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
         
     }
-    async verifyDeleteMultiJobTitleSuccessfully(){
+    async verifyDeleteMultiJobTitleSuccessfully(jobTitleName: string){
         await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
-        await expect(this.jobTitleName).not.toBeVisible()
+        await expect(this.element.jobTitleName(jobTitleName)).not.toBeVisible()
     }
 
 }
