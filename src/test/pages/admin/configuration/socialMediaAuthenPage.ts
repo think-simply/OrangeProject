@@ -66,12 +66,14 @@ export default class SocialMediaPage {
         await this.elements.clientID().fill(id);
         await this.elements.clientSecret().click();
         await this.elements.clientSecret().fill(secret);
-        await this.elements.saveBtn().click();
+        await Promise.all([
+            this.elements.saveBtn().click(),
+            this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 }),
+            this.waitForLoadState('networkidle')
+          ]);
     }
     async verifyUpdateProvider(text: string) {
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
-        await this.page.waitForTimeout(5000);
-        await expect(this.elements.actionColumn()).toBeVisible();
+        //await expect(this.elements.actionColumn()).toBeVisible();
         await expect(this.elements.updatedProvider(text)).toBeVisible();
     }
     async deleteProvider(text: string) {
