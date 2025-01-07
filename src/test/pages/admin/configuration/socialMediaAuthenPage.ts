@@ -69,7 +69,7 @@ export default class SocialMediaPage {
         await Promise.all([
             this.elements.saveBtn().click(),
             this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 }),
-            this.waitForLoadState('networkidle')
+            this.page.waitForLoadState('networkidle')
           ]);
     }
     async verifyUpdateProvider(text: string) {
