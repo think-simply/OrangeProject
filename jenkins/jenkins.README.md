@@ -63,11 +63,11 @@ Feature | Jenkins | GitHub Actions
 ### I. Create an IAM User
 
 1. Navigate to **IAM**
-   ![alt text](image.png)
+   ![alt text](images/image.png)
 2. Navigate to **Users** > Click **Create user**
 3. Enter user name, click **Next**
 4. Under **Permission options**, select **Attach policies directly**
-   ![alt text](image-1.png)
+   ![alt text](images/image-1.png)
 5. Click **Create policy**, choose **JSON**
 6. Paste the following script in JSON policy editor:
     ```
@@ -106,7 +106,7 @@ Feature | Jenkins | GitHub Actions
       }
     ```
 7. Click **Next**
-   ![alt text](image-2.png)
+   ![alt text](images/image-2.png)
 8. Set **Policy name** as `JenkinsEC2Policy`, click **Create policy**
 9. Go back to **Create user** browser tab
 10. Under **Permissions policies**, select permissions: `AmazonS3ReadOnlyAccess` and `JenkinsEC2Policy`
@@ -116,11 +116,11 @@ Feature | Jenkins | GitHub Actions
 
 1. Navigate to **EC2**
 2. In the sidebar, under **Network & Security**, click **Key Pairs**
-   ![alt text](image-3.png)
+   ![alt text](images/image-3.png)
 3. Click **Create key pair**
 4. Set name as `Jenkins-Keypair`
 5. Select `.pem` in **Private key file format**
-   ![alt text](image-4.png)
+   ![alt text](images/image-4.png)
 
 ### III. Create a Security Group
 
@@ -132,7 +132,7 @@ Feature | Jenkins | GitHub Actions
 5. Add rules with the following details:
    - Type: `All trafic`, source: `Anywhere-IPv4`
    - Type: `SSH`, source: `Custom`, choose `com.amazonaws.<region>.ec2-instance-connect` *(the one without `ipv6`)* from **Prefix lists** (replace `<region>` with region name, such as: `southeast-1`)
-  ![alt text](msedge_25-01-06_150602661.png)
+  ![alt text](images/msedge_25-01-06_150602661.png)
 6. Under **Outbound rules**, click **Add rule**
 7. Add rules with the following details:
    - Type: `All trafic`, destination: `Anywhere-IPv4`
@@ -150,13 +150,13 @@ Feature | Jenkins | GitHub Actions
    - **Network settings**: select existing security group `JenkinsSG`
    - Increase storage *(max: 30GB in free tier)* if needed
 4. Click **Launch instance**
-![alt text](image-7.png)
+![alt text](images/image-7.png)
 5. Click **Connect**
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 6. In **EC2 Instance Connect** tab, select **Connect using EC2 Instance Connect**, click **Connect**
-![alt text](image-8.png)
+![alt text](images/image-8.png)
 7. Connection should be made in the new tab
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
 ### V. Install and Integrate Jenkins with EC2
 
@@ -213,13 +213,13 @@ Feature | Jenkins | GitHub Actions
    ```
 3. Go to Jenkins tab, paste the **initialAdminPassword**, click Continue
 4. Click **Install suggested plugins**
-   ![alt text](Arc_sqwsCU4WDe.png)
+   ![alt text](images/Arc_sqwsCU4WDe.png)
 5. After installation completes, input new username and password in **Create First Admin User** popup, click **Save and Continue**
 6. In **Instance Configuration** popup, click **Save and Finish** to proceed
 7. Click **Start using Jenkins**
 8. Click **Dashboard**, select **Manage Jenkins**, and then select **Plugins**
 9. Click **Available plugins**, Search and Select **Amazon EC2** and then **Install**
-    ![alt text](image-10.png)
+    ![alt text](images/image-10.png)
 10. Once installation completes, click **Dashboard**, select **Manage Jenkins**, click **Clouds**, click **New cloud**
 11. Input name and select type: **Amazon EC2**
 12. Under **Amazon EC2 Credentials**, click **Add**, select **Jenkins**
@@ -228,7 +228,7 @@ Feature | Jenkins | GitHub Actions
     - In case you don't have access key yet, click your AWS username at top right of AWS dashboard
     - Click **Security credentials**
     - Click **Create access key**
-      ![alt text](image-11.png)
+      ![alt text](images/image-11.png)
     - Follow the steps, store access key in secure places
 15. Select region
 16. Click **Add** under **EC2 Key Pair's Private Key** and Select **Jenkins**
@@ -236,7 +236,7 @@ Feature | Jenkins | GitHub Actions
     - Select **Enter Directly** under Private Key, then select **Add**
     - Open the private key pair you created in the creating a key pair step and paste in the contents from -----BEGIN RSA PRIVATE KEY----- to -----END RSA PRIVATE KEY-----. Select **Add** when completed
 17. Click Test Connection
-    ![alt text](image-12.png)
+    ![alt text](images/image-12.png)
 18. Once connection is success, click **Save**.
 
 ### VI. Configure Jenkins & EC2
@@ -262,7 +262,7 @@ Feature | Jenkins | GitHub Actions
 2. Click **Built-In Node**, click Status in sidebar
 3. In case the node is offline due to insufficent storage, go back to **Nodes**
 4. Click **Configure Monitors**, check **Don't mark agents temporarily offline** then click **Save**
-   ![alt text](msedge_25-01-06_104941256.png)
+   ![alt text](images/msedge_25-01-06_104941256.png)
 
 #### Add Node.js plugin to Jenkins
 
@@ -281,7 +281,7 @@ Feature | Jenkins | GitHub Actions
    ```
    free -h
    ```
-   ![alt text](msedge_25-01-06_143016326.png)
+   ![alt text](images/msedge_25-01-06_143016326.png)
 2. If swap space is 0B, then run command to make a large file *(e.g. 2GB)*:
    ```
    sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
@@ -329,13 +329,13 @@ Feature | Jenkins | GitHub Actions
 5. Select **Git** in **SCM** dropdown
 6. Paste repository link in **Repository URL**
 7. Define branch name under **Branches to build**
-   ![alt text](msedge_25-01-06_111756023.png)
+   ![alt text](images/msedge_25-01-06_111756023.png)
 8. Input `Jenkinsfile` in **Script Path**
 9.  Click **Save**
 10. In the Git branch specified above, create a file named `Jenkinsfile` and put it in the root directory
 
 Before learning about how to create Jenkinsfile in the next section, here's what a pipeline stages diagram looks like in Jenkins:
-![alt text](msedge_25-01-07_113818289.png)
+![alt text](images/msedge_25-01-07_113818289.png)
 
 ### VII. Understanding & Writing Jenkinsfile
 
