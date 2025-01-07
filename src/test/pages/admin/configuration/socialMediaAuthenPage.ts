@@ -68,11 +68,9 @@ export default class SocialMediaPage {
         await this.elements.clientSecret().fill(secret);
         await this.elements.saveBtn().click();
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
-        await this.page.waitForLoadState('networkidle');
-
+        await this.page.waitForLoadState('load');
     }
     async verifyUpdateProvider(text: string) {
-        //await expect(this.elements.actionColumn()).toBeVisible();
         await expect(this.elements.updatedProvider(text)).toBeVisible();
     }
     async deleteProvider(text: string) {
