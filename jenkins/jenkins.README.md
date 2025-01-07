@@ -308,16 +308,13 @@ Feature | Jenkins | GitHub Actions
 
 1. In EC2 console, add the Jenkins user to the sudoers group:
    ```
-   sudo usermod -aG wheel jenkins
+   sudo usermod -aG sudo jenkins
    ```
 2. Make sure the Jenkins user has sudo priviledges without password:
    ```
-   sudo visudo
+   echo "jenkins ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/jenkins
    ```
-3. Add the following line at the end:
-   ```
-   jenkins ALL=(ALL) NOPASSWD: ALL
-   ```
+3. Restart Jenkins service *(if running)*
 
 #### Create the first Jenkins Pipeline job
 
