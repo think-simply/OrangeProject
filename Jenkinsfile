@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pnpm install'
+                sh 'pnpm install --no-frozen-lockfile'
             }
         }
         stage('Install Playwright Browsers') {
