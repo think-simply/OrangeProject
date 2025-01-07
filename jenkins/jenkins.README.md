@@ -241,15 +241,15 @@ Feature | Jenkins | GitHub Actions
 
 1. In EC2 Console, run the system update:
    ```
-   sudo dnf update
+   sudo apt update
    ```
 2. Install Git package for Amazon Linux:
    ```
-   sudo dnf install git -y
+   sudo apt install git -y
    ```
 3. Check if Git is installed:
    ```
-   which git
+   git --version
    ```
 
 #### Configure nodes on Jenkins
