@@ -332,7 +332,7 @@ Feature | Jenkins | GitHub Actions
    ![alt text](images/msedge_25-01-06_111756023.png)
 8. Input `Jenkinsfile` in **Script Path**
 9.  Click **Save**
-10. In the Git branch specified above, create a file named `Jenkinsfile` and put it in the root directory.
+10. In the Git branch specified above, create a file named `Jenkinsfile` and put it in the root directory
 
 Before learning about how to create Jenkinsfile in the next section, here's what a pipeline stages diagram looks like in Jenkins:
 ![alt text](images/msedge_25-01-07_113818289.png)
