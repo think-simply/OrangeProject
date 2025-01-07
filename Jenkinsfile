@@ -36,12 +36,12 @@ pipeline {
                 sh 'npx playwright test || true'
             }
         }
-        /* stage('Run Automated Test Case with Cucumber') {
+        stage('Run Automated Test Case with Cucumber') {
             steps {
                 sh 'pnpm run test -- --reporter json:test-results/cucumber-report.json'
             }
-        } */
-        stage('Run Automated Parallel Test Case with Cucumber') {
+        }
+        /* stage('Run Automated Parallel Test Case with Cucumber') {
             steps {
                 script {
                     // Create an empty map to hold our parallel stages
@@ -60,7 +60,7 @@ pipeline {
                     parallel parallelStages
                 }
             }
-}
+        } */
         stage('Archive Test Results') {
             steps {
                 archiveArtifacts artifacts: 'test-results/cucumber-report.*,test-results/screenshots/*.png', allowEmptyArchive: true
