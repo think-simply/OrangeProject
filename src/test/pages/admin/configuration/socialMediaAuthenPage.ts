@@ -66,11 +66,10 @@ export default class SocialMediaPage {
         await this.elements.clientID().fill(id);
         await this.elements.clientSecret().click();
         await this.elements.clientSecret().fill(secret);
-        await Promise.all([
-            this.elements.saveBtn().click(),
-            this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 }),
-            this.page.waitForLoadState('networkidle')
-          ]);
+        await this.elements.saveBtn().click();
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
+        await this.page.waitForLoadState('networkidle');
+
     }
     async verifyUpdateProvider(text: string) {
         //await expect(this.elements.actionColumn()).toBeVisible();
