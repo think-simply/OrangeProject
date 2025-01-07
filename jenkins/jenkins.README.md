@@ -10,9 +10,9 @@
     - [II. Create a key pair](#ii-create-a-key-pair)
     - [III. Create a Security Group](#iii-create-a-security-group)
     - [IV. Create an EC2 instance](#iv-create-an-ec2-instance)
-    - [V. Install and Configure Jenkins](#v-install-and-configure-jenkins)
+    - [V. Install and Integrate Jenkins with EC2](#v-install-and-integrate-jenkins-with-ec2)
       - [Install Jenkins](#install-jenkins)
-      - [Configure Jenkins](#configure-jenkins)
+      - [Integrate Jenkins with EC2](#integrate-jenkins-with-ec2)
     - [VI. Configure Jenkins \& EC2](#vi-configure-jenkins--ec2)
       - [Install Git on EC2](#install-git-on-ec2)
       - [Configure nodes on Jenkins](#configure-nodes-on-jenkins)
@@ -20,6 +20,9 @@
       - [Check and increase swap size on EC2](#check-and-increase-swap-size-on-ec2)
       - [Grant sudo priviledges to Jenkins user](#grant-sudo-priviledges-to-jenkins-user)
       - [Create the first Jenkins Pipeline job](#create-the-first-jenkins-pipeline-job)
+    - [VII. Understanding \& Writing Jenkinsfile](#vii-understanding--writing-jenkinsfile)
+      - [Understanding Jenkinsfile](#understanding-jenkinsfile)
+      - [How-to: Convert GitHub Actions YAML to Jenkinsfile](#how-to-convert-github-actions-yaml-to-jenkinsfile)
 
 ## Goals
 
@@ -155,7 +158,7 @@ Feature | Jenkins | GitHub Actions
 7. Connection should be made in the new tab
 ![alt text](image-9.png)
 
-### V. Install and Configure Jenkins
+### V. Install and Integrate Jenkins with EC2
 
 #### Install Jenkins
 
@@ -201,7 +204,8 @@ Feature | Jenkins | GitHub Actions
    sudo systemctl restart jenkins
    ```
 
-#### Configure Jenkins
+#### Integrate Jenkins with EC2
+
 1. Copy **Public IPv4 DNS** of EC2 instance, add suffix `:8080` and paste into the browser address bar. For example: `ec2-55-111-999-55.ap-southeast-1.compute.amazonaws.com:8080`
 2. Go to EC2 Instance Connect tab, get the **initialAdminPassword** using the following command:
    ```
@@ -329,3 +333,249 @@ Feature | Jenkins | GitHub Actions
 8. Input `Jenkinsfile` in **Script Path**
 9.  Click **Save**
 10. In the Git branch specified above, create a file named `Jenkinsfile` and put it in the root directory
+
+Before learning about how to create Jenkinsfile in the next section, here's what a pipeline stages diagram looks like in Jenkins:
+![alt text](msedge_25-01-07_113818289.png)
+
+### VII. Understanding & Writing Jenkinsfile
+
+#### Understanding Jenkinsfile
+
+> A Jenkinsfile is a text file that defines a Jenkins pipeline as code. It's written in a Groovy-like syntax and allows you to describe your entire build, test, and deployment process in a declarative or scripted manner.
+
+- **Stages**: Represent distinct phases of the pipeline (e.g., Build, Test, Deploy).
+- **Steps**: Individual tasks within a stage (e.g., running commands, checking out code).
+- **Agents**: Define where the pipeline will be executed (e.g., on the Jenkins master, on a specific node).
+- **Parameters**: Allow you to pass parameters to the pipeline.
+
+#### How-to: Convert GitHub Actions YAML to Jenkinsfile
+
+1. **Event Triggers**:<br>
+   `GitHub Actions YAML`
+   ```
+   on:
+      push:
+         branches: [ main ]
+      pull_request:
+         branches: [ main ]
+   ```
+   `Jenkinsfile`
+   ```
+   triggers {
+      pollSCM('H/15 * * * *') // Run every 15 minutes for every hour
+      githubPush()  // Requires GitHub plugin
+   }
+   ```
+2. **Environment Variables**:<br>
+   `GitHub Actions YAML`
+   ```
+   env:
+      NODE_ENV: production
+      API_KEY: ${{ secrets.API_KEY }}
+   ```
+   `Jenkinsfile`
+   ```
+   environment {
+      NODE_ENV = 'production'
+      API_KEY = credentials('api-key-credential-id')
+   }
+   ```
+3. **Matrix Strategy**:<br>
+   `GitHub Actions YAML`
+   ```
+   strategy:
+      matrix:
+         node-version: [14.x, 16.x, 18.x]
+   ```
+   `Jenkinsfile`
+   ```
+   matrix {
+      axes {
+         axis {
+               name 'NODE_VERSION'
+               values '14', '16', '18'
+         }
+      }
+      stages {
+         stage('Test') {
+               steps {
+                  sh "nvm use ${NODE_VERSION}"
+                  sh 'npm test'
+               }
+         }
+      }
+   }
+   ```
+4. **Parallel Jobs**:<br>
+   `GitHub Actions YAML`
+   ```
+   jobs:
+      test:
+         runs-on: ubuntu-latest
+         strategy:
+            matrix:
+               test-group: [unit, integration]
+   ```
+   `Jenkinsfile`
+   ```
+   stage('Test') {
+      parallel {
+         stage('Unit Tests') {
+               steps {
+                  sh 'npm run test:unit'
+               }
+         }
+         stage('Integration Tests') {
+               steps {
+                  sh 'npm run test:integration'
+               }
+         }
+      }
+   }
+   ```
+5. **Conditional Steps**:<br>
+   `GitHub Actions YAML`
+   ```
+   if: github.ref == 'refs/heads/main'
+   ```
+   `Jenkinsfile`
+   ```
+   when {
+      branch 'main'
+   }
+   ```
+6. **Artifacts**:<br>
+   `GitHub Actions YAML`
+   ```
+   - uses: actions/upload-artifact@v2
+     with:
+       name: my-artifact
+       path: dist/
+   ```
+   `Jenkinsfile`
+   ```
+   stage('Archive') {
+      steps {
+         archiveArtifacts artifacts: 'dist/**/*'
+      }
+   }
+   ```
+7. **Node Setup**:<br>
+   `GitHub Actions YAML`
+   ```
+   - uses: actions/setup-node@v2
+     with:
+       node-version: '16'
+   ```
+   `Jenkinsfile`
+   ```
+   tools {
+      nodejs 'Node 16'  // Configured in Jenkins Tool Configuration
+   }
+   ```
+
+**Full example:**<br>
+`GitHub Actions YAML`
+```
+name: Node.js CI/CD
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: npm ci
+    - name: Run tests
+      run: npm test
+    - name: Build
+      run: npm run build
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-files
+        path: build/
+```
+`Jenkinsfile`
+```
+pipeline {
+    agent any
+    
+    tools {
+        nodejs 'NodeJS'
+    }
+    
+    environment {
+        NODE_ENV = 'production'
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Build and Test') {
+            matrix {
+                axes {
+                    axis {
+                        name 'NODE_VERSION'
+                        values '14', '16'
+                    }
+                }
+                stages {
+                    stage('Setup') {
+                        steps {
+                            sh "nvm install ${NODE_VERSION}"
+                            sh "nvm use ${NODE_VERSION}"
+                        }
+                    }
+                    stage('Install') {
+                        steps {
+                            sh 'npm ci'
+                        }
+                    }
+                    stage('Test') {
+                        steps {
+                            sh 'npm test'
+                        }
+                    }
+                    stage('Build') {
+                        steps {
+                            sh 'npm run build'
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: 'build/**/*'
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
+```

@@ -31,11 +31,6 @@ pipeline {
                 sh 'pnpm exec playwright install --with-deps chromium'
             }
         }
-        /* stage('Install Cucumber') {
-            steps {
-                sh 'pnpm install --save-dev @cucumber/cucumber'
-            }
-        } */
         stage('Run Global File to Get Session Login') {
             steps {
                 sh 'npx playwright test || true'
@@ -43,7 +38,10 @@ pipeline {
         }
         stage('Run Automated Test Case with Cucumber') {
             steps {
-                sh 'pnpm run test -- --parallel 5'
+                sh '''
+                mkdir -p test-results/screenshots
+                pnpm run test -- --parallel 5 --reporter json:test-results/cucumber-report.json
+                '''
             }
         }
         stage('Archive Test Results') {
@@ -51,7 +49,7 @@ pipeline {
                 archiveArtifacts artifacts: 'test-results/cucumber-report.*,test-results/screenshots/*.png', allowEmptyArchive: true
             }
         }
-        stage("Clean Workspace") {
+        /* stage("Clean Workspace") {
             steps {
                 script {
                     sh "ls"
@@ -59,11 +57,15 @@ pipeline {
                     sh "ls"
                 }
             }
-        }
+        } */
     }
     post {
         always {
             archiveArtifacts artifacts: 'test-results/cucumber-report.*,test-results/screenshots/*.png', allowEmptyArchive: true
+            // Clean Workspace
+            sh "ls"
+            deleteDir()
+            sh "ls"
         }
         success {
             echo 'Tests passed successfully!'
