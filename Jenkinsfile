@@ -40,7 +40,7 @@ pipeline {
             steps {
                 sh '''
                 mkdir -p test-results/screenshots
-                pnpm run test -- --parallel 5 --reporter json:test-results/cucumber-report.json
+                pnpm run test -- --reporter json:test-results/cucumber-report.json
                 '''
             }
         }
