@@ -38,10 +38,7 @@ pipeline {
         }
         stage('Run Automated Test Case with Cucumber') {
             steps {
-                sh '''
-                mkdir -p test-results/screenshots
-                pnpm run test -- --reporter json:test-results/cucumber-report.json
-                '''
+                sh 'pnpm run test -- --reporter json:test-results/cucumber-report.json'
             }
         }
         stage('Archive Test Results') {
