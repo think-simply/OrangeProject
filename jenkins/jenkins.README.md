@@ -228,7 +228,7 @@ Feature | Jenkins | GitHub Actions
     - Follow the steps, store access key in secure places
 15. Select region
 16. Click **Add** under **EC2 Key Pair's Private Key** and Select **Jenkins**
-    - From the **Jenkins Credentials Provider: Jenkins**, select **SSH Username with private key** as the Kind and set the Username to `ec2-user`.
+    - From the **Jenkins Credentials Provider: Jenkins**, select **SSH Username with private key** as the Kind and set the Username to `ubuntu`.
     - Select **Enter Directly** under Private Key, then select **Add**
     - Open the private key pair you created in the creating a key pair step and paste in the contents from -----BEGIN RSA PRIVATE KEY----- to -----END RSA PRIVATE KEY-----. Select **Add** when completed
 17. Click Test Connection
