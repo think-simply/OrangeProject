@@ -36,11 +36,31 @@ pipeline {
                 sh 'npx playwright test || true'
             }
         }
-        stage('Run Automated Test Case with Cucumber') {
+        /* stage('Run Automated Test Case with Cucumber') {
             steps {
                 sh 'pnpm run test -- --reporter json:test-results/cucumber-report.json'
             }
-        }
+        } */
+        stage('Run Automated Parallel Test Case with Cucumber') {
+            steps {
+                script {
+                    // Create an empty map to hold our parallel stages
+                    def parallelStages = [:]
+
+                    // Number of parallel instances
+                    def numberOfParallel = 2
+
+                    // Create stages dynamically
+                    for (int i = 1; i <= numberOfParallel; i++) {
+                        def index = i
+                        parallelStages["Cucumber Tests ${index}"] = {
+                            sh "CUCUMBER_PARALLEL=${index} pnpm run test"
+                        }
+                    }
+                    parallel parallelStages
+                }
+            }
+}
         stage('Archive Test Results') {
             steps {
                 archiveArtifacts artifacts: 'test-results/cucumber-report.*,test-results/screenshots/*.png', allowEmptyArchive: true
