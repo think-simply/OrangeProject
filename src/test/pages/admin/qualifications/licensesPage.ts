@@ -145,8 +145,8 @@ export class LicensesPage {
     }
 
     async clickDeleteBtn() {
-        await this.elements.deleteBtnWait(this.licenseNameUpdate)
-        await this.elements.deleteBtn(this.licenseNameUpdate).click()
+        await this.elements.deleteBtnWait(this.licenseName)
+        await this.elements.deleteBtn(this.licenseName).click()
     }
 
     async clickEditBtn() {
