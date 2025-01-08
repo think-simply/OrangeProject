@@ -96,7 +96,6 @@ Feature | Jenkins | GitHub Actions
                   "ec2:DescribeSecurityGroups",
                   "ec2:DescribeSubnets",
                   "iam:ListInstanceProfilesForRole",
-                  "iam:PassRole",
                   "ec2:GetPasswordData"
               ],
               "Effect": "Allow",
