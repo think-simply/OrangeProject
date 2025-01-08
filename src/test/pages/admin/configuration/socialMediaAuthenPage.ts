@@ -23,7 +23,7 @@ export default class SocialMediaPage {
         successToast: () => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'),
         newProvider: (text: string) => this.page.locator(`//div[text()="${text}"]`),
         editIcon: (text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
-        updatedProvider: (text: string) => this.page.locator(`//div[text()="${text}"]`),
+        updatedProvider: (text: string) => this.page.locator(`//div[contains(text(),"${text}")]`), 
         deleteIcon: (text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]`),
         confirmDeleteBtn: () => this.page.locator("//button[normalize-space()='Yes, Delete']"),
         checkbox: (text: string) => this.page.locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`),
@@ -67,10 +67,11 @@ export default class SocialMediaPage {
         await this.elements.clientSecret().click();
         await this.elements.clientSecret().fill(secret);
         await this.elements.saveBtn().click();
-        await this.page.waitForTimeout(2000);
     }
     async verifyUpdateProvider(text: string) {
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
+        await this.page.waitForTimeout(5000);
+        await expect(this.elements.actionColumn()).toBeVisible();
         await expect(this.elements.updatedProvider(text)).toBeVisible();
     }
     async deleteProvider(text: string) {
@@ -79,6 +80,8 @@ export default class SocialMediaPage {
     }
     async verifyDeleteProvider(text: string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
+        await this.page.waitForTimeout(5000);
+        await expect(this.elements.actionColumn()).toBeVisible();
         await expect(this.elements.updatedProvider(text)).toBeHidden();
     }
     async deleteMultiProvider(text: string) {
