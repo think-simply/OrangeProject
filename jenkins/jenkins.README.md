@@ -70,7 +70,7 @@ Feature | Jenkins | GitHub Actions
    ![alt text](images/image-1.png)
 5. Click **Create policy**, choose **JSON**
 6. Paste the following script in JSON policy editor:
-    ```
+    ```json
       {
       "Version": "2012-10-17",
       "Statement": [
@@ -351,7 +351,7 @@ Before learning about how to create Jenkinsfile in the next section, here's what
 
 1. **Event Triggers**:<br>
    `GitHub Actions YAML`
-   ```
+   ```yaml
    on:
       push:
          branches: [ main ]
@@ -359,7 +359,7 @@ Before learning about how to create Jenkinsfile in the next section, here's what
          branches: [ main ]
    ```
    `Jenkinsfile`
-   ```
+   ```groovy
    triggers {
       pollSCM('H/15 * * * *') // Run every 15 minutes for every hour
       githubPush()  // Requires GitHub plugin
@@ -367,13 +367,13 @@ Before learning about how to create Jenkinsfile in the next section, here's what
    ```
 2. **Environment Variables**:<br>
    `GitHub Actions YAML`
-   ```
+   ```yaml
    env:
       NODE_ENV: production
       API_KEY: ${{ secrets.API_KEY }}
    ```
    `Jenkinsfile`
-   ```
+   ```groovy
    environment {
       NODE_ENV = 'production'
       API_KEY = credentials('api-key-credential-id')
@@ -381,13 +381,13 @@ Before learning about how to create Jenkinsfile in the next section, here's what
    ```
 3. **Matrix Strategy**:<br>
    `GitHub Actions YAML`
-   ```
+   ```yaml
    strategy:
       matrix:
          node-version: [14.x, 16.x, 18.x]
    ```
    `Jenkinsfile`
-   ```
+   ```groovy
    matrix {
       axes {
          axis {
@@ -407,7 +407,7 @@ Before learning about how to create Jenkinsfile in the next section, here's what
    ```
 4. **Parallel Jobs**:<br>
    `GitHub Actions YAML`
-   ```
+   ```yaml
    jobs:
       test:
          runs-on: ubuntu-latest
@@ -416,7 +416,7 @@ Before learning about how to create Jenkinsfile in the next section, here's what
                test-group: [unit, integration]
    ```
    `Jenkinsfile`
-   ```
+   ```groovy
    stage('Test') {
       parallel {
          stage('Unit Tests') {
@@ -434,25 +434,25 @@ Before learning about how to create Jenkinsfile in the next section, here's what
    ```
 5. **Conditional Steps**:<br>
    `GitHub Actions YAML`
-   ```
+   ```yaml
    if: github.ref == 'refs/heads/main'
    ```
    `Jenkinsfile`
-   ```
+   ```groovy
    when {
       branch 'main'
    }
    ```
 6. **Artifacts**:<br>
    `GitHub Actions YAML`
-   ```
+   ```yaml
    - uses: actions/upload-artifact@v2
      with:
        name: my-artifact
        path: dist/
    ```
    `Jenkinsfile`
-   ```
+   ```groovy
    stage('Archive') {
       steps {
          archiveArtifacts artifacts: 'dist/**/*'
@@ -461,13 +461,13 @@ Before learning about how to create Jenkinsfile in the next section, here's what
    ```
 7. **Node Setup**:<br>
    `GitHub Actions YAML`
-   ```
+   ```yaml
    - uses: actions/setup-node@v2
      with:
        node-version: '16'
    ```
    `Jenkinsfile`
-   ```
+   ```groovy
    tools {
       nodejs 'Node 16'  // Configured in Jenkins Tool Configuration
    }
@@ -475,7 +475,7 @@ Before learning about how to create Jenkinsfile in the next section, here's what
 
 **Full example:**<br>
 `GitHub Actions YAML`
-```
+```yaml
 name: Node.js CI/CD
 on:
   push:
@@ -511,7 +511,7 @@ jobs:
         path: build/
 ```
 `Jenkinsfile`
-```
+```groovy
 pipeline {
     agent any
     
