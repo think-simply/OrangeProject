@@ -6,16 +6,19 @@ OrangeHRM project is automated by using Playwright, Cucumber framework and Types
 2. Install Playwright Browsers/:
    - npx playwright install --with-deps chromium
 
-3. Install dependent packages:
+3. Install Cucumber:
+   - npm i @cucumber/cucumber
+
+4. Install dependent packages:
    - npm install
 
-4. Run global file to get session login
+5. Run global file to get session login
    - npx playwright test 
 
-5. Run testcase by using following command:
+6. Run testcase by using following command:
    - npm test
 
-6. View the test report in:
+7. View the test report in:
    - index.html
 
 

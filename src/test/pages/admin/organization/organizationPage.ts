@@ -13,12 +13,17 @@ export default class OrganizationAdminPage {
   readonly inputOrganizationName: Locator;
   readonly btnSave: Locator;
   readonly successfullMessage: Locator;
+  readonly userName: Locator;
+  readonly passWord: Locator;
+  readonly loginBtn: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.adminSection = page.locator('//span[text()="Admin"]');
+    this.userName = page.locator('//input[@placeholder="Username"]');
+    this.passWord = page.locator('//input[@placeholder="Password"]');
+    this.loginBtn = page.locator('//button[@type="submit"]');
+    this.adminSection = page.locator('//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[1]/a');
     this.organizationItem = page.locator('//span[text()="Organization "]');
-    this.generalInformationOption = page.locator('//a[text()="General Information"]');
     this.GITitle = page.locator('//h6[text()="General Information"]');
     this.checkLabel = page.locator('//label[text()="Number of Employees"]');
     this.editToggle = page.locator('input[type="checkbox"]');
@@ -30,9 +35,16 @@ export default class OrganizationAdminPage {
   async visit() {
     await this.page.goto(`${process.env.WEB_URL}`);
   }
+  async login() {
+    await this.userName.fill("Admin");
+    await this.passWord.fill("admin123");
+    await this.loginBtn.click();
+  }
   async accessOrganization() {
+    //await pageFixture.adminPage.goto(`${process.env.WEB_URL}`);
+    //const adminSection = pageFixture.adminPage.locator('//span[text()="Admin"]');
     await this.adminSection.click();
-    await this.organizationItem.click();
+    // await this.organizationItem.click();
   }
   async accessGI() {
     await this.generalInformationOption.click();
@@ -57,6 +69,8 @@ export default class OrganizationAdminPage {
   }
   async saveSuccessfully() {
     await expect(this.successfullMessage, "Save unsuccessfully!").toBeVisible();
-    //expect(this.editToggle.isChecked(), "Date has not been disable yet.").toBe(false);
+    expect(this.editToggle.isChecked(), "Date has not been disable yet.").toBe(
+      false
+    );
   }
 }

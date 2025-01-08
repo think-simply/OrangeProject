@@ -34,7 +34,7 @@ Feature: Functions in Admin Menu - Admin role
     When User search by username : "usernamenoreturn"
     Then Alert no result and "No Records Found" text has been displayed
 
-  @medium 
+  @medium @now
   Scenario Outline: US_05: Search user by role
     When User creates a new user with role "<role>" and employee "tina thi", username "<searchRole>", password "Admin@1234", confirm password "Admin@1234"
     And User search by role: "<role>"
