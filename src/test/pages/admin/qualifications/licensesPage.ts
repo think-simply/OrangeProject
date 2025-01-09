@@ -1,6 +1,5 @@
 import { Page, expect } from "@playwright/test";
 import dotenv from 'dotenv';
-import { text } from "stream/consumers";
 dotenv.config();
 
 export class LicensesPage {
@@ -10,6 +9,7 @@ export class LicensesPage {
     readonly licenseName: string
     readonly licenseNameUpdate: string
     static readonly randomNum: number = LicensesPage.generateRandomNumber(5)
+    recordCount: number
 
     constructor(page: Page) {
         this.page = page
@@ -17,6 +17,7 @@ export class LicensesPage {
         this.licenseNameUpdateSuffix = ' Update'
         this.licenseName = this.licenseNamePrefix + LicensesPage.randomNum
         this.licenseNameUpdate = this.licenseName + this.licenseNameUpdateSuffix
+        this.recordCount = 0
     }
 
     elements = {
@@ -31,9 +32,7 @@ export class LicensesPage {
         saveBtn: () => this.page.locator('button[type="submit"]'),
         errorRequired: () => this.page.locator('span', { hasText: 'Required' }),
         deleteBtn: () => this.page.locator('(//div[@role="row"])[2]/descendant::button[1]'),
-        deleteBtnWait: () => this.page.waitForSelector('(//div[@role="row"])[2]/descendant::button[1]'),
         editBtn: () => this.page.locator('(//div[@role="row"])[2]/descendant::button[2]'),
-        editBtnWait: () => this.page.waitForSelector('(//div[@role="row"])[2]/descendant::button[2]'),
         recordItemNameSpecific: (text: string) => this.page.locator(`//div[text()="${text}"]`),
         recordItemName: (index: number) => this.page.locator(`(//div[@role="row"])[${index}]/div[2]`),
         recordTable: () => this.page.locator('//div[@role="table"]'),
@@ -51,9 +50,11 @@ export class LicensesPage {
         return Math.floor(Math.random() * Math.pow(10, length));
     }
 
-    getRecordNumText() {
-        const text = this.elements.recordNumText().innerText()
-        return text
+    async getRecordNumText() {
+        const text = await this.elements.recordNumText().innerText();
+        const matches = text.match(/\d+/);
+        this.recordCount = matches ? parseInt(matches[0], 10) : 0;
+        return this.recordCount;
     }
 
     async clickAdminSection() {
@@ -108,7 +109,7 @@ export class LicensesPage {
     }
 
     async waitForRecordItem() {
-        await this.page.waitForTimeout(5000)
+        await this.elements.recordTable().waitFor()
     }
 
     async verifyRecordAdded() {
@@ -136,7 +137,9 @@ export class LicensesPage {
     }
 
     async verifyRecordDeleted() {
-        await expect(this.elements.recordItemNameSpecific(this.licenseNameUpdate)).toBeHidden()
+        const previousCount = this.recordCount;
+        const currentCount = await this.getRecordNumText();
+        return currentCount === previousCount - 1;
     }
 
     async verifyActionsBtn() {
@@ -145,12 +148,12 @@ export class LicensesPage {
     }
 
     async clickDeleteBtn() {
-        await this.elements.deleteBtnWait()
+        await this.elements.deleteBtn().waitFor()
         await this.elements.deleteBtn().click()
     }
 
     async clickEditBtn() {
-        await this.elements.editBtnWait()
+        await this.elements.editBtn().waitFor()
         await this.elements.editBtn().click()
     }
 
