@@ -30,10 +30,10 @@ export class LicensesPage {
         cancelBtn: () => this.page.locator('button', { hasText: 'Cancel' }),
         saveBtn: () => this.page.locator('button[type="submit"]'),
         errorRequired: () => this.page.locator('span', { hasText: 'Required' }),
-        deleteBtn: (text: string) => this.page.locator(`//div[text()="${text}"]/../following-sibling::div/descendant::button[1]`),
-        deleteBtnWait: (text: string) => this.page.waitForSelector(`//div[text()="${text}"]/../following-sibling::div/descendant::button[1]`),
-        editBtn: (text: string) => this.page.locator(`//div[text()="${text}"]/../following-sibling::div/descendant::button[2]`),
-        editBtnWait: (text: string) => this.page.waitForSelector(`//div[text()="${text}"]/../following-sibling::div/descendant::button[2]`),
+        deleteBtn: () => this.page.locator('(//div[@role="row"])[1]/descendant::button[1]'),
+        deleteBtnWait: () => this.page.waitForSelector('(//div[@role="row"])[1]/descendant::button[1]'),
+        editBtn: () => this.page.locator('(//div[@role="row"])[1]/descendant::button[2]'),
+        editBtnWait: () => this.page.waitForSelector('(//div[@role="row"])[1]/descendant::button[2]'),
         recordItemNameSpecific: (text: string) => this.page.locator(`//div[text()="${text}"]`),
         recordItemName: (index: number) => this.page.locator(`(//div[@role="row"])[${index}]/div[2]`),
         recordTable: () => this.page.locator('//div[@role="table"]'),
@@ -140,18 +140,18 @@ export class LicensesPage {
     }
 
     async verifyActionsBtn() {
-        await expect(this.elements.deleteBtn(this.licenseName)).toBeVisible()
-        await expect(this.elements.editBtn(this.licenseName)).toBeVisible()
+        await expect(this.elements.deleteBtn()).toBeVisible()
+        await expect(this.elements.editBtn()).toBeVisible()
     }
 
     async clickDeleteBtn() {
-        await this.elements.deleteBtnWait(this.licenseName)
-        await this.elements.deleteBtn(this.licenseName).click()
+        await this.elements.deleteBtnWait()
+        await this.elements.deleteBtn().click()
     }
 
     async clickEditBtn() {
-        await this.elements.editBtnWait(this.licenseName)
-        await this.elements.editBtn(this.licenseName).click()
+        await this.elements.editBtnWait()
+        await this.elements.editBtn().click()
     }
 
     async dimissDialog() {

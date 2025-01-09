@@ -47,6 +47,12 @@ Then("New license record is created", async() => {
 })
 
 // QL_05: Update new license record
+When("User adds new license record", async() => {
+    await licensesPage.clickAddBtn()
+    await licensesPage.inputLicense()
+    await licensesPage.clickSaveBtn()
+    await licensesPage.waitForRecordItem()
+})
 When("User clicks Edit button for Licenses", async() => {
     await licensesPage.clickEditBtn()
 })
