@@ -14,13 +14,13 @@ Feature: Functions in Admin Menu
     Then Work shift "night-shift" has been created successfully
     When  User delete a work shift name "night-shift"
     Then Work shift "night-shift" has been deleted
-  @high
+  @high @ws03
   Scenario: WS_03: User edit a work shift
-    When User create a new work shift with name "night-shift" successfully
-    And  User edit a work shift name from "night-shift" to "day-shift"
-    Then Work shift name has been updated to "day-shift"
-    When  User delete a work shift name "day-shift"
-    Then Work shift "day-shift" has been deleted
+    When User create a new work shift with name "night shift" successfully
+    And  User edit a work shift name from "night shift" to "day shift"
+    Then Work shift name has been updated to "day shift"
+    When  User delete a work shift name "day shift"
+    Then Work shift "day shift" has been deleted
   @high
   Scenario: WS_04: User delete a work shift
     When User create a new work shift with name "day-shift" successfully
