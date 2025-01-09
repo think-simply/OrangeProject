@@ -23,6 +23,9 @@
     - [VII. Understanding \& Writing Jenkinsfile](#vii-understanding--writing-jenkinsfile)
       - [Understanding Jenkinsfile](#understanding-jenkinsfile)
       - [How-to: Convert GitHub Actions YAML to Jenkinsfile](#how-to-convert-github-actions-yaml-to-jenkinsfile)
+    - [VIII. Set Up Jenkins + GitHub integration](#viii-set-up-jenkins--github-integration)
+      - [Configure GitHub webhooks](#configure-github-webhooks)
+      - [Configure Jenkins jobs](#configure-jenkins-jobs)
 
 ## Goals
 
@@ -578,3 +581,28 @@ pipeline {
     }
 }
 ```
+
+### VIII. Set Up Jenkins + GitHub integration
+
+> **Prerequities**: You have ownership role of GitHub repo
+
+#### Configure GitHub webhooks
+
+1. In GitHub, go to **Settings** of your repository
+2. Click **Webhooks** on the sidebar, click **Add webhook**
+   ![alt text](images/msedge_25-01-09_164450751.png)
+3. Paste Jenkins environment URL (with suffix `/github-webhook/` if GitHub plugin is installed in Jenkins) in **Payload URL**
+4. Choose `application/json` in **Content type**
+5. Select **Let me select individual events** in **Which events would you like to trigger this webhook?**
+6. Check **Pushes** and **Pull requests**, make sure **Active** is checked
+7. Click **Add webhook** at the end of the page
+
+#### Configure Jenkins jobs
+
+1. In Jenkins, create a new job or edit an existing job
+2. Check **GitHub hook trigger for GITScm polling**
+3. Click **Save**
+4. Try push commits to your GitHub repo, Jenkins job should be automatically triggered
+
+In case Jenkins job is not automatically triggered for every GitHub pushes, go to GitHub > Settings of repo > Webhooks, check status of delivery.
+![alt text](images/msedge_25-01-09_172952112.png)
