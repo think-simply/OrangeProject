@@ -5,17 +5,21 @@ dotenv.config();
 export class LicensesPage {
     readonly page: Page
     readonly licenseNamePrefix: string
+    readonly licenseNamePrefixAlt: string
     readonly licenseNameUpdateSuffix: string
     readonly licenseName: string
+    readonly licenseNameAlt: string
     readonly licenseNameUpdate: string
-    static readonly randomNum: number = LicensesPage.generateRandomNumber(5)
+    static readonly randomNum: number = LicensesPage.generateRandomNumber(6)
     recordCount: number
 
     constructor(page: Page) {
         this.page = page
         this.licenseNamePrefix = 'Demo License '
+        this.licenseNamePrefixAlt = 'Demo License Alt '
         this.licenseNameUpdateSuffix = ' Update'
         this.licenseName = this.licenseNamePrefix + LicensesPage.randomNum
+        this.licenseNameAlt = this.licenseNamePrefixAlt + LicensesPage.randomNum
         this.licenseNameUpdate = this.licenseName + this.licenseNameUpdateSuffix
         this.recordCount = 0
     }
@@ -96,6 +100,10 @@ export class LicensesPage {
     async inputLicense() {
         await this.elements.licenseNameInput().fill(this.licenseName)
         
+    }
+
+    async inputLicenseAlt() {
+        await this.elements.licenseNameInput().fill(this.licenseNameAlt)
     }
 
     async updateLicense() {

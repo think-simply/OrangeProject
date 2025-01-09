@@ -86,6 +86,12 @@ When("User clicks Cancel button for Licenses", async() => {
 })
 
 // QL_09: Delete dialog -> Delete
+When("User adds new alt license record", async() => {
+    await licensesPage.clickAddBtn()
+    await licensesPage.inputLicenseAlt()
+    await licensesPage.clickSaveBtn()
+    await licensesPage.waitForRecordItem()
+})
 When("User clicks Yes in delete dialog for Licenses", async() => {
     await licensesPage.clickDialogDeleteBtn()
 })
