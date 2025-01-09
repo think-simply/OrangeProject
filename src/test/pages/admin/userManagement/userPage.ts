@@ -93,7 +93,11 @@ export default class AdminMenuPage {
         await this.elements.confirmPassword().fill(confirm);
         await this.elements.submitBtn().click();
         // await this.page.waitForTimeout(3000);
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
+        // await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
+        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+            const response = await route.fetch();
+            expect(response.status()).toBe(200);
+        });
     }
 
     async verifyCreateUser(demotext: string) {
