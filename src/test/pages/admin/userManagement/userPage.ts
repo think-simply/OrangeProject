@@ -1,9 +1,38 @@
 import { Page, Locator, expect } from "@playwright/test";
+import { request } from '@playwright/test';
+
 import dotenv from 'dotenv';
 dotenv.config();
+interface Employee {
+    empNumber: number;
+    employeeId: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    terminationId: number | null;
+}
 
+interface UserRole {
+    id: number;
+    name: string;
+    displayName: string;
+}
+
+interface UserData {
+    id: number;
+    userName: string;
+    deleted: boolean;
+    status: boolean;
+    employee: Employee;
+    userRole: UserRole;
+}
+
+interface ApiResponse {
+    data: UserData[];
+}
 export default class AdminMenuPage {
     readonly page: Page;
+    private apiContext: any;
     constructor(page: Page) {
         this.page = page;
     }
@@ -284,4 +313,31 @@ export default class AdminMenuPage {
         }
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     };
+    // delete function : API automation
+    async deleteUserByDisplayName(targetDisplayName: string) {
+
+        const response = await this.apiContext.get('https://buianthai.online/orangehrm/web/index.php/api/v2/admin/users', {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        // 2. Parse response
+        const responseBody: ApiResponse = await response.json();
+
+        // 3. Find user with matching displayName
+        const userToDelete = responseBody.data.find(user =>
+            user.userRole.displayName === targetDisplayName
+        );
+        if (userToDelete) {
+            const deleteResponse = await this.apiContext.delete(
+                `https://buianthai.online/orangehrm/web/index.php/api/v2/admin/users/${userToDelete.id}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+        }
+
+    }
 }
