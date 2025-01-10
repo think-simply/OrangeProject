@@ -1,8 +1,37 @@
 import { Page, Locator, expect } from "@playwright/test";
+import { APIRequestContext, request } from '@playwright/test';
 import dotenv from 'dotenv';
 dotenv.config();
+interface Employee {
+    empNumber: number;
+    employeeId: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    terminationId: number | null;
+}
+
+interface UserRole {
+    id: number;
+    name: string;
+    displayName: string;
+}
+
+interface UserData {
+    id: number;
+    userName: string;
+    deleted: boolean;
+    status: boolean;
+    employee: Employee;
+    userRole: UserRole;
+}
+
+interface ApiResponse {
+    data: UserData[];
+}
 
 export default class AdminMenuPage {
+    private apiContext: APIRequestContext;
     readonly page: Page;
     constructor(page: Page) {
         this.page = page;
@@ -275,4 +304,16 @@ export default class AdminMenuPage {
         await this.elements.confirmPassword().fill(text2);
         await this.elements.submitBtn().click();
     }
+    // delete function: UI automation
+    async checkAndDeleteOldRecord(isVisible = true, text: string) {
+        console.log('print log0')
+        if (isVisible) {
+            console.log('print log1')
+            // Click delete icon
+            await this.elements.deleteIcon(text).click();
+            await this.elements.confirmDeleteBtn().click();
+        }
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
+        console.log('print log2')
+    };
 }

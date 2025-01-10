@@ -74,7 +74,7 @@ Feature: Functions in Admin Menu - Admin role
     And User click reset button
     Then Data on all search fields have been cleared
 
-  @high
+  @high 
   Scenario: US_09: Updates an account
     When User creates a new user with role "Admin" and employee "tina thi", username "initialAccount", password "Admin@1234", confirm password "Admin@1234"
     And User update account "initialAccount" to new username: "editAccount"
