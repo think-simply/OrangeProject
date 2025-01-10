@@ -26,6 +26,9 @@
     - [VIII. Set Up Jenkins + GitHub integration](#viii-set-up-jenkins--github-integration)
       - [Configure GitHub webhooks](#configure-github-webhooks)
       - [Configure Jenkins jobs](#configure-jenkins-jobs)
+    - [IX. Set up notifications on Jenkins](#ix-set-up-notifications-on-jenkins)
+      - [Send notifications of build status to Telegram](#send-notifications-of-build-status-to-telegram)
+      - [](#)
 
 ## Goals
 
@@ -606,3 +609,71 @@ pipeline {
 
 In case Jenkins job is not automatically triggered for every GitHub pushes, go to GitHub > Settings of repo > Webhooks, check status of delivery.
 ![alt text](images/msedge_25-01-09_172952112.png)
+
+### IX. Set up notifications on Jenkins
+
+#### Send notifications of build status to Telegram
+
+1. In Telegram, search for `@BotFather`, click START
+2. Send message `/newbot` in the chat to create your own Telegram chatbot
+3. Type the name of the bot, then choose an unique username
+4. `@BotFather` should send you the token of your bot, save it securely
+5. Search for `@myidbot`, click START
+6. Send message `/getid` in the chat to get your bot ID, save it securely
+7. In Jenkins, navigate to **Dashboard** > **Manage Jenkins** > **Credentials**
+8. Click `(global)` in the **Domain** column of any item, click **Add Credentials**
+9. Choose **Kind** as **Secret text**, paste the bot token in the **Secret** field, then input unique ID (e.g. `telegram_bot_token`), click **Create**
+    ![alt text](images/msedge_25-01-10_094052972.png)
+10. Do the same thing for bot ID (e.g. `telegram_bot_id`)
+11. Create a pipeline job with **Pipeline script** to send notification of build status:
+    ```groovy
+    pipeline {
+      agent any
+
+      environment {
+         // Telegram config
+         TOKEN = credentials('telegram_bot_token') // Replace with your credential ID
+         CHAT_ID = credentials('telegram_bot_id') // Replace with your credential ID
+
+         // Telegram Message Pre Build
+         CURRENT_BUILD_NUMBER = "${currentBuild.number}"
+         TEXT_BREAK = "--------------------------------------------------------------"
+         TEXT_PRE_BUILD = "${TEXT_BREAK}\n${GIT_INFO}\n${JOB_NAME} is Building"
+
+         // Telegram Message Success and Failure
+         TEXT_SUCCESS_BUILD = "${JOB_NAME} is Success"
+         TEXT_FAILURE_BUILD = "${JOB_NAME} is Failure"
+      }
+
+      stages {
+         stage('Pre-Build') {
+               steps {
+                  sh "curl --location --request POST 'https://api.telegram.org/bot${TOKEN}/sendMessage' --form text='${TEXT_PRE_BUILD}' --form chat_id='${CHAT_ID}'"
+               }
+         }
+         stage('Build') {
+               steps {
+                  echo 'Building...'
+               }
+         }
+      }
+      
+      post {
+         success {
+               script{
+                  sh "curl --location --request POST 'https://api.telegram.org/bot${TOKEN}/sendMessage' --form text='${TEXT_SUCCESS_BUILD}' --form chat_id='${CHAT_ID}'"
+               }
+         }
+         failure {
+               script{
+                  sh "curl --location --request POST 'https://api.telegram.org/bot${TOKEN}/sendMessage' --form text='${TEXT_FAILURE_BUILD}' --form chat_id='${CHAT_ID}'"
+               }
+         }
+      }
+   }
+    ```
+12. Click **Save**
+13. In Telegram, search for your bot, then click START, send some messages 
+14. In Jenkins, click **Build Now** in the job details, build status message should be sent to your Telegram bot
+
+#### 
