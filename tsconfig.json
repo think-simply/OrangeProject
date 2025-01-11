@@ -10,7 +10,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "target": "es2022",
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "typeRoots": ["./node_modules/@types"],
     "paths": {
       "@sinonjs/fake-timers": ["./node_modules/@types/sinonjs__fake-timers"]
     }
