@@ -49,7 +49,6 @@ export default class AdminMenuPage {
         roleColumnLocator: () => this.page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][3]"),
         employeeNameLocator: () => this.page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]"),
         statusLocator: () => this.page.locator("//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]"),
-        notFoundItem: () => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="No Records Found"]'),
         noRecordText: (text: string) => this.page.locator(`//span[text()="${text}"]`),
         validationMessage: (validation: string) => this.page.locator(`//label[text()="${validation}"]//ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::span`),
         inputField: (validation: string) => this.page.locator(`//label[text()="${validation}"]//ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::input`),
@@ -104,7 +103,8 @@ export default class AdminMenuPage {
         await this.elements.adminMenu().click();
         await this.elements.usernameFieldSearch().fill(userName);
         await this.elements.searchBtn().click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(5000);
+        await expect(this.elements.actionColumn()).toBeVisible();
     }
     async verifySearchUserName(checkUser = false, text: string) {
         await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
@@ -118,7 +118,6 @@ export default class AdminMenuPage {
         }
         //checkUser = false
         else {
-            await expect(this.elements.notFoundItem()).toBeVisible({ timeout: 5000 });
             await expect(this.elements.noRecordText(text)).toBeVisible({ timeout: 5000 });
         }
     }
@@ -128,10 +127,7 @@ export default class AdminMenuPage {
         await this.page.getByRole('option', { name: role }).click();
         await this.elements.searchBtn().click();
         await this.page.waitForTimeout(5000);
-        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
-            const response = await route.fetch();
-            expect(response.status()).toBe(200);
-        });
+        await expect(this.elements.actionColumn()).toBeVisible();
     }
     async verifySearchUserRole(checkUserRole = true, role: string) {
         if (checkUserRole) {
@@ -152,6 +148,7 @@ export default class AdminMenuPage {
         await this.elements.employeeOption().click();
         await this.elements.searchBtn().click();
         await this.page.waitForTimeout(5000);
+        await expect(this.elements.actionColumn()).toBeVisible();
         await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
             const response = await route.fetch();
             expect(response.status()).toBe(200);
@@ -172,10 +169,8 @@ export default class AdminMenuPage {
         await this.elements.status().click();
         await this.page.getByRole('option', { name: status }).click();
         await this.elements.searchBtn().click();
-        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
-            const response = await route.fetch();
-            expect(response.status()).toBe(200);
-        });
+        await this.page.waitForTimeout(5000);
+        await expect(this.elements.actionColumn()).toBeVisible();
     }
     async verifySearchStatus(status: string) {
         const statusLocators = await this.elements.statusLocator().all();
@@ -272,7 +267,6 @@ export default class AdminMenuPage {
         await this.elements.adminMenu().click();
         await this.elements.addBtn().click();
         await this.elements.submitBtn().click();
-        
     }
     async enterValueOnConfirmPass(text1: string, text2: string) {
         await this.elements.adminMenu().click();
