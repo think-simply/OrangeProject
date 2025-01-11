@@ -8,7 +8,7 @@ let flexibleData: string = "";
 let flexibleData2: string = "";
 let updatedData: string = "";
 
-export default class LocationsAdminPage {
+export default class LocationsPage {
   readonly page: Page;
   constructor(page: Page) {
         this.page = page;

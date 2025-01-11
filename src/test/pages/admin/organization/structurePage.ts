@@ -7,7 +7,7 @@ let nameTest: string = "";
 let inputIDTest: string = "";
 let flexibleData: string = "";
 
-export default class StructureAdminPage {
+export default class StructurePage {
   readonly page: Page;
   constructor(page: Page) {
     this.page = page;

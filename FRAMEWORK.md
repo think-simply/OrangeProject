@@ -111,7 +111,7 @@ import EmailConfigPage from "../../../pages/admin/configuration/emailSubscriptio
 import { pageFixture } from "../../../../hooks/pageFixture";
 let emailConfigPage: EmailConfigPage;
 BeforeStep(async () => {
-    emailConfigPage = new EmailConfigPage(pageFixture.adminPage);
+    emailConfigPage = new EmailConfigPage(pageFixture.page);
 });
 When("User access Email subscription page", async () => {
     await emailConfigPage.navigateToEmailSubscription();
@@ -149,9 +149,9 @@ Before(async function (this: TestContext) {
   this.adminContext = await browser.newContext({
     storageState: authConfig.admin.storageState
   });
-  const adminPage = await this.adminContext.newPage();
-  pageFixture.adminPage = adminPage;
-  this.Page = adminPage; // Default to admin page
+  const page = await this.adminContext.newPage();
+  pageFixture.page = page;
+  this.Page = page; // Default to admin page
 });
 
 After(async function (this: TestContext, { pickle, result }) {

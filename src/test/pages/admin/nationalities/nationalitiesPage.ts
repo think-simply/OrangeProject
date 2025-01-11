@@ -5,7 +5,7 @@ dotenv.config();
 
 let flexibleValue: string = ""; 
 let flexibleValue2: string = "";
-export default class NationalitiesAdminPage {
+export default class NationalitiesPage {
     readonly page: Page;
     readonly adminSection: Locator;
     readonly nationalitiesItem: Locator;
@@ -296,22 +296,3 @@ export default class NationalitiesAdminPage {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

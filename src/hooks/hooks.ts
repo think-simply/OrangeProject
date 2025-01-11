@@ -7,7 +7,6 @@ let browser: Browser;
 interface TestContext {
   adminContext: BrowserContext;
   Page: Page;
-  adminPage: Page;
 }
 setDefaultTimeout(60 * 1000);
 
@@ -41,7 +40,6 @@ Before(async function (this: any, scenario) {
 });
 
 After(async function (this: TestContext, { pickle, result }) {
-  // console.log("Closing context and page...");
   if (result?.status === Status.FAILED) {
     const sanitizedName = pickle.name.replace(/:/g, ''); // Remove all colons
     await this.Page.screenshot({
