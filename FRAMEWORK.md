@@ -16,15 +16,15 @@ Before proceeding, ensure you have the following:
 ### 3.1 Initialize Node.js Project
 Run the following commands to initialize a Node.js project:
 ```bash
-mkdir "your project name"
-cd "your project name"
+mkdir "your-project-name"
+cd "your-project-name"
 npm init -y
 ```
 
 ### 3.2 Install Dependencies
 Install Playwright, Cucumber, and other necessary packages:
 ```bash
-npm install playwright @cucumber/cucumber @playwright/test ts-node 
+npm install playwright @cucumber/cucumber @playwright/test ts-node typescript --save-dev
 ```
 
 ## 4. Folder Structure
@@ -46,6 +46,7 @@ your-project-name/
 │   │   ├── init.ts
 ├── package.json
 ├── cucumber.js
+├── tsconfig.json
 ```
 
 ### 4.1 `features/` Folder
@@ -127,7 +128,6 @@ import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
 import { authConfig } from '../../auth.config';
 
-
 let browser: Browser;
 interface TestContext {
   adminContext: BrowserContext;
@@ -135,6 +135,7 @@ interface TestContext {
   adminPage: Page;
 }
 setDefaultTimeout(60 * 1000);
+
 BeforeAll(async function () {
   browser = await chromium.launch({ headless: true });
 });
@@ -190,14 +191,52 @@ Create a `cucumber.json` file to specify the paths to your feature and step file
   }
 }
 ```
+### 4.6 `tsconfig.json` TypeScript Configuration
+Create a `tsconfig.json` file to configure TypeScript for your project:
 
-## 5. Running Tests Locally
-To run the tests locally, use the following command:
-```bash
-npx cucumber-js
+```json
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "src/test/features/**/*.feature"],
+  "exclude": ["node_modules"]
+}
 ```
 
-This will execute your tests and output the results in the terminal.
+## 5. Running Tests Locally
+To run the tests locally, you need to add a `pretest` script in your `package.json` to compile the TypeScript files before running the tests.
+
+### 5.1 Modify `package.json` Scripts
+Update the `scripts` section in `package.json` to include a `pretest` script:
+
+```json
+{
+  "scripts": {
+    "pretest": "tsc --project tsconfig.json",  // Compile TypeScript before running tests
+    "test": "npx cucumber-js --require-module ts-node/register"  // Use ts-node to run TypeScript
+  }
+}
+```
+### 5.2 Run Tests Locally
+To run the tests, use the following command:
+
+```bash
+npm test
+```
+
+This will:
+1. Compile TypeScript files (via the `pretest` script).
+2. Run the Cucumber tests using Playwright with the `ts-node/register` option to support TypeScript.
 
 ## 6. Integrating with GitHub Actions
 

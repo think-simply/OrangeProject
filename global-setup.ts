@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 async function globalSetup() {
-  // Tạo thư mục .auth nếu chưa tồn tại
   const authDir = path.join(process.cwd(), "playwright/.auth");
   if (!fs.existsSync(authDir)) {
     fs.mkdirSync(authDir, { recursive: true });
