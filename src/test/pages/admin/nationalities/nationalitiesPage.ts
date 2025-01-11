@@ -158,6 +158,7 @@ export default class NationalitiesAdminPage {
     async confirmDeleteNationality() {
         await expect(this.elements.deleteConfirmationPopup()).toBeVisible();
         await this.elements.yesBtn().click();
+        await this.elements.deleteToast().waitFor();
         await expect(this.elements.deleteToast()).toBeVisible();
         await this.elements.tableRow().nth(0).waitFor();
     }
