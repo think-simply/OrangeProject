@@ -2,7 +2,6 @@ import { setDefaultTimeout, BeforeAll, AfterAll, Before, After, Status, } from "
 import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
 import { authConfig } from '../../auth.config';
-import globalSetup from '../../global-setup';
 
 let browser: Browser;
 interface TestContext {
@@ -12,7 +11,6 @@ interface TestContext {
 }
 setDefaultTimeout(60 * 1000);
 BeforeAll(async function () {
-  await globalSetup();
   browser = await chromium.launch({ headless: true });
 });
 
@@ -42,9 +40,4 @@ After(async function (this: TestContext, { pickle, result }) {
   await this.Page.close();
 
 });
-//   if (pickle.tags.some((tag) => tag.name === "@guest")) {
-//     await adminContext?.close();
-//   } else {
-//     await adminContext?.close();
-//   }
-// });
+

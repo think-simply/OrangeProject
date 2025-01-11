@@ -26,4 +26,15 @@ async function globalSetup() {
   await browser.close();
 }
 
-export default globalSetup;
+// Call the globalSetup function when the script is executed
+async function main() {
+  try {
+    await globalSetup();
+  } catch (error) {
+    console.error('Error during global setup:', error);
+    process.exit(1);
+  }
+}
+
+// Run the script
+main();
