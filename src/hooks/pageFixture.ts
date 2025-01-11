@@ -1,7 +1,7 @@
 // pageFixture.ts
 import { Page } from "@playwright/test";
-
-export const pageFixture = {
-  page: undefined as unknown as Page,
-  adminPage: undefined as unknown as Page,
+export const pageFixture: { page: Page; adminPage: Page; staffPage: Page; } = {
+  page: null,
+  adminPage: null,
+  staffPage: null,
 };

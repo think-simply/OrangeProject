@@ -1,4 +1,4 @@
-@Structure
+@Structure @admin
 Feature: Organization_Structure in Admin Menu
 
   Background:

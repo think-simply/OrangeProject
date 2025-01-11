@@ -4,7 +4,7 @@ import PayGradePage from "../../../pages/admin/job/payGrades";
 
 let payGradePage: PayGradePage
 BeforeStep(async() => {
-    payGradePage = new PayGradePage(pageFixture.adminPage);
+    payGradePage = new PayGradePage(pageFixture.page);
 })
 When("User go to Pay Grade page", async() => {
     await payGradePage.goToPayGradePage()

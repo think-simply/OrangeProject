@@ -3,7 +3,7 @@ import SocialMediaPage from "../../../pages/admin/configuration/socialMediaAuthe
 import { pageFixture } from "../../../../hooks/pageFixture";
 let socialMediaPage: SocialMediaPage;
 BeforeStep(async () => {
-    socialMediaPage = new SocialMediaPage(pageFixture.adminPage);
+    socialMediaPage = new SocialMediaPage(pageFixture.page);
 });
 When("User access social media authen page", async () => {
     await socialMediaPage.accessSocialMediaAuthPage();

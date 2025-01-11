@@ -1,4 +1,4 @@
-@Locations
+@Locations @admin
 Feature: Organization_Locations in Admin Menu
 
   Background:

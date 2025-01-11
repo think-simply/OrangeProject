@@ -1,4 +1,4 @@
-@Licenses
+@Licenses @admin
 Feature: Licenses in Admin > Qualifications menu
 
     Background:

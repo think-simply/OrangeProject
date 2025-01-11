@@ -1,4 +1,4 @@
-@UserManagement
+@UserManagement  @admin
 Feature: Functions in Admin Menu - Admin role
 
   Background: 

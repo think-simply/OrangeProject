@@ -1,4 +1,4 @@
-@socialMedia
+@socialMedia @admin
 Feature: Functions in Configuration menu: Social Media Authentication
   Background:
     Given User navigates to page

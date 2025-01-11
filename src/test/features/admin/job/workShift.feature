@@ -1,4 +1,4 @@
-@workShift
+@workShift @admin
 Feature: Functions in Admin Menu
 
   Background:

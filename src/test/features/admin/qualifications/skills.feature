@@ -1,16 +1,17 @@
-Feature: Function in admin menu- Skill qualification
+ @admin
+ Feature: Function in admin menu- Skill qualification
 Background: 
  Given User navigates to Admin page
 
-@low @now
+@low
 Scenario: SK_01: Displaying all elements of skill page successfully
-When user access to skill page
-Then all elements of skill page is displayed successfully
-@high @now
+When User access to skill page
+Then All elements of skill page is displayed successfully
+@high
 Scenario: Sk_02: Adding new skill successfully
-When user input valid data into all fields of adding skill
-Then new skill is added successfully
-@high @now
+When User input valid data into all fields of adding skill
+Then New skill is added successfully
+@high
 Scenario: Sk_03: Update an existing skill successfully
-When user edit a skill
-Then the skill is updated successfully
+When User edit a skill
+Then The skill is updated successfully
