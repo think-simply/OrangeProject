@@ -10,9 +10,12 @@
     "sourceMap": true,
     "inlineSources": true,
     "target": "es2022",
+    "declaration": true,
+    "outDir": "lib",
     "typeRoots": ["./node_modules/@types"],
     "paths": {
       "@sinonjs/fake-timers": ["./node_modules/@types/sinonjs__fake-timers"]
     }
-  }
+  },
+  "include": ["src/**/*.ts"],
 }

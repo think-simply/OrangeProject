@@ -4,7 +4,7 @@ Feature: qualifications feature in admin menu
   Background:
     Given User navigates to Admin page
 
-  @high @now @staff
+  @high
   Scenario: ED_01: Adding level of education
     When User navigate to admin menu
     And Create new level of education
