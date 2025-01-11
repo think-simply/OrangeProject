@@ -1,35 +1,26 @@
-import { Given, When, Then } from "@cucumber/cucumber";
-import EducationPage from "../../../pages/admin/qualifications/skillsPage";
+import { When, BeforeStep,Then } from "@cucumber/cucumber";
 import { pageFixture } from "../../../../hooks/pageFixture";
 import SkillPage from "../../../pages/admin/qualifications/skillsPage";
-
-Given("User navigates to Admin page", { timeout: 20000 }, async () => {
-  const adminMenuPage = new SkillPage(pageFixture.adminPage);
-  await adminMenuPage.visit();
-});//access to admin page
-When ("user access to skill page", {timeout:20000},async()=>{
-    const skillPage = new SkillPage(pageFixture.adminPage);
-    await skillPage.visitSkillPage();
-
+let skillPage: SkillPage;
+BeforeStep(async () => {
+    skillPage = new SkillPage(pageFixture.adminPage);
 });
-Then ("all elements of skill page is displayed successfully",{timeout:20000},async()=>{
-    const skillPage = new SkillPage(pageFixture.adminPage);
-    await skillPage.afterVisitSkillPage();
 
+When ("user access to skill page", async()=>{
+    await skillPage.acessSkillPage();
 });
-When ("user input valid data into all fields of adding skill", {timeout:20000},async()=>{
-    const skillPage = new SkillPage(pageFixture.adminPage);
-    await skillPage.createSkill();
+Then ("all elements of skill page is displayed successfully", async()=>{
+    await skillPage.afterAcessSkillPage();
 });
-Then ("new skill is added successfully", {timeout:2000}, async()=>{
-    const skillPage = new SkillPage(pageFixture.adminPage);
+When ("user input valid data into name skill {string} and description skill {string}",async(nameSkill, descriptionSkill)=>{
+    await skillPage.createSkill(nameSkill, descriptionSkill);
+});
+Then ("new skill is added successfully", async()=>{
     await skillPage.afterCreateNewSkill();
 });
-When ("Update an existing skill successfully", {timeout: 20000}, async()=>{
-    const skillPage = new SkillPage(pageFixture.adminPage);
+When ("Update an existing skill successfully", async()=>{
     await skillPage.updateLevel();
 });
-Then ("the skill is updated successfully", {timeout:20000}, async()=>{
-    const skillPage = new SkillPage(pageFixture.adminPage);
+Then ("the skill is updated successfully", async()=>{
     await skillPage.afterupdateSkill();
 });
