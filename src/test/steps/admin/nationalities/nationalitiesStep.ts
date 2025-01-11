@@ -56,7 +56,7 @@ Then("Nationality has been deleted", async () => {
 });
 
 // NA_05: Delete multi nationality
-When("User selects multi nationality names are {string} and {string}", { timeout: 100000 }, async (nameToDelete1, nameToDelete2) => {
+When("User selects multi nationality names are {string} and {string}", async (nameToDelete1, nameToDelete2) => {
     await nationalitiesPage.selectMultipleNationalities(nameToDelete1, nameToDelete2);
 });
 When("User clicks Delete button for Nationality", async () => {

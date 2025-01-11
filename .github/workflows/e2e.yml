@@ -8,6 +8,7 @@ on:
     branches: [main, develop]
 jobs:
   e2e_on_pull_request:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == false
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.49.1-noble

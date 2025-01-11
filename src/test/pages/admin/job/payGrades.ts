@@ -37,15 +37,15 @@ export default class PayGradePage {
   }
   async goToPayGradePage(){
     await this.element.jobMenu().click()
-    await this.element.payGradeMenu().click({timeout: 30000})
+    await this.element.payGradeMenu().click()
   }
   async userCreateNewPayGradePage(payGradeName: string) {
-    await this.element.adminMenu().click({ timeout: 30000 })
+    await this.element.adminMenu().click()
     await this.element.jobMenu().click()
     await this.element.payGradeMenu().click()
     await this.element.addPayGradeBtn().click()
     await this.element.nameInput().fill(payGradeName)
-    await this.element.saveBtn().click({timeout: 30000})
+    await this.element.saveBtn().click()
     await expect(this.element.editTitlePage()).toBeVisible()
   }
   async verifyCreatePayGradeSuccessfully(payGradeName: string) {
@@ -56,21 +56,21 @@ export default class PayGradePage {
     await this.element.payGradeMenu().click()
     await this.element.editIcon(payGradeName).click()
     await this.element.nameInput().click()
-    await this.element.nameInput().fill(newPayGrade,{timeout: 30000})
-    await this.element.saveBtn().click({timeout: 30000})
+    await this.element.nameInput().fill(newPayGrade)
+    await this.element.saveBtn().click()
   }
   async verifyUpdatePayGradeSuccessfully(newName: string) {
     await expect(this.element.editTitlePage()).toBeVisible()
     await expect(this.element.messageSuccess()).toBeVisible()
     await this.element.jobMenu().click()
-    await this.element.payGradeMenu().click({timeout: 30000})
+    await this.element.payGradeMenu().click()
     await expect(this.element.updatedNameColumn(newName)).toBeVisible()
   }
   
   async deletePayGrade(payGradeName: string) {
-    await this.element.deleteIcon(payGradeName).click({timeout: 50000})
+    await this.element.deleteIcon(payGradeName).click()
     //await this.page.pause()
-    await this.element.confirmDeleteBtn().click({timeout: 50000})
+    await this.element.confirmDeleteBtn().click()
     //await this.page.waitForTimeout(4000);
     await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
   }

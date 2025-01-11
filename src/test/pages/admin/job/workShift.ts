@@ -31,7 +31,7 @@ export default class WorkShiftsPage {
     async accessWorkShift() {
         await this.elements.adminMenu().click();
         await this.elements.jobMenu().click();
-        await this.elements.workShiftMenu().click({ timeout: 35000 });
+        await this.elements.workShiftMenu().click();
         await this.page.waitForLoadState();
     }
     async verifyUserPageUI() {
