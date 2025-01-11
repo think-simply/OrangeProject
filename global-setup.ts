@@ -23,8 +23,6 @@ async function globalSetup() {
   console.log('Storing auth state...');
   await adminContext.storageState({ path: authConfig.admin.storageState });
   console.log('Auth state saved to:', authConfig.admin.storageState);
-
-
   await browser.close();
 }
 

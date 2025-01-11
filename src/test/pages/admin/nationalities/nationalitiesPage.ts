@@ -1,6 +1,5 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { generateRandomNumber } from "../../../../helper/randomString";
-import exp from "constants";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -57,8 +56,6 @@ export default class NationalitiesAdminPage {
         this.deleteIcon = page.locator('button i.bi-trash');
         this.deleteIconLoad = "button i.bi-trash";
         this.deleteSelectedBtn = page.locator('//button/i[@class="oxd-icon bi-trash-fill oxd-button-icon"]');
-
-
     }
     async accessNationalities(){
         await this.page.goto(`${process.env.WEB_URL}`);
@@ -109,7 +106,6 @@ export default class NationalitiesAdminPage {
         for (let i = 0; i < pageCount; i++) {
             await this.pageNumber.nth(i).click();
             await this.page.waitForTimeout(3000); // Wait for page to load
-
             const isCreatedDataLocator = await this.bodyTable.locator(`//div[text()="${flexibleValue}"]`).isVisible();
             if(isCreatedDataLocator) {
                 const flexibleUpdatedIcon = this.page.locator('//div[text()="'+flexibleValue+'"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//following-sibling::div/button/i[@class="oxd-icon bi-pencil-fill"]');
@@ -141,7 +137,6 @@ export default class NationalitiesAdminPage {
         for (let i = 0; i < pageCount; i++) {
             await this.pageNumber.nth(i).click();
             await this.page.waitForTimeout(3000);
-
             const hasUpdatedData = await this.bodyTable.locator(`//div[text()="${flexibleValue2}"]`).isVisible();
             if(hasUpdatedData){
                 isUpdatedNewvalue = true;

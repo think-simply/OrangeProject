@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test'
+import { Page, expect } from '@playwright/test'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -15,8 +15,7 @@ export default class PayGradePage {
     nameInput: () =>
       this.page.locator(
         '//label[text()="Name"]/ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::input'
-      ),
-      
+      ),      
     saveBtn: () => this.page.locator('//button[text()=" Save "]'),
     messageSuccess: () => this.page.locator('//p[text()="Success"]'),
     editTitlePage: () => this.page.locator('//h6[text()="Edit Pay Grade"]'),
@@ -36,7 +35,6 @@ export default class PayGradePage {
       //this.page.locator('//button[text()=" Yes, Delete "]'),
       this.page.locator('//*[@id="app"]/div[3]/div/div/div/div[3]/button[2]')
   }
-
   async goToPayGradePage(){
     await this.element.jobMenu().click()
     await this.element.payGradeMenu().click({timeout: 30000})
@@ -75,7 +73,6 @@ export default class PayGradePage {
     await this.element.confirmDeleteBtn().click({timeout: 50000})
     //await this.page.waitForTimeout(4000);
     await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
-
   }
   async verifyDeletePayGradeSuccessfully(payGradeName: string) {
     //await expect(this.element.editTitlePage()).toBeVisible()

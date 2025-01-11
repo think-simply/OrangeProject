@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import dotenv from 'dotenv';
 import data from '../../../../../dataTest.json'
 import { generateRandomString } from "../../../../helper/randomString";
@@ -9,9 +9,7 @@ const randomJobTitle = generateRandomString(data.jobTitle.jobTitles)+"Test";
 export default class JobTitlesPage {
     readonly page: Page;
     constructor(page: Page) {
-        this.page = page;
-        // Locator
-        
+        this.page = page;       
     }
     element = {
         adminMenu: () => this.page.locator('//span[text()="Admin"]'),
