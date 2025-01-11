@@ -82,7 +82,7 @@ Then("The location should be deleted",  async () => {
 });
 
 // LO_08: Delete multiple locations
-When( "User selects multiple locations", async () => {
+When("User selects multiple locations", async () => {
     await locationsAdminPage.creatDataToMultiDelete();
     await locationsAdminPage.selectMultiLocations();
 });

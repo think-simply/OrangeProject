@@ -7,21 +7,21 @@ BeforeStep( async() => {
     skillPage = new SkillPage(pageFixture.page);
 })
 
-When ("User access to skill page", async()=>{
+When("User access to skill page", async()=>{
     await skillPage.visitSkillPage();
 });
-Then ("All elements of skill page is displayed successfully",async()=>{
+Then("All elements of skill page is displayed successfully",async()=>{
     await skillPage.afterVisitSkillPage();
 });
-When ("User input valid data into all fields of adding skill", async()=>{
+When("User input valid data into all fields of adding skill", async()=>{
     await skillPage.createSkill();
 });
-Then ("New skill is added successfully", async()=>{
+Then("New skill is added successfully", async()=>{
     await skillPage.afterCreateNewSkill();
 });
-When ("Update an existing skill successfully", async()=>{
+When("Update an existing skill successfully", async()=>{
     await skillPage.updateLevel();
 });
-Then ("The skill is updated successfully", async()=>{
+Then("The skill is updated successfully", async()=>{
     await skillPage.afterupdateSkill();
 });

@@ -26,12 +26,12 @@ Then("New Education level is created successfully", async () => {
 When("User updates an existing level", async()=>{
   await educationPage.updateLevel();
 });
-Then ("Level is updated successfully", async()=>{
+Then("Level is updated successfully", async()=>{
   await educationPage.afterUpdateLevel();
 });
 When("User delete education level", async()=>{
   await educationPage.deleteEduLevel();
 });
-Then ("Education level is deleted successfully", async()=>{
+Then("Education level is deleted successfully", async()=>{
   await educationPage.afterDeleteEduLevel();
 });

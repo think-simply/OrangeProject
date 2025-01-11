@@ -26,7 +26,7 @@ async function getAuthToken() {
     }
     return `${orangehrmCookie.name}=${orangehrmCookie.value}`;
 }
-Given('the API endpoint is {string}', async function (endpoint: string) {
+Given('The API endpoint is {string}', async function (endpoint: string) {
     apiEndpoint = endpoint;
     const cookieValue = await getAuthToken();
     apiContext = await request.newContext({
@@ -59,7 +59,7 @@ Then('API should response correctly with provider name {string}', async function
     providerId = responseBodyObject.data.id;
     expect(providerName).toBe(name);
 });
-Then('the response status should be {int}', async function (expectedStatus: number) {
+Then('The response status should be {int}', async function (expectedStatus: number) {
     expect(response.status()).toBe(expectedStatus);
 });
 When('I send a PUT request to update a provider with parameters:', async function (dataTable: DataTable) {
