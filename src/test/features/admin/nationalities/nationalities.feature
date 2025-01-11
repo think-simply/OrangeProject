@@ -4,11 +4,11 @@ Feature: Nationalities in Admin Menu
   Background:
     Given User accessed Nationalities page
 
-  @low 
+  @low
   Scenario: NA_01: Check UI of Nationalities page
     Then All elements are displayed as expected in Nationalities
 
-  @high 
+  @high @now
   Scenario: NA_02: Add a new nationality
     When User clicks Add button for Nationality
     And User inputs valid data for Nationality contains name "<name>"
@@ -40,7 +40,7 @@ Feature: Nationalities in Admin Menu
       | name    |
       | Delete1 |
 
-  @medium @now
+  @medium
   Scenario: NA_05: Delete multi nationality
     When User selects multi nationality names are "<name1>" and "<name2>"
     And User clicks Delete button for Nationality
