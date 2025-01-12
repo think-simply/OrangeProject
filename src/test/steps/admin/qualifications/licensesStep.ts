@@ -5,7 +5,7 @@ let licensesPage: LicensesPage;
 
 // Pre-condition
 BeforeStep(async () => {
-    licensesPage = new LicensesPage(pageFixture.adminPage)
+    licensesPage = new LicensesPage(pageFixture.page)
 })
 Given("User go to Qualifications > Licenses page", async() => {
     await licensesPage.visit()

@@ -5,7 +5,7 @@ dotenv.config();
 
 let flexibleValue: string = ""; 
 let flexibleValue2: string = "";
-export default class NationalitiesAdminPage {
+export default class NationalitiesPage {
     readonly page: Page;
     constructor(page: Page) {
         this.page = page;
@@ -200,22 +200,3 @@ export default class NationalitiesAdminPage {
         await this.verifyAfterExecute(true, flexibleValue2);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

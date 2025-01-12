@@ -38,11 +38,6 @@ export default class SkillPage {
         this.deleteSkillMsg=page.locator('//div[@id="oxd-toaster_1"]//following::p[text()="Successfully Deleted"]');
         this.editIcon= page.locator('//div[contains(text(),"skill 2")]//ancestor::div[@class="oxd-table"]//descendant::i[@class="oxd-icon bi-pencil-fill"]');
         this.updateSuccessMsg= page.locator('//div[@id = "oxd-toaster_1"]//following::div[@class="oxd-toast-content oxd-toast-content--success"]');
-
-
-
-
-
 }
 
 async visit() {

@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import dotenv from 'dotenv';
 import data from '../../../../../dataTest.json'
 import { generateRandomString } from "../../../../helper/randomString";
@@ -9,9 +9,7 @@ const randomJobTitle = generateRandomString(data.jobTitle.jobTitles)+"Test";
 export default class JobTitlesPage {
     readonly page: Page;
     constructor(page: Page) {
-        this.page = page;
-        // Locator
-        
+        this.page = page;       
     }
     element = {
         adminMenu: () => this.page.locator('//span[text()="Admin"]'),
@@ -33,7 +31,7 @@ export default class JobTitlesPage {
     async userGoToJobTitles() {
         await this.element.adminMenu().click();
         await this.element.jobMenu().click();
-        await this.element.jobTitlesMenu().click({timeout: 35000});
+        await this.element.jobTitlesMenu().click();
     }
     async verifyJobTitlesPage(){
         await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
@@ -57,7 +55,7 @@ export default class JobTitlesPage {
         await this.element.jobTitleTxb().click()
         await this.element.jobTitleTxb().fill(newName)
         await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
-        await this.element.saveJobTitleBtn().click({timeout: 30000})
+        await this.element.saveJobTitleBtn().click()
         await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyUpdateJobTitleSuccessfully(jobTitleName: string){

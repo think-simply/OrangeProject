@@ -1,4 +1,4 @@
-@GenerateInformation
+@GenerateInformation @admin
 Feature: Organization_General Information in Admin Menu
 
   Background:
