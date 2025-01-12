@@ -3,84 +3,61 @@ import dotenv from "dotenv";
 dotenv.config();
 export default class SkillPage {
     readonly page :Page;
-    readonly adminMenu: Locator;
-    readonly qualifications: Locator;
-    readonly skillsOption: Locator;
-    readonly skillElement: Locator;
-    readonly addSkillBtn: Locator;
-    readonly nameSkill: Locator;
-    readonly descriptionSkill: Locator;
-    readonly saveSkillBtn: Locator;
-    readonly cancelSkillBtn: Locator;
-    readonly addSkillsuccessmsg: Locator;
-    readonly skillNameCheckbox: Locator;
-    readonly deleteIcon: Locator;
-    readonly yesDeleteSkillbtn: Locator;
-    readonly deleteSkillMsg:Locator;
-    readonly editIcon: Locator;
-    readonly editSkillname: Locator;
-    readonly updateSuccessMsg:Locator;
+    constructor(page: Page){
+      this.page = page;
+    }
+    elements = {
+        passWord: () => this.page.locator('//input[@placeholder="Password"]'),
+        loginBtn: () => this.page.locator('//button[@type="submit"]'),
+        adminMenu: () => this.page.locator('//span[text()="Admin"]'),
+        qualifications:() => this.page.locator('//span[normalize-space()="Qualifications"]'),
+        skillsOption: () => this.page.locator('//li[@class="--active oxd-topbar-body-nav-tab --parent --visited"]//li[1]'),
+        skillElement: () => this.page.locator('//h6[@class="oxd-text oxd-text--h6 orangehrm-main-title"]'),
+        addSkillBtn: ()  => this.page.locator('//button[normalize-space()="Add"]'),
+        nameSkill: ()  => this.page.locator('//label[@class="oxd-label oxd-input-field-required"]//ancestor::div[@class="oxd-form-row"]//descendant::input'),
+        descriptionSkill: () => this.page.locator('//label[text()="Description"]//ancestor::div[@class="oxd-form-row"]//descendant::textarea'),
+        saveSkillBtn: () => this.page.locator('//button[@type="submit"]'),
+        addSkillsuccessmsg: () => this.page.locator('//div[@class="oxd-toast-start"]//p[@class="oxd-text oxd-text--p oxd-text--toast-message oxd-toast-content-text"]'),
+        deleteIcon: () => this.page.locator('//div[contains(text(),"Skill 1")]//ancestor::div[@class="oxd-table"]//descendant::button[@class="oxd-icon-button oxd-table-cell-action-space"]'),
+        yesDeleteSkillbtn: () => this.page.locator('//button[normalize-space()="Yes, Delete"]'),
+        deleteSkillMsg: () => this.page.locator('//div[@id="oxd-toaster_1"]//following::p[text()="Successfully Deleted"]'),
+        editIcon: () => this. page.locator('//div[contains(text(),"skill 2")]//ancestor::div[@class="oxd-table"]//descendant::i[@class="oxd-icon bi-pencil-fill"]'),
+        updateSuccessMsg: () => this. page.locator('//div[@id = "oxd-toaster_1"]//following::div[@class="oxd-toast-content oxd-toast-content--success"]'),
 
-
-    constructor(page: Page) {
-        this.page= page;
-        this.adminMenu= page.locator('//span[text()="Admin"]');
-        this.qualifications= page.locator('//span[normalize-space()="Qualifications"]');
-        this.skillsOption= page.locator('//li[@class="--active oxd-topbar-body-nav-tab --parent --visited"]//li[1]');
-        this.skillElement= page.locator('//h6[@class="oxd-text oxd-text--h6 orangehrm-main-title"]');
-        this.addSkillBtn = page.locator('//button[normalize-space()="Add"]');
-        this.nameSkill = page.locator('//label[@class="oxd-label oxd-input-field-required"]//ancestor::div[@class="oxd-form-row"]//descendant::input');
-        this.descriptionSkill=page.locator('//label[text()="Description"]//ancestor::div[@class="oxd-form-row"]//descendant::textarea');
-        this.saveSkillBtn=page.locator('//button[@type="submit"]');
-        this.addSkillsuccessmsg=page.locator('//div[@class="oxd-toast-start"]//p[@class="oxd-text oxd-text--p oxd-text--toast-message oxd-toast-content-text"]');
-        this.deleteIcon=page.locator('//div[contains(text(),"Skill 1")]//ancestor::div[@class="oxd-table"]//descendant::button[@class="oxd-icon-button oxd-table-cell-action-space"]');
-        this.yesDeleteSkillbtn=page.locator('//button[normalize-space()="Yes, Delete"]');
-        this.deleteSkillMsg=page.locator('//div[@id="oxd-toaster_1"]//following::p[text()="Successfully Deleted"]');
-        this.editIcon= page.locator('//div[contains(text(),"skill 2")]//ancestor::div[@class="oxd-table"]//descendant::i[@class="oxd-icon bi-pencil-fill"]');
-        this.updateSuccessMsg= page.locator('//div[@id = "oxd-toaster_1"]//following::div[@class="oxd-toast-content oxd-toast-content--success"]');
-
-
-
-
-
+    }
+ async acessSkillPage() {
+   await this.elements.adminMenu().click();
+   await this.elements.qualifications().click();
+   await this.elements.skillsOption().click();
 }
 
-async visit() {
-    await this.page.goto(`${process.env.WEB_URL}`);
-}
- async accessAdmin() {
-    await this.adminMenu.click();
-}
- async visitSkillPage() {
-    await this.qualifications.click();
-    await this.skillsOption.click();
-} 
- async afterVisitSkillPage(){
-    await expect(this.skillElement).toBeVisible({timeout:10000});
+ async afterAcessSkillPage(){
+    await expect(this.elements.skillElement()).toBeVisible();
  }
- async createSkill(){
-    await this.addSkillBtn.click();
-    await this.nameSkill.fill('Skill 1');
-    await this.descriptionSkill.fill('test 1');
-    await this.saveSkillBtn.click();
+ async createSkill(nameSkill: string, descriptionSkill: string){
+    await this.elements.addSkillBtn().click();
+    await this.elements.nameSkill().fill(nameSkill);
+    await this.elements.descriptionSkill().fill(descriptionSkill);
+    await this.elements.saveSkillBtn().click();
  }
  async afterCreateNewSkill(){
-    await expect(this.addSkillsuccessmsg).toBeVisible({timeout: 10000});
+    await expect(this.elements.addSkillsuccessmsg()).toBeVisible();
  }
  async deleteSkillLevel(){
-    await this.deleteIcon.click();
-    await this.yesDeleteSkillbtn.click();
+    await this.elements.deleteIcon().click();
+    await this.elements.yesDeleteSkillbtn().click();
  }
   async afterDeleteSkill(){
-    await expect(this.deleteSkillMsg).toBeVisible({timeout:10000});
+    await expect(this.elements.deleteSkillMsg()).toBeVisible();
   }
   async updateLevel(){
-    await this.editIcon.click();
-    await this.nameSkill.fill('New skill1');
-    await this.saveSkillBtn.click();
+    await this.elements.editIcon().click();
+    await this.elements.nameSkill().click();
+    await this.elements.nameSkill().fill('New skill1');
+    await this.elements.saveSkillBtn().click();
   }
    async afterupdateSkill(){
-    await expect(this.updateSuccessMsg).toBeVisible({timeout:10000});
+    await expect(this.elements.updateSuccessMsg()).toBeVisible();
   }
 };
 
