@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pretest": "npx ts-node src/helper/init.ts",
-    "test": "cucumber-js test",
+    "pretest": "npx ts-node src/helper/init.ts && npx ts-node global-setup.ts",
+    "test": "cucumber-js --tags @admin test",
     "now": "npx cucumber-js  --tags @now",
     "user": "npx cucumber-js  --tags @user",
     "education": "npx cucumber-js  --tags @education",

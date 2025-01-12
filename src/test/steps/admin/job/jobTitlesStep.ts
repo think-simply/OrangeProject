@@ -1,11 +1,10 @@
-import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
-import AdminMenuPage from "../../../pages/admin/userManagement/userPage";
+import { When, Then, BeforeStep } from "@cucumber/cucumber";
 import JobTitlesPage from "../../../pages/admin/job/jobTitles";
 import { pageFixture } from "../../../../hooks/pageFixture";
 
 let jobTitlesPage: JobTitlesPage
 BeforeStep(async() => {
-    jobTitlesPage = new JobTitlesPage(pageFixture.adminPage)
+    jobTitlesPage = new JobTitlesPage(pageFixture.page)
 })
 When("User access job title page", async () => {
     await jobTitlesPage.userGoToJobTitles(); 

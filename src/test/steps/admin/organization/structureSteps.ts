@@ -1,63 +1,63 @@
 import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
 import { pageFixture } from "../../../../hooks/pageFixture";
-import StructureAdminPage from "../../../pages/admin/organization/structurePage";
-let adminMenuPage: StructureAdminPage;
+import StructurePage from "../../../pages/admin/organization/structurePage";
+let structurePage: StructurePage;
 
 BeforeStep(async () => {
-    adminMenuPage = new StructureAdminPage(pageFixture.adminPage);
+    structurePage = new StructurePage(pageFixture.page);
 })
 //Pre-condition
 Given("User accessed Structure", async () => {
-    await adminMenuPage.accessStructure();
+    await structurePage.accessStructure();
 });
 
 //ST_01: Check UI of Structure page
 Then("All elements in Structure should be displayed as expected", async () => {
-    await adminMenuPage.checkStructureUI();
+    await structurePage.checkStructureUI();
 });
 
 //ST_02: Add a new Organization unit
 When("User clicks Add button", async () => {
-    await adminMenuPage.changeToAddMode();
+    await structurePage.changeToAddMode();
 });
 When("User inputs valid data", async () => {
-    await adminMenuPage.inputData();
+    await structurePage.inputData();
 });
 When("User clicks Save button", async () => {
-    await adminMenuPage.clickSaveButton();
+    await structurePage.clickSaveButton();
 });
 Then("New organization unit has been created", async () => {
-    await adminMenuPage.verifyNewOrganizationCreated();
+    await structurePage.verifyNewOrganizationCreated();
 });
 
 //ST_03: Edit Organization - This testcase is Failed
 When("User clicks Edit button", async () => {
-    await adminMenuPage.clickEditButton();
+    await structurePage.clickEditButton();
 });
 When("User updates data", async () => {
-    await adminMenuPage.inputData();
+    await structurePage.inputData();
 });
 Then("Organization has been updated", async () => {
-    await adminMenuPage.clickSaveButton();
-    await adminMenuPage.verifyOrganizationUpdated();
+    await structurePage.clickSaveButton();
+    await structurePage.verifyOrganizationUpdated();
 });
 
 //ST_04: Delete Organization 
 When("User clicks Delete icon", async () => {
-    await adminMenuPage.clickDeleteIcon();
+    await structurePage.clickDeleteIcon();
 });
 Then("Organization has been deleted", async () => {
-    await adminMenuPage.verifyOrganizationDeleted();
+    await structurePage.verifyOrganizationDeleted();
 });
 
 //ST_05: Add a sub Organization
 When("User clicks + icon from an organization", async () => {
-    await adminMenuPage.clickAddSubOrganizationIcon();
+    await structurePage.clickAddSubOrganizationIcon();
 });
 Then("User inputs valid subdata", async () => {
-    await adminMenuPage.inputSubData();
+    await structurePage.inputSubData();
 });
 Then("Sub-Organization has been created under the root organization", async () => {
-    await adminMenuPage.verifySubOrganizationCreated();
+    await structurePage.verifySubOrganizationCreated();
 });
 

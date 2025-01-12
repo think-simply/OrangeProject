@@ -1,4 +1,4 @@
-@emailSub
+@emailSub @admin
 Feature: Functions in Configuration menu: Email subscription
   Background:
     Given User navigates to page

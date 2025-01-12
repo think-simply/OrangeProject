@@ -41,10 +41,6 @@ export default class EducationPage {
         this.editBtn= page.locator('//div[text()="A3"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]');
         this.saveUpdateBtn= page.locator('//button[@type="submit"]');
         this.updateMessage = page.locator('//div[@class="oxd-toast-start"]');
-
-
-      
-
     }
 
     async visit() {
@@ -62,7 +58,7 @@ export default class EducationPage {
         await this.saveLevel.click();
     }
 
-    async AftercreateEduLevel() {
+    async afterCreateEduLevel() {
         await expect(this.messageSuccess).toBeVisible({ timeout: 10000 }); 
     }
     async updateLevel(){
@@ -75,7 +71,7 @@ export default class EducationPage {
         await this.saveUpdateBtn.click();
         
     }
-    async AfterUpdateLevel(){
+    async afterUpdateLevel(){
         await expect(this.messageSuccess).toBeVisible({ timeout: 10000 }); 
     }
     async deleteEduLevel(){
@@ -86,7 +82,7 @@ export default class EducationPage {
         await this.deleteSelectedbtn.click();
         await this.yesDeletebtn.click();
     }
-    async AfterDeleteEduLevel(){
+    async afterDeleteEduLevel(){
         await expect(this.messageSuccess).toBeVisible({ timeout: 10000 }); 
     }
 
