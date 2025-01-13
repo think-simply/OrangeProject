@@ -89,16 +89,16 @@ export default class LocationsPage {
       await expect(this.elements.noResultsText()).toBeVisible();
       return;
     }
-
-    await this.elements.actionIcon().nth(0).waitFor();
+    //await this.elements.actionIcon().nth(0).waitFor();
+    await this.page.waitForTimeout(5000);
     const rowCount = await columnData.count();
     const lowercasedDataChecking = dataChecking.toLowerCase();
     for (let i = 0; i < rowCount; i++) {
       const valuesInColumn = (await columnData.nth(i).first().textContent())?.trim().toLowerCase();
-      if ((isOldDataDisplayed && valuesInColumn === lowercasedDataChecking) ||
-       (!isOldDataDisplayed && !valuesInColumn.includes(lowercasedDataChecking))) 
-       { 
-        isValidValue = false; 
+      if ((isOldDataDisplayed && valuesInColumn === lowercasedDataChecking) ||  //2 cases OR
+       (!isOldDataDisplayed && !valuesInColumn.includes(lowercasedDataChecking)))
+      { 
+        isValidValue = false;
         break; 
       }
     }
