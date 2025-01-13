@@ -1,37 +1,29 @@
-
-import { Given, When, Then,BeforeStep } from "@cucumber/cucumber";
+import { When, BeforeStep,Then } from "@cucumber/cucumber";
 import EducationPage from "../../../pages/admin/qualifications/educationPage";
 import { pageFixture } from "../../../../hooks/pageFixture";
-
 let educationPage: EducationPage;
-BeforeStep(async () => {
-  educationPage = new EducationPage(pageFixture.page)
+BeforeStep(async()=>{
+  educationPage = new EducationPage(pageFixture.page);
 })
-
-Given("User navigates to Admin page", async  () => {
-  await educationPage.visit();
-});
-
-When("User navigate to admin menu", async () => {
+When("user navigate to education page", async () => {
   await educationPage.accessAdmin();
 });
-
-When("Create new level of education", async () => {
-  await educationPage.createEduLevel();
+When("create new level of education {string}", async (eduLevel) => {
+  await educationPage.createEduLevel(eduLevel);
 });
-
-Then("New Education level is created successfully", async () => {
-  await educationPage.afterCreateEduLevel();
+Then("new Education level {string} is created successfully", async (text) => {
+  await educationPage.AftercreateEduLevel(text);
 });
-When("User updates an existing level", async()=>{
+When("user updates an existing level",async()=>{
+  await educationPage.accessAdmin();
   await educationPage.updateLevel();
 });
-Then("Level is updated successfully", async()=>{
-  await educationPage.afterUpdateLevel();
+Then ("level is updated successfully", async()=>{
+  await educationPage.AfterUpdateLevel();
 });
-When("User delete education level", async()=>{
+When("user delete education level",async()=>{
   await educationPage.deleteEduLevel();
 });
-Then("Education level is deleted successfully", async()=>{
-  await educationPage.afterDeleteEduLevel();
+Then ("education level is deleted successfully", async()=>{
+  await educationPage.AfterDeleteEduLevel();
 });
