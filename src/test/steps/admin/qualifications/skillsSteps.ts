@@ -5,24 +5,21 @@ let skillPage: SkillPage;
 BeforeStep(async () => {
     skillPage = new SkillPage(pageFixture.page);
 });
-// Given("User navigates to Admin page", async  () => {
-//   await skillPage.visit();
-// });
 When ("user access to skill page", async()=>{
     await skillPage.acessSkillPage();
 });
 Then ("all elements of skill page is displayed successfully", async()=>{
-    await skillPage.afterAcessSkillPage();
+    await skillPage.verifyAcessSkillPage();
 });
 When ("user input valid data into name skill {string} and description skill {string}",async(nameSkill, descriptionSkill)=>{
     await skillPage.createSkill(nameSkill, descriptionSkill);
 });
 Then ("new skill is added successfully", async()=>{
-    await skillPage.afterCreateNewSkill();
+    await skillPage.verifyCreateNewSkill();
 });
 When ("user edit a skill", async()=>{
     await skillPage.updateLevel();
 });
 Then ("the skill is updated successfully", async()=>{
-    await skillPage.afterupdateSkill();
+    await skillPage.verifyUpdateSkill();
 });
