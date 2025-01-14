@@ -1,33 +1,33 @@
 import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
 import { pageFixture } from "../../../../hooks/pageFixture";
 import dataImportPIMPage from "../../../pages/PIM/configuration/dataImportPage";
-let adminMenuPage: dataImportPIMPage;
+let dataImportPage: dataImportPIMPage;
 
 BeforeStep( async() => {
-    adminMenuPage = new dataImportPIMPage(pageFixture.page);
+    dataImportPage = new dataImportPIMPage(pageFixture.page);
 })
 //Pre-condition
 Given("User accessed Data Import page", async () => {
-    await adminMenuPage.navigate();
+    await dataImportPage.navigate();
 });
 
 //DI_01: Check UI
 Then("The page displayed as expected", async () => {
-    await adminMenuPage.checkUI();
+    await dataImportPage.checkUI();
 });
 
 //DI_02: Download sample file
 When("User clicks on Download button", async () => {
-    await adminMenuPage.clickDownloadButton();
+    await dataImportPage.clickDownloadButton();
 });
 Then("The sample file should be downloaded successfully", async () => {
-    await adminMenuPage.verifyDownload();
+    await dataImportPage.verifyDownload();
 });
 
 //DI_03: Upload a file
 When("User uploads the modified file", async () => {
-    await adminMenuPage.uploadFile();
+    await dataImportPage.uploadFile();
 });
 Then("The file should be uploaded successfully", async () => {
-    await adminMenuPage.verifyUpload();
+    await dataImportPage.verifyUpload();
 });

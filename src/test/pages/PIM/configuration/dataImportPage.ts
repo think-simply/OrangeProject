@@ -1,4 +1,4 @@
-import { Page, Locator, expect, Download } from "@playwright/test";
+import { Page, expect} from "@playwright/test";
 import path from "path";
 import { faker } from "@faker-js/faker";
 import fs from 'fs-extra';
