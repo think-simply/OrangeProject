@@ -17,8 +17,8 @@ When ("user input valid data into name skill {string} and description skill {str
 Then ("new skill is added successfully", async()=>{
     await skillPage.verifyCreateNewSkill();
 });
-When ("user edit a skill", async()=>{
-    await skillPage.updateLevel();
+When ("user edit a skill {string} ", async(text)=>{
+    await skillPage.updateLevel(text);
 });
 Then ("the skill is updated successfully", async()=>{
     await skillPage.verifyUpdateSkill();

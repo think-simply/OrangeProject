@@ -19,7 +19,7 @@ export default class SkillPage {
         deleteIcon: () => this.page.locator('//div[contains(text(),"Skill 1")]//ancestor::div[@class="oxd-table"]//descendant::button[@class="oxd-icon-button oxd-table-cell-action-space"]'),
         yesDeleteSkillbtn:() => this.page.locator('//button[normalize-space()="Yes, Delete"]'),
         deleteSkillMsg: () => this.page.locator('//div[@id="oxd-toaster_1"]//following::p[text()="Successfully Deleted"]'),
-        editIcon: () => this. page.locator('//div[contains(text(), "skill 2")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]'),
+        editIcon: (text: string) => this. page.locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
         nameTextbox:()=> this.page.locator('//label[text()="Name"]/parent::div/following-sibling::div/input[@class="oxd-input oxd-input--active"]'),
         updateSuccessMsg: () => this.page.locator('//div[@id = "oxd-toaster_1"]//following::div[@class="oxd-toast-content oxd-toast-content--success"]'),
     }
@@ -48,8 +48,9 @@ export default class SkillPage {
   async verifyDeleteSkill(){
     await expect(this.elements.deleteSkillMsg()).toBeVisible();
   }
-  async updateLevel(){
-    await this.elements.editIcon().click();
+  async updateLevel(text: string){
+   text = "skill 2";
+    await this.elements.editIcon(text).click();
     //await this.elements.nameTextbox().click();
     //await this.elements.nameTextbox().clear();
     await expect(this.elements.nameTextbox()).not.toHaveValue("");

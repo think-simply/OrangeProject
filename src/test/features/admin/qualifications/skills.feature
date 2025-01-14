@@ -11,8 +11,8 @@ Scenario: Sk_02: Adding new skill successfully
   When user access to skill page
   And user input valid data into name skill "skill1" and description skill " test1"
   Then new skill is added successfully
-@high 
+@high @hana
 Scenario: Sk_03: Update an existing skill successfully
   When user access to skill page
-  And user edit a skill
+  And user edit a skill "skill 2"
   Then the skill is updated successfully
