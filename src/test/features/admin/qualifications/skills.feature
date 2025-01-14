@@ -7,14 +7,14 @@ Scenario: SK_01: Displaying all elements of skill page successfully
   When User access to skill page
   Then All elements of skill page is displayed successfully
 @high
-Scenario: Sk_02: Adding new skill successfully 
+Scenario: SK_02: Adding new skill successfully 
   When User access to skill page
   And User input valid data into name skill "skill 5" and description skill " test1"
   Then New skill is added successfully
    When User delete skill "skill 5"
 
 @high 
-Scenario: Sk_03: Update an existing skill successfully
+Scenario: SK_03: Update an existing skill successfully
   When User access to skill page
   And User input valid data into name skill "skill 4" and description skill " test1"
   And User edit a skill "skill 4" into "new skill3"
