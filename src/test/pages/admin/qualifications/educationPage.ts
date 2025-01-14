@@ -1,7 +1,6 @@
 
 import { Page, Locator, expect } from "@playwright/test";
 import dotenv from 'dotenv';
-import { text } from "stream/consumers";
 dotenv.config();
 
 export default class EducationPage {
