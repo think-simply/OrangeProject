@@ -18,12 +18,12 @@ export default class EducationPage {
         eduLevel :() =>this.page.locator('//label[text()="Level"]//ancestor::div[@class="oxd-form-row"]//descendant::input'),
         saveLevel:()  => this.page.locator('//button[@type="submit"]'),
         messageSuccess:()  => this.page.locator('//p[text()="Success"]'),
-        checkbox:() => this.page.locator('//div[contains(text(), "A6")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]'),
+        checkbox:(text:string) => this.page.locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`),
         deleteSelectedbtn:() => this.page.locator('//button[normalize-space()="Delete Selected"]'),
         yesDeletebtn:()  => this.page.locator('//button[normalize-space()="Yes, Delete"]'),
         userName:()  => this.page.locator('//input[@placeholder="Username"]'),
         messageDelete:() =>this.page.locator('//div[@class="oxd-toast oxd-toast--success oxd-toast-container--toast"]'),
-        editBtn:() => this.page.locator('//div[text()="A1"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]'),
+        editBtn:(text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
         saveUpdateBtn:() =>this.page.locator('//button[@type="submit"]'),
         newRecord:(text:string) => this.page.locator(`//div[text()="${text}"]`),
         actionColumn: () => this.page.locator('//div[text()="Actions"]'),
@@ -45,20 +45,20 @@ export default class EducationPage {
         await this.elements.actionColumn().waitFor();
         await expect(this.elements.newRecord(text)).toBeVisible();
     }
-    async updateLevel(){
-        await this.elements.editBtn().click();
+    async updateLevel(text:string, newEducation:string){
+        await this.elements.editBtn(text).click();
         await this.elements.eduLevel().click();
-        await this.elements.eduLevel().fill("new name");
+        await this.elements.eduLevel().fill(newEducation);
         await this.elements.saveUpdateBtn().click();  
     }
     async AfterUpdateLevel(){
         await expect(this.elements.messageSuccess()).toBeVisible(); 
     }
-    async deleteEduLevel(){
+    async deleteEduLevel(text:string){
         await this.elements.adminMenu().click();
         await this.elements.qualifications().click();
         await this.elements.education().click();
-        await this.elements.checkbox().click();
+        await this.elements.checkbox(text).click();
         await this.elements.deleteSelectedbtn().click();
         await this.elements.yesDeletebtn().click();
     }
