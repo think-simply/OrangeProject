@@ -1,7 +1,7 @@
 @admin @skill
 Feature: Function in admin menu- Skill qualification
 Background: 
-  Given User navigates to Admin page
+  Given User navigates to page
 @low 
 Scenario: SK_01: Displaying all elements of skill page successfully
   When User access to skill page
