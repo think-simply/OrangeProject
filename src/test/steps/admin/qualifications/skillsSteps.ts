@@ -5,21 +5,25 @@ let skillPage: SkillPage;
 BeforeStep(async () => {
     skillPage = new SkillPage(pageFixture.page);
 });
-When ("user access to skill page", async()=>{
+When ("User access to skill page", async()=>{
     await skillPage.acessSkillPage();
 });
-Then ("all elements of skill page is displayed successfully", async()=>{
+Then ("All elements of skill page is displayed successfully", async()=>{
     await skillPage.verifyAcessSkillPage();
 });
-When ("user input valid data into name skill {string} and description skill {string}",async(nameSkill, descriptionSkill)=>{
+When ("User input valid data into name skill {string} and description skill {string}",async(nameSkill, descriptionSkill)=>{
     await skillPage.createSkill(nameSkill, descriptionSkill);
 });
-Then ("new skill is added successfully", async()=>{
+Then ("New skill is added successfully", async()=>{
     await skillPage.verifyCreateNewSkill();
 });
-When ("user edit a skill {string} ", async(text)=>{
-    await skillPage.updateLevel(text);
+When ("User edit a skill {string} into {string}", async(text, newName)=>{
+    await skillPage.updateLevel(text, newName);
 });
-Then ("the skill is updated successfully", async()=>{
+Then ("The skill is updated successfully", async()=>{
     await skillPage.verifyUpdateSkill();
+});
+
+When ("User delete skill {string}", async(text)=>{
+    await skillPage.deleteSkill(text);
 });
