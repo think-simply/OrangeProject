@@ -1,7 +1,6 @@
 import { Page, Locator, expect, Download } from "@playwright/test";
-import { generateRandomName } from "../../../../helper/randomString";
 import path from "path";
-import { Faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 import fs from 'fs-extra';
 import dotenv from "dotenv";
 dotenv.config();
@@ -22,7 +21,7 @@ export default class dataImportPIMPage {
     downloadLink: () => this.page.locator("a.download-link"),
     inputFileBtn: () => this.page.locator('//input[@type="file"]'),
     uploadBtn: () => this.page.locator('//button[@type="submit"]'),
-    fileName: () => "Test" + generateRandomName(3)+".csv",
+    fileName: () => "Test" + faker.number.int(1000) +".csv", //random integer between zero and the given max value
     uploadsFile: () => this.page.locator('//div[text()="DataTesttoUpload.csv"]'),
     importDetailPopup: () => this.page.locator('//div[@role="document"]'),
     okBtn: () => this.page.locator('//div[@class="orangehrm-modal-footer"]/button[@type="button"]'),
@@ -39,18 +38,11 @@ export default class dataImportPIMPage {
     await expect(this.elements.noteTable()).toBeVisible();
   }
   async clickDownloadButton() {
-    //create folder to store file
-    // const downloadsDir = path.join(__dirname, "downloads");
-    // if (fs.existsSync(downloadsDir)) {
-    //   fs.mkdirSync(downloadsDir, { recursive: true });
-    // }
+    //Create empty place to store files
     const downloadsDir = path.join(__dirname, "downloads");
-    // Kiểm tra xem thư mục downloads có tồn tại không
     if (fs.existsSync(downloadsDir)) {
-      // Xóa sạch nội dung trong thư mục downloads
       await fs.emptyDir(downloadsDir);
     } else {
-      // Tạo thư mục downloads nếu chưa tồn tại
       await fs.mkdirp(downloadsDir);
     }
     //download
