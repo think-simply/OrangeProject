@@ -21,10 +21,24 @@ async function globalSetup() {
   await adminPage.click('//button[@type="submit"]');
   // Wait for login to complete - adjust selector as needed
   // await adminPage.waitForSelector('//p[normalize-space()="Time at Work"]', { timeout: 10000 });
-  console.log('Storing auth state...');
+  
   await adminContext.storageState({ path: authConfig.admin.storageState });
-  console.log('Auth state saved to:', authConfig.admin.storageState);
+  
+  await adminPage.click('//p[@class="oxd-userdropdown-name"]');
+  await adminPage.click('//a[normalize-space()="Logout"]');
 
+  // Setup for ESS
+  const memberContext = await browser.newContext();
+  const memberPage = await memberContext.newPage();
+  await memberPage.goto(`${process.env.WEB_URL}`);
+  await memberPage.fill('//input[@placeholder="Username"]', authConfig.staff.username);
+  await memberPage.fill('//input[@placeholder="Password"]', authConfig.staff.password);
+  await memberPage.click('//button[@type="submit"]');
+  // Wait for login to complete - adjust selector as needed
+  // await adminPage.waitForSelector('//p[normalize-space()="Time at Work"]', { timeout: 10000 });
+ 
+  await memberContext.storageState({ path: authConfig.staff.storageState });
+  
 
   await browser.close();
 }

@@ -61,6 +61,9 @@ export default class AdminMenuPage {
         await this.elements.adminMenu().click();
         await this.elements.userManagement().click();
     }
+    async essAccessUserPage() {
+        await expect(this.elements.adminMenu()).toBeHidden();
+    }
     async verifyUserPageUI() {
         await expect(this.elements.titlePage()).toBeVisible();
         await expect(this.elements.usernameLabel()).toBeVisible();

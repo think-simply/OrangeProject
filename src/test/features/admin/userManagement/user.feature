@@ -1,4 +1,4 @@
-@UserManagement
+@UserManagement 
 Feature: Functions in Admin Menu - Admin role
 
   Background: 
@@ -21,7 +21,7 @@ Feature: Functions in Admin Menu - Admin role
       | Admin | tina thi | usernamenttheuAdmin | Admin@1234 | Admin@1234       |
       | ESS   | tina thi | usernamenttheu      | Admin@1234 | Admin@1234       |
 
-  @medium
+  @medium @us03
   Scenario: US_03: Search user by user name - return exactly result
     When User creates a new user with role "Admin" and employee "tina thi", username "searchname", password "Admin@1234", confirm password "Admin@1234"
     And User search by username : "searchname"
