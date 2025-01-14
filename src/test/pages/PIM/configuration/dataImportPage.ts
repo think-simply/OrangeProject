@@ -1,7 +1,7 @@
 import { Page, Locator, expect, Download } from "@playwright/test";
 import { generateRandomName } from "../../../../helper/randomString";
 import path from "path";
-//import fs from 'fs';
+import { Faker } from "@faker-js/faker";
 import fs from 'fs-extra';
 import dotenv from "dotenv";
 dotenv.config();
