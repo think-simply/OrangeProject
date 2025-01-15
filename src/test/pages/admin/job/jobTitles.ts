@@ -26,7 +26,8 @@ export default class JobTitlesPage {
         deleteJobTitleBtn: (jobName: string) => this.page.locator(`//div[text()="${jobName}"]//ancestor::div[@role="row"]//button[i[contains(@class, "bi-trash")]]/i`),
         deleteConfirmBtn: () => this.page.locator('//button[text()=" Yes, Delete "]'),
         checkAllItem: () => this.page.locator('//div[@class="oxd-table-header"]//div[@class="oxd-checkbox-wrapper"]'),
-        deleteSelectedBtn: () => this.page.locator('//button[text()=" Delete Selected "]')
+        deleteSelectedBtn: () => this.page.locator('//button[text()=" Delete Selected "]'),
+        tableLocations: () => this.page.locator('div.orangehrm-container'),
     }
     async userGoToJobTitles() {
         await this.element.adminMenu().click();
@@ -55,8 +56,9 @@ export default class JobTitlesPage {
         await this.element.jobTitleTxb().click()
         await this.element.jobTitleTxb().fill(newName)
         await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
-        await this.element.saveJobTitleBtn().click()
-        await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
+        await this.element.saveJobTitleBtn().click();
+        await this.element.tableLocations().waitFor()
+        // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyUpdateJobTitleSuccessfully(jobTitleName: string){
         await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
