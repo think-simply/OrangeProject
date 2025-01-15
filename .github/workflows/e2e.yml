@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run automated testcase with cucumber
-        run: npm run test -- --parallel 10
+        run: npm run test -- --parallel 10 && npm run api -- --parallel 1
         shell: bash
       - name: Upload test results
         uses: actions/upload-artifact@v4

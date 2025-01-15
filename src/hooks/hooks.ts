@@ -15,14 +15,14 @@ BeforeAll(async function () {
 });
 
 AfterAll(async function () {
-  await browser.close(); 
+  await browser.close();
 });
 
 Before(async function (this: any, scenario) {
   const tags = scenario.pickle.tags.map(tag => tag.name);
   // Determine user type based on tags
   let userType: 'admin' | 'staff';
-  if (tags.includes('@admin')) {
+  if (tags.includes('@admin') || tags.includes('@apiAdmin')) {
     userType = 'admin';
   } else if (tags.includes('@staff')) {
     userType = 'staff';
