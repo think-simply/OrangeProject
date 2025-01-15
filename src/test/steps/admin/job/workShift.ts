@@ -1,10 +1,10 @@
-import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
+import { When, Then, BeforeStep } from "@cucumber/cucumber";
 import { pageFixture } from "../../../../hooks/pageFixture";
 import WorkShiftsPage from "../../../pages/admin/job/workShift";
 
 let workShiftsPage: WorkShiftsPage
 BeforeStep(async() => {
-    workShiftsPage = new WorkShiftsPage(pageFixture.adminPage);
+    workShiftsPage = new WorkShiftsPage(pageFixture.page);
 })
 When("User access work shift page", async() => {
     await workShiftsPage.accessWorkShift()

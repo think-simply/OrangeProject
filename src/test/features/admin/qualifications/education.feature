@@ -1,20 +1,21 @@
+@admin @education
 Feature: qualifications feature in admin menu
-
   Background:
-    Given User navigates to Admin page
-
-  @high @now
+    Given User navigates to page
+    When User navigate to education page
+  @high
   Scenario: ED_01: Adding level of education
-    When user navigate to admin menu
-    And create new level of education
-    Then new Education level is created successfully
-
-  @high @now
+    And Create new level of education "Edu7"
+    Then New Education level "Edu7" is created successfully
+    When User delete education level "Edu7"
+  @high
   Scenario: ED_02: Update existing level of education
-    When user updates an existing level
-    Then level is updated successfully
-
-  @high @now
+    When Create new level of education "Edu1" successfully
+    And User updates an level from "Edu1" to "Edu2"
+    Then Level is updated successfully
+    When User delete education level "Edu2"
+  @high
   Scenario: ED_03: Delete education level
-    When user delete education level
-    Then education level is deleted successfully
+    And Create new level of education "Edu6" successfully
+    When User delete education level "Edu6"
+    Then Education level is deleted successfully

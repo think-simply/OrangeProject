@@ -1,4 +1,4 @@
-@Languages
+@Languages @admin
 Feature: Manage Languages - Qualifications
 
   Background:

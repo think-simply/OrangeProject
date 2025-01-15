@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { generateRandomName } from "../../../../helper/randomString";
 import dotenv from "dotenv";
 dotenv.config();
@@ -7,7 +7,7 @@ let nameTest: string = "";
 let inputIDTest: string = "";
 let flexibleData: string = "";
 
-export default class StructureAdminPage {
+export default class StructurePage {
   readonly page: Page;
   constructor(page: Page) {
     this.page = page;

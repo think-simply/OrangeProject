@@ -6,7 +6,7 @@ dotenv.config();
 let flexibleValue: string = ""; 
 let flexibleValue2: string = ""; 
 
-export default class LanguagesAdminPage {
+export default class LanguagesPage {
     readonly page: Page;
     constructor(page: Page) {
         this.page = page;

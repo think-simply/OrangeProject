@@ -1,4 +1,4 @@
-@workShift
+@workShift @admin
 Feature: Functions in Admin Menu
 
   Background:
@@ -12,19 +12,19 @@ Feature: Functions in Admin Menu
   Scenario: WS_02: User create a new work shift
     When User create a new work shift with name "night-shift"
     Then Work shift "night-shift" has been created successfully
-    When  User delete a work shift name "night-shift"
+    When User delete a work shift name "night-shift"
     Then Work shift "night-shift" has been deleted
-  @high @ws03
+  @high
   Scenario: WS_03: User edit a work shift
-    When User create a new work shift with name "night shift" successfully
-    And  User edit a work shift name from "night shift" to "day shift"
+    When User create a new work shift with name "edit-shift" successfully
+    And  User edit a work shift name from "edit-shift" to "day shift"
     Then Work shift name has been updated to "day shift"
-    When  User delete a work shift name "day shift"
+    When User delete a work shift name "day shift"
     Then Work shift "day shift" has been deleted
   @high
   Scenario: WS_04: User delete a work shift
-    When User create a new work shift with name "day-shift" successfully
-    And  User delete a work shift name "day-shift"
+    When User create a new work shift with name "delete-shift" successfully
+    And  User delete a work shift name "delete-shift"
     Then Work shift "day-shift" has been deleted
   @medium
   Scenario: WS_05: User delete multi work-shifts

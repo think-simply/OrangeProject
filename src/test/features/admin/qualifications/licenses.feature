@@ -1,4 +1,4 @@
-@Licenses
+@Licenses @admin
 Feature: Licenses in Admin > Qualifications menu
 
     Background:
@@ -30,30 +30,31 @@ Feature: Licenses in Admin > Qualifications menu
 
     @high
     Scenario: QL-05 - Update new license record
-        When User clicks Edit button for Licenses
+        When User adds new license record
+        And User clicks Edit button for Licenses
         And User update valid data for Licenses
         And User clicks Save button after data input for Licenses
         Then License record is updated for Licenses
 
     @low
-    Scenario: QL-06 - Verify Delete dialog
-        When User clicks Delete button for Licenses
+    Scenario: QL-06 - Verify Delete dialog then Dismiss
+        When User adds new license record
+        And User clicks Delete button for Licenses
         Then Delete confirmation dialog appears as expected for Licenses
 
-    @medium
-    Scenario: QL-07 - Delete dialog then Dismiss
-        When User clicks Delete button for Licenses
-        And User clicks Close button for Licenses
+        When User clicks Close button for Licenses
         Then Delete confirmation dialog disappears for Licenses
 
     @medium
-    Scenario: QL-08 - Delete dialog then Cancel
-        When User clicks Delete button for Licenses
+    Scenario: QL-07 - Delete dialog then Cancel
+        When User adds new license record
+        And User clicks Delete button for Licenses
         And User clicks Cancel button for Licenses
         Then Delete confirmation dialog disappears for Licenses
 
     @high
-    Scenario: QL-09 - Delete dialog then Delete
-        When User clicks Delete button for Licenses
+    Scenario: QL-08 - Delete dialog then Delete
+        When User adds new license record
+        And User clicks Delete button for Licenses
         And User clicks Yes in delete dialog for Licenses
         Then Delete confirmation dialog disappears & record is deleted for Licenses

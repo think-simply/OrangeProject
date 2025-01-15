@@ -5,7 +5,7 @@ let licensesPage: LicensesPage;
 
 // Pre-condition
 BeforeStep(async () => {
-    licensesPage = new LicensesPage(pageFixture.adminPage)
+    licensesPage = new LicensesPage(pageFixture.page)
 })
 Given("User go to Qualifications > Licenses page", async() => {
     await licensesPage.visit()
@@ -47,6 +47,12 @@ Then("New license record is created", async() => {
 })
 
 // QL_05: Update new license record
+When("User adds new license record", async() => {
+    await licensesPage.clickAddBtn()
+    await licensesPage.inputLicense()
+    await licensesPage.clickSaveBtn()
+    await licensesPage.waitForRecordItem()
+})
 When("User clicks Edit button for Licenses", async() => {
     await licensesPage.clickEditBtn()
 })
@@ -80,6 +86,12 @@ When("User clicks Cancel button for Licenses", async() => {
 })
 
 // QL_09: Delete dialog -> Delete
+When("User adds new alt license record", async() => {
+    await licensesPage.clickAddBtn()
+    await licensesPage.inputLicenseAlt()
+    await licensesPage.clickSaveBtn()
+    await licensesPage.waitForRecordItem()
+})
 When("User clicks Yes in delete dialog for Licenses", async() => {
     await licensesPage.clickDialogDeleteBtn()
 })

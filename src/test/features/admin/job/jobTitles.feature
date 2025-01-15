@@ -1,3 +1,4 @@
+@admin
 Feature: Functions in Admin Menu
 
   Background:
