@@ -30,6 +30,7 @@
     "multiple-cucumber-html-reporter": "^3.8.0",
     "pretty": "^2.0.0",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.6.3"
   },
   "dependencies": {
