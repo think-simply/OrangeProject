@@ -3,12 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "imports": {
-    "#*": [
-      "./src/*",
-      "./src/*.ts"
-    ]
-  },
   "scripts": {
     "pretest": "npx ts-node src/helper/init.ts && npx ts-node global-setup.ts",
     "test": "cucumber-js --tags @admin test",
