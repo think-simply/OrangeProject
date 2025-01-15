@@ -6,7 +6,7 @@ dotenv.config();
 let flexibleValue: string = ""; 
 let flexibleValue2: string = ""; 
 
-export default class MembershipsAdminPage {
+export default class MembershipsPage {
     readonly page: Page;
     constructor(page: Page) {
         this.page = page;

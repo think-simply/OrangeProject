@@ -1,4 +1,4 @@
-@Memberships
+@Memberships @admin
 Feature: Manage Memberships - Qualifications
 
   Background:

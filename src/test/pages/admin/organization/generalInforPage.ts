@@ -1,8 +1,8 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import dotenv from "dotenv";
 dotenv.config();
 
-export default class OrganizationAdminPage {
+export default class OrganizationPage {
   readonly page: Page;
   constructor(page: Page) {
     this.page = page;

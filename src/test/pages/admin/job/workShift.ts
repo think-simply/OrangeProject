@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 
 export default class WorkShiftsPage {
     readonly page: Page;
@@ -31,7 +31,7 @@ export default class WorkShiftsPage {
     async accessWorkShift() {
         await this.elements.adminMenu().click();
         await this.elements.jobMenu().click();
-        await this.elements.workShiftMenu().click({ timeout: 35000 });
+        await this.elements.workShiftMenu().click();
         await this.page.waitForLoadState();
     }
     async verifyUserPageUI() {
@@ -55,6 +55,7 @@ export default class WorkShiftsPage {
     }
     async verifySaveSuccess(text:string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
+        await this.page.waitForTimeout(5000);
         await this.elements.tableLocations().nth(0).waitFor();
         await expect(this.elements.workShift(text)).toBeVisible();
     }

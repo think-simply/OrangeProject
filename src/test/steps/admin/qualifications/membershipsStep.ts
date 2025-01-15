@@ -1,76 +1,65 @@
-import { Given, When, Then } from "@cucumber/cucumber";
-import MembershipsAdminPage from "../../../pages/admin/qualifications/membershipsPage";
+import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
+import MembershipsPage from "../../../pages/admin/qualifications/membershipsPage";
 import { pageFixture } from "../../../../hooks/pageFixture";
+let membershipsPage: MembershipsPage;
 
+BeforeStep( async() => {
+    membershipsPage = new MembershipsPage(pageFixture.page);
+})
 
 // Pre-condition
 Given("User accessed Memberships page", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.accessMemberships();
+    await membershipsPage.accessMemberships();
 });
 
 // ME_01: Check UI of Memberships page
 Then("All elements are displayed as expected in Memberships", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.checkMembershipsUI();
+    await membershipsPage.checkMembershipsUI();
 });
 
 // ME_02: Add a new Membership
 When("User clicks Add button for Membership", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.clickAddButton();
+    await membershipsPage.clickAddButton();
 });
 When("User inputs valid data for Membership contains name {string}", async (name) => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.inputMembershipData(name);
+    await membershipsPage.inputMembershipData(name);
 });
 When("User clicks Save button for Membership", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.clickSaveButton();
+    await membershipsPage.clickSaveButton();
 });
 Then("New membership has been created", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.verifyNewMembershipCreated();
+    await membershipsPage.verifyNewMembershipCreated();
 });
 
 // ME_03: Update a Membership
 When("User clicks Update icon for Membership has name {string}", async (nameToUpdate) => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.clickUpdateIcon(nameToUpdate);
+    await membershipsPage.clickUpdateIcon(nameToUpdate);
 });
 When("User updates data for Membership", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.updateMembershipData();
+    await membershipsPage.updateMembershipData();
 });
 Then("Membership has been updated", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.verifyMembershipUpdated();
+    await membershipsPage.verifyMembershipUpdated();
 });
 
 // ME_04: Delete a Membership
 When("User clicks Delete icon for Membership has name {string}", async (nameToDelete) => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.clickDeleteIcon(nameToDelete);
+    await membershipsPage.clickDeleteIcon(nameToDelete);
 });
 When("User confirms delete for Membership", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.confirmDelete();
+    await membershipsPage.confirmDelete();
 });
 Then("Membership has been deleted", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.verifyMembershipDeleted();
+    await membershipsPage.verifyMembershipDeleted();
 });
 
 // ME_05: Delete multiple Memberships
 When("User selects multiple memberships contain name {string} and {string}", async (name1, name2) => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.selectMultipleMemberships(name1, name2);
+    await membershipsPage.selectMultipleMemberships(name1, name2);
 });
 When("User clicks Delete button for multiple Memberships", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.clickDeleteButton();
+    await membershipsPage.clickDeleteButton();
 });
 Then("All selected memberships have been deleted", async () => {
-    const adminMenuPage = new MembershipsAdminPage(pageFixture.adminPage);
-    await adminMenuPage.verifyMultipleMembershipsDeleted();
+    await membershipsPage.verifyMultipleMembershipsDeleted();
 });

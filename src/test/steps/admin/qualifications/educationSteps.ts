@@ -1,45 +1,29 @@
-
-import { Given, When, Then } from "@cucumber/cucumber";
+import { When, BeforeStep, Then } from "@cucumber/cucumber";
 import EducationPage from "../../../pages/admin/qualifications/educationPage";
 import { pageFixture } from "../../../../hooks/pageFixture";
-
-Given("User navigates to Admin page", { timeout: 20000 }, async () => {
-  const adminMenuPage = new EducationPage(pageFixture.adminPage);
-  await adminMenuPage.visit();
+let educationPage: EducationPage;
+BeforeStep(async () => {
+  educationPage = new EducationPage(pageFixture.page);
+})
+When("User navigate to education page", async () => {
+  await educationPage.accessAdmin();
 });
-
-// When("login to admin page", { timeout: 20000 }, async () => {
-//   const adminMenuPage = new EducationPage(pageFixture.adminPage);
-//   await adminMenuPage.login();
-// });
-
-When("user navigate to admin menu", { timeout: 20000 }, async () => {
-  const adminMenuPage = new EducationPage(pageFixture.adminPage);
-  await adminMenuPage.accessAdmin();
+When("Create new level of education {string}", async (eduLevel) => {
+  await educationPage.createEduLevel(eduLevel);
 });
-
-When("create new level of education", { timeout: 20000 }, async () => {
-  const educationPage = new EducationPage(pageFixture.adminPage);
-  await educationPage.createEduLevel();
+Then("New Education level {string} is created successfully", async (text) => {
+  await educationPage.AftercreateEduLevel(text);
 });
-
-Then("new Education level is created successfully", { timeout: 20000 }, async () => {
-  const educationPage = new EducationPage(pageFixture.adminPage);
-  await educationPage.AftercreateEduLevel();
+When("User updates an level from {string} to {string}", async (text, newEducation) => {
+  await educationPage.accessAdmin();
+  await educationPage.updateLevel(text, newEducation);
 });
-When("user updates an existing level",{timeout:20000},async()=>{
-  const educationPage= new EducationPage(pageFixture.adminPage);
-  await educationPage.updateLevel();
-});
-Then ("level is updated successfully",{timeout:2000}, async()=>{
-  const educationPage= new EducationPage(pageFixture.adminPage);
+Then("Level is updated successfully", async () => {
   await educationPage.AfterUpdateLevel();
 });
-When("user delete education level",{timeout:20000},async()=>{
-  const educationPage= new EducationPage(pageFixture.adminPage);
-  await educationPage.deleteEduLevel();
+When("User delete education level {string}", async (text) => {
+  await educationPage.deleteEduLevel(text);
 });
-Then ("education level is deleted successfully", {timeout:20000}, async()=>{
-  const educationPage = new EducationPage(pageFixture.adminPage);
+Then("Education level is deleted successfully", async () => {
   await educationPage.AfterDeleteEduLevel();
 });
