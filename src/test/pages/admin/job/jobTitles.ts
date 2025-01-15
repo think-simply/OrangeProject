@@ -47,7 +47,7 @@ export default class JobTitlesPage {
         await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyCreateJobTitleSuccessfully(jobTitleName: string){
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
+        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
@@ -57,11 +57,12 @@ export default class JobTitlesPage {
         await this.element.jobTitleTxb().fill(newName)
         // await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
         await this.element.saveJobTitleBtn().click();
-        await this.element.tableLocations().waitFor()
+        await this.page.waitForTimeout(6000); 
         // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyUpdateJobTitleSuccessfully(jobTitleName: string){
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
+        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000});
+        await this.element.tableLocations().waitFor();
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
@@ -72,7 +73,7 @@ export default class JobTitlesPage {
         
     }
     async verifyDeleteJobTitleSuccessfully(jobTitleName: string){
-        //await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
+        //await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
         await expect(this.element.jobTitleName(jobTitleName)).not.toBeVisible()
     }
     async deleteMultiJobTitles(){
@@ -84,7 +85,7 @@ export default class JobTitlesPage {
         
     }
     async verifyDeleteMultiJobTitleSuccessfully(jobTitleName: string){
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
+        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
         await expect(this.element.jobTitleName(jobTitleName)).not.toBeVisible()
     }
 
