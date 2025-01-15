@@ -1,4 +1,4 @@
-@admin
+@admin @job
 Feature: Functions in Admin Menu
 
   Background:
