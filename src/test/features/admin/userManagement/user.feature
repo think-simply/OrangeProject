@@ -34,9 +34,9 @@ Feature: Functions in Admin Menu - Admin role
     When User search by username : "usernamenoreturn"
     Then Alert no result and "No Records Found" text has been displayed
 
-  @medium 
+  @medium
   Scenario Outline: US_05: Search user by role
-    When User creates a new user with role "<role>" and employee "tina thi", username "<searchRole>", password "Admin@1234", confirm password "Admin@1234"
+    When User creates a new user with role "<role>" and employee "tina thi", username "<searchRole>", password "Admin@1234", confirm password "Admin@1234" successfully
     And User search by role: "<role>"
     Then Result has been displayed follow "<role>" role
     When User removes an account: "<searchRole>"
@@ -70,7 +70,7 @@ Feature: Functions in Admin Menu - Admin role
 
   @low
   Scenario: US_08: Reset filter
-    When User enters values on search fields:username "nttheu", userrole "Admin",employeename "t",status "Disabled"
+    When User enters values on search fields:username "nttheu", userrole "Admin",employeename "tina thi",status "Disabled"
     And User click reset button
     Then Data on all search fields have been cleared
 

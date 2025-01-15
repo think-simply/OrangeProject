@@ -1,5 +1,5 @@
 import { Page, expect } from "@playwright/test";
-import { generateRandomName } from "../../../../helper/randomString";
+import { generateRandomName } from "#helper/randomString";
 import dotenv from "dotenv";
 dotenv.config();
 

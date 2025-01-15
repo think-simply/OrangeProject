@@ -1,7 +1,7 @@
 import { Page, expect } from "@playwright/test";
 import dotenv from 'dotenv';
-import data from '../../../../../dataTest.json'
-import { generateRandomString } from "../../../../helper/randomString";
+import data from './dataTest.json'
+import { generateRandomString } from "#helper/randomString";
 dotenv.config();
 
 const randomJobTitle = generateRandomString(data.jobTitle.jobTitles)+"Test";

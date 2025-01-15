@@ -1,6 +1,6 @@
 import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
-import GeneralInforPage from "../../../pages/admin/organization/generalInforPage";
-import { pageFixture } from "../../../../hooks/pageFixture";
+import GeneralInforPage from "#test/pages/admin/organization/generalInforPage";
+import { pageFixture } from "#hooks/pageFixture";
 let generalInforPage: GeneralInforPage;
 BeforeStep( async() => {
   generalInforPage = new GeneralInforPage(pageFixture.page);
