@@ -1,6 +1,6 @@
 import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
-import { pageFixture } from "../../../../hooks/pageFixture";
-import NationalitiesPage from "../../../pages/admin/nationalities/nationalitiesPage";
+import { pageFixture } from "#hooks/pageFixture";
+import NationalitiesPage from "#test/pages/admin/nationalities/nationalitiesPage";
 let nationalitiesPage: NationalitiesPage;
 
 BeforeStep( async() => {

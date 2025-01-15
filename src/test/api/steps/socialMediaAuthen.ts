@@ -1,7 +1,7 @@
 import { Given, When, Then, DataTable } from '@cucumber/cucumber';
 import { APIRequestContext, request } from '@playwright/test';
 import { expect } from '@playwright/test';
-import {RequestBody, StorageState} from '../type/socialMediaAuthen'
+import {RequestBody, StorageState} from '#test/api/type/socialMediaAuthen'
 import path from 'path';
 import * as fs from 'fs';
 

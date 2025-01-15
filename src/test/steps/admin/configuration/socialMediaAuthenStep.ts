@@ -1,6 +1,6 @@
 import { When, Then, BeforeStep } from "@cucumber/cucumber";
-import SocialMediaPage from "../../../pages/admin/configuration/socialMediaAuthenPage";
-import { pageFixture } from "../../../../hooks/pageFixture";
+import SocialMediaPage from "#test/pages/admin/configuration/socialMediaAuthenPage";
+import { pageFixture } from "#hooks/pageFixture";
 let socialMediaPage: SocialMediaPage;
 BeforeStep(async () => {
     socialMediaPage = new SocialMediaPage(pageFixture.page);

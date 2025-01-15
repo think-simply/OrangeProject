@@ -1,6 +1,6 @@
 import { When, Then, BeforeStep } from "@cucumber/cucumber";
-import { pageFixture } from "../../../../hooks/pageFixture";
-import WorkShiftsPage from "../../../pages/admin/job/workShift";
+import { pageFixture } from "#hooks/pageFixture";
+import WorkShiftsPage from "#test/pages/admin/job/workShift";
 
 let workShiftsPage: WorkShiftsPage
 BeforeStep(async() => {

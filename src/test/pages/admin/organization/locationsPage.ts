@@ -1,8 +1,8 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { generateRandomNumber } from "../../../../helper/randomString";
+import { generateRandomNumber } from "#helper/randomString";
 import dotenv from "dotenv";
 dotenv.config();
-import { generateRandomName } from "../../../../helper/randomString";
+import { generateRandomName } from "#helper/randomString";
 
 let flexibleData: string = "";
 let flexibleData2: string = "";

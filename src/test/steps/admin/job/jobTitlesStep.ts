@@ -1,6 +1,6 @@
 import { When, Then, BeforeStep } from "@cucumber/cucumber";
-import JobTitlesPage from "../../../pages/admin/job/jobTitles";
-import { pageFixture } from "../../../../hooks/pageFixture";
+import JobTitlesPage from "#test/pages/admin/job/jobTitles";
+import { pageFixture } from "#hooks/pageFixture";
 
 let jobTitlesPage: JobTitlesPage
 BeforeStep(async() => {
