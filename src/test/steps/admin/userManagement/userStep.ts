@@ -20,7 +20,7 @@ When("User creates a new user with role {string} and employee {string}, username
     await userPage.searchUserName(username);
 });
 When("User creates a new user with role {string} and employee {string}, username {string}, password {string}, confirm password {string} successfully", async (role, employee, username, pass, confirm) => {
-    await adminMenuPage.createUser(role, employee, username, pass, confirm);
+    await userPage.createUser(role, employee, username, pass, confirm);
 });
 Then("New {string} user has been created successfully", async (text) => {
     await userPage.verifyCreateUser(text);

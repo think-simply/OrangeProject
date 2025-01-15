@@ -70,7 +70,7 @@ Feature: Functions in Admin Menu - Admin role
 
   @low
   Scenario: US_08: Reset filter
-    When User enters values on search fields:username "nttheu", userrole "Admin",employeename "t",status "Disabled"
+    When User enters values on search fields:username "nttheu", userrole "Admin",employeename "tina thi",status "Disabled"
     And User click reset button
     Then Data on all search fields have been cleared
 
