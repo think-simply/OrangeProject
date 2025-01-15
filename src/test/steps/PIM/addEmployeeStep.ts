@@ -14,15 +14,18 @@ Given("User accessed Add Employee page via PIM", async () => {
 
 // AE_01: Check UI
 Then("The page should be displayed as expected", async () => {
-    //await AddEmployeePage.checkUI();
+    await AddEmployeePage.checkUI();
 });
 
 // AE_02: Add Employee with valid basic data
-When("User inputs all valid data", async () => {
-    //await AddEmployeePage.inputValidData();
+When("User inputs all valid data for Firstname {string}, Middlename {string} Lastname {string} and EmployeeID {number}", async (firstName, middleName, lastName, employeeId) => {
+    await AddEmployeePage.inputValidData(firstName, middleName, lastName, employeeId);
+});
+When("User update Avatar image", async() => {
+    await AddEmployeePage.updateAvatar();
 });
 When("User clicks Save button", async () => {
-    //await AddEmployeePage.clickSaveButton();
+    await AddEmployeePage.clickSaveButton();
 });
 Then("The employee should be added successfully", async () => {
     //await AddEmployeePage.verifyEmployeeAdded();
