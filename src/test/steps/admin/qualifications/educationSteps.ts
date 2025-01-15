@@ -13,21 +13,21 @@ When("Create new level of education {string}", async (eduLevel) => {
 });
 When("Create new level of education {string} successfully", async (eduLevel) => {
   await educationPage.createEduLevel(eduLevel);
-  await educationPage.AftercreateEduLevel(eduLevel);
+  await educationPage.verifyCreateEduLevel(eduLevel);
 });
 Then("New Education level {string} is created successfully", async (text) => {
-  await educationPage.AftercreateEduLevel(text);
+  await educationPage.verifyCreateEduLevel(text);
 });
 When("User updates an level from {string} to {string}", async (text, newEducation) => {
   await educationPage.accessAdmin();
   await educationPage.updateLevel(text, newEducation);
 });
 Then("Level is updated successfully", async () => {
-  await educationPage.AfterUpdateLevel();
+  await educationPage.verifyUpdateLevel();
 });
 When("User delete education level {string}", async (text) => {
   await educationPage.deleteEduLevel(text);
 });
 Then("Education level is deleted successfully", async () => {
-  await educationPage.AfterDeleteEduLevel();
+  await educationPage.verifyDeleteEduLevel();
 });
