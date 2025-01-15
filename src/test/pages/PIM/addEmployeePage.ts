@@ -34,7 +34,7 @@ export default class addEmployeePage {
     await this.elements.PIMSection().click();
     await this.elements.addEmployeeTab().click();
   }
-
+  
 
 
 
