@@ -1,6 +1,6 @@
 import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
-import UserPage from "../../../pages/admin/userManagement/userPage";
-import { pageFixture } from "../../../../hooks/pageFixture";
+import UserPage from "#test/pages/admin/userManagement/userPage";
+import { pageFixture } from "#hooks/pageFixture";
 let userPage: UserPage;
 BeforeStep( async() => {
     userPage = new UserPage(pageFixture.page);
@@ -18,6 +18,9 @@ Then("User management page has been displayed", async () => {
 When("User creates a new user with role {string} and employee {string}, username {string}, password {string}, confirm password {string}", async (role, employee, username, pass, confirm) => {
     await userPage.createUser(role, employee, username, pass, confirm);
     await userPage.searchUserName(username);
+});
+When("User creates a new user with role {string} and employee {string}, username {string}, password {string}, confirm password {string} successfully", async (role, employee, username, pass, confirm) => {
+    await userPage.createUser(role, employee, username, pass, confirm);
 });
 Then("New {string} user has been created successfully", async (text) => {
     await userPage.verifyCreateUser(text);

@@ -5,17 +5,17 @@ Feature: qualifications feature in admin menu
     When User navigate to education page
   @high
   Scenario: ED_01: Adding level of education
-    And Create new level of education "Edu1"
-    Then New Education level "Edu1" is created successfully
-    When User delete education level "Edu1"
+    And Create new level of education "Edu7"
+    Then New Education level "Edu7" is created successfully
+    When User delete education level "Edu7"
   @high
   Scenario: ED_02: Update existing level of education
-    When Create new level of education "Edu1"
+    When Create new level of education "Edu1" successfully
     And User updates an level from "Edu1" to "Edu2"
     Then Level is updated successfully
     When User delete education level "Edu2"
   @high
   Scenario: ED_03: Delete education level
-    And Create new level of education "Edu1"
-    When User delete education level "Edu2"
+    And Create new level of education "Edu6" successfully
+    When User delete education level "Edu6"
     Then Education level is deleted successfully

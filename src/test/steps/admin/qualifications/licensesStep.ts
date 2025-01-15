@@ -1,6 +1,6 @@
 import { Given, Then, When, BeforeStep } from "@cucumber/cucumber";
-import { LicensesPage } from "../../../pages/admin/qualifications/licensesPage";
-import { pageFixture } from "../../../../hooks/pageFixture";
+import { LicensesPage } from "#test/pages/admin/qualifications/licensesPage";
+import { pageFixture } from "#hooks/pageFixture";
 let licensesPage: LicensesPage;
 
 // Pre-condition

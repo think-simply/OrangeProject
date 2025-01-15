@@ -1,5 +1,4 @@
-
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -40,7 +39,7 @@ export default class EducationPage {
     }
     // this.updateMessage = page.locator('//div[@class="oxd-toast-start"]');
 
-    async AftercreateEduLevel(text:string) {
+    async verifyCreateEduLevel(text:string) {
         await expect(this.elements.messageSuccess()).toBeVisible(); 
         await this.elements.actionColumn().waitFor();
         await expect(this.elements.newRecord(text)).toBeVisible();
@@ -51,7 +50,7 @@ export default class EducationPage {
         await this.elements.eduLevel().fill(newEducation);
         await this.elements.saveUpdateBtn().click();  
     }
-    async AfterUpdateLevel(){
+    async verifyUpdateLevel(){
         await expect(this.elements.messageSuccess()).toBeVisible(); 
     }
     async deleteEduLevel(text:string){
@@ -62,7 +61,7 @@ export default class EducationPage {
         await this.elements.deleteSelectedbtn().click();
         await this.elements.yesDeletebtn().click();
     }
-    async AfterDeleteEduLevel(){
+    async verifyDeleteEduLevel(){
         await expect(this.elements.messageSuccess()).toBeVisible();
     }
 }
