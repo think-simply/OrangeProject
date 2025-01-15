@@ -11,6 +11,10 @@ When("User navigate to education page", async () => {
 When("Create new level of education {string}", async (eduLevel) => {
   await educationPage.createEduLevel(eduLevel);
 });
+When("Create new level of education {string} successfully", async (eduLevel) => {
+  await educationPage.createEduLevel(eduLevel);
+  await educationPage.AftercreateEduLevel(eduLevel);
+});
 Then("New Education level {string} is created successfully", async (text) => {
   await educationPage.AftercreateEduLevel(text);
 });
