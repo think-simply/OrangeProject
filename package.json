@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "imports": {
-    "#*": "./src/*"
+    "#*": [
+      "./src/*",
+      "./src/*.ts"
+    ]
   },
   "scripts": {
     "pretest": "npx ts-node src/helper/init.ts && npx ts-node global-setup.ts",
