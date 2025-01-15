@@ -16,6 +16,7 @@ Then("User management page has been displayed", async () => {
     await userPage.verifyUserPageUI();
 });
 When("User creates a new user with role {string} and employee {string}, username {string}, password {string}, confirm password {string}", async (role, employee, username, pass, confirm) => {
+    await userPage.checkAndDeleteOldRecord(true,username); //clean data
     await userPage.createUser(role, employee, username, pass, confirm);
     await userPage.searchUserName(username);
 });

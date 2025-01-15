@@ -275,4 +275,13 @@ export default class AdminMenuPage {
         await this.elements.confirmPassword().fill(text2);
         await this.elements.submitBtn().click();
     }
+    // delete function: UI automation
+    async checkAndDeleteOldRecord(isVisible = true, text: string) {
+        if (isVisible) {
+            // Click delete icon
+            await this.elements.deleteIcon(text).click();
+            await this.elements.confirmDeleteBtn().click();
+        }
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
+    };
 }
