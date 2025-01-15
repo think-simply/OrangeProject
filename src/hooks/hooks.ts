@@ -22,7 +22,7 @@ Before(async function (this: any, scenario) {
   const tags = scenario.pickle.tags.map(tag => tag.name);
   // Determine user type based on tags
   let userType: 'admin' | 'staff';
-  if (tags.includes('@admin') || tags.includes('@apiAdmin')) {
+  if (tags.includes('@admin') || tags.includes('@apiSection')) {
     userType = 'admin';
   } else if (tags.includes('@staff')) {
     userType = 'staff';

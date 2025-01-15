@@ -1,4 +1,4 @@
-@apiAdmin
+@apiSection
 Feature: OpenID Provider Validation API
     As a user
     I want to validate OpenID provider names
