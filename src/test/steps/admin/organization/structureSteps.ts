@@ -1,6 +1,6 @@
 import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
-import { pageFixture } from "../../../../hooks/pageFixture";
-import StructurePage from "../../../pages/admin/organization/structurePage";
+import { pageFixture } from "#hooks/pageFixture";
+import StructurePage from "#test/pages/admin/organization/structurePage";
 let structurePage: StructurePage;
 
 BeforeStep(async () => {

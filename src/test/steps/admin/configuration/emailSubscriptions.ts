@@ -1,6 +1,6 @@
 import { When, Then, BeforeStep } from "@cucumber/cucumber";
-import EmailConfigPage from "../../../pages/admin/configuration/emailSubscriptions";
-import { pageFixture } from "../../../../hooks/pageFixture";
+import EmailConfigPage from "#test/pages/admin/configuration/emailSubscriptions";
+import { pageFixture } from "#hooks/pageFixture";
 
 let emailConfigPage: EmailConfigPage;
 BeforeStep(async () => {
