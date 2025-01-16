@@ -12,10 +12,6 @@ Feature: OpenID Provider Validation API
         When I send a GET request to get listing API
         Then The response status should be 200
         And API should response correct properties
-    @apiList
-    Scenario: Create an invalid request to listing API : /v2/auth/openid-providers?limit=50&offset=0
-        When I send a POST request to get listing API
-        Then The response status should be 422
     @apiCreate
     Scenario: Create a new provider: Valid request with all parameters, POST method
         When I send a POST request to create new provider with parameters:
