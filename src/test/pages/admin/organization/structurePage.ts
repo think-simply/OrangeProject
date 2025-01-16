@@ -1,5 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { generateRandomName } from "#helper/randomString";
+import { faker, Faker } from "@faker-js/faker";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -24,6 +25,7 @@ export default class StructurePage {
     addOrgDialog: () => this.page.locator("div.orangehrm-dialog-modal"),
     inputUnitId: () => this.page.locator('//label[text()="Unit Id"]/following::input[1]'),
     inputName: () => this.page.locator('//label[text()="Name"]/following::input[1]'),
+    inputDes: () => this.page.locator('//label[text()="Description"]/following::textarea'),
     saveBtn: () => this.page.locator('button[type="submit"]'),
     successToast: () => this.page.locator("div.oxd-toast-content--success"),
     treeNodes: () => this.page.locator("div.oxd-tree-node-content div.org-structure-card"),
@@ -54,6 +56,7 @@ export default class StructurePage {
     nameTest = generateRandomName(8);
     await this.elements.inputName().fill(nameTest);
     flexibleData = inputIDTest + ": " + nameTest;
+    await this.elements.inputDes().fill(faker.number.int(1000).toString());
   }
   async clickSaveButton() {
     await this.elements.saveBtn().click();
