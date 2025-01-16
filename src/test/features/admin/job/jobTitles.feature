@@ -14,12 +14,12 @@ Feature: Functions in Admin Menu
     And User access job title page
     And User create new job title with "<jobTitleName>"
     Then New title has been created successfully with "<jobTitleName>"
-    
+
     Examples:
       | jobTitleName              |
       | Hoa Test Create Job Title |
 
-  @high @now
+  @high @now1
   Scenario: JT_03: User update an job title
     When User access job title page
     And User create new job title with "<jobTitleName>"
@@ -27,8 +27,8 @@ Feature: Functions in Admin Menu
     Then Job title has been updated successfully with "<newName>"
 
     Examples:
-      | jobTitleName            | newName                   |
-      | Hoa Test Job Title Edit | Hoa Test Job Title Update |
+      | jobTitleName   | newName          |
+      | Job Title Edit | Job Title Update |
 
   @high @jobTitle @demo
   Scenario: JT_04 : User delete an job title

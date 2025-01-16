@@ -41,13 +41,13 @@ export default class JobTitlesPage {
     async createJobTitle(jobTitleName: string) {
         await this.element.addJobTitleBtn().click()
         await this.element.jobTitleTxb().fill(jobTitleName)
-        await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
+        // await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
         await this.element.saveJobTitleBtn().click()
         await this.element.messageSuccess().waitFor({ state: "visible", timeout: 4000 });
         // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyCreateJobTitleSuccessfully(jobTitleName: string) {
-        await this.page.waitForTimeout(6000)
+        // await this.page.waitForTimeout(6000)
         await expect(this.element.actionColumn()).toBeVisible();
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
@@ -57,13 +57,13 @@ export default class JobTitlesPage {
         await this.element.jobTitleTxb().click()
         await this.element.jobTitleTxb().fill(newName)
         await this.element.jobDescriptionInput().click()
-        await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
+        // await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
         await this.element.saveJobTitleBtn().click(),
         await this.element.messageSuccess().waitFor({ state: "visible", timeout: 4000 });
         // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyUpdateJobTitleSuccessfully(jobTitleName: string) {
-        await this.page.waitForTimeout(6000)
+        // await this.page.waitForTimeout(6000)
         await expect(this.element.actionColumn()).toBeVisible();
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
