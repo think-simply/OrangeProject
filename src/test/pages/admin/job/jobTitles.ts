@@ -43,11 +43,11 @@ export default class JobTitlesPage {
         await this.element.jobTitleTxb().fill(jobTitleName)
         await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
         await this.element.saveJobTitleBtn().click()
-        await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
-    }
-    async verifyCreateJobTitleSuccessfully(jobTitleName: string){
+        // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
         await this.page.waitForTimeout(5000)
         await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
+    }
+    async verifyCreateJobTitleSuccessfully(jobTitleName: string){
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
@@ -57,10 +57,10 @@ export default class JobTitlesPage {
         await this.element.jobTitleTxb().fill(newName)
         await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
         await this.element.saveJobTitleBtn().click()
-        await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
+        // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
+        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
     }
     async verifyUpdateJobTitleSuccessfully(jobTitleName: string){
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
