@@ -1,4 +1,4 @@
-@AddEmployee
+@AddEmployee @admin
 Feature: Add Employee in PIM Menu
 
   Background:
@@ -10,18 +10,18 @@ Feature: Add Employee in PIM Menu
 
   @high @222
   Scenario: AE_02: Add Employee with valid basic data
-    When User inputs all valid data for Firstname "<Firstname>", Middlename "<Middlename>" Lastname "<Lastname>" and EmployeeID "<EmployeeID>"
+    When User inputs all valid data for Firstname "<Firstname>", Middlename "<Middlename>", Lastname "<Lastname>" and EmployeeID "<EmployeeID>"
     And User update Avatar image
-    And User clicks Save button
+    And User clicks Save button for Employee
     Then The employee should be added successfully
 
     Examples:
-      | Firstname | Middlename | Lastname | EmployeeID  |
-      | Au        | Middle     | Rora     | 00145426886 |
+      | Firstname | Middlename | Lastname | EmployeeID |
+      | Au        | Middle     | Rora     |      00886 |
 
   @high
   Scenario: AE_03: Add Employee with login details
     When User clicks Create Login Details button
     And User inputs all valid data
-    And User clicks Save button
+    And User clicks Save button for Employee
     Then The employee with login details should be added successfully

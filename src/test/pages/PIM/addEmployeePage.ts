@@ -8,7 +8,13 @@ dotenv.config();
 
 let flexibleData: string = "";
 
-let employee: any;
+let employee = { 
+  firstName: '', 
+  middleName: '', 
+  lastName: '', 
+  employeeId: '',
+  changedSrc: ''
+};
 
 export default class addEmployeePage {
   readonly page: Page;
@@ -20,7 +26,8 @@ export default class addEmployeePage {
     addEmployeeTab: () => this.page.locator('//a[text()="Add Employee"]'),
     mainTitle: () => this.page.locator('//h6[@class="oxd-text oxd-text--h6 orangehrm-main-title" and text()="Add Employee"]'),
     imageArea: () => this.page.locator('div.orangehrm-employee-image'),
-    importImage: () => this.page.locator('img.employee-image'),
+    importImage: () => this.page.locator('input[type="file"]'),
+    avatarSrc: () => this.page.locator('img.employee-image'),
     initialSrc: () => "/orangehrm/web/images/default-photo.png",
     firstNameInput: () => this.page.locator('input[name="firstName"]'),
     middleNameInput: () => this.page.locator('input[name="middleName"]'),
@@ -48,11 +55,11 @@ export default class addEmployeePage {
     await expect(this.elements.imageArea()).toBeVisible();
     await expect(this.elements.createDetailToggle()).toBeVisible();
   }
-  async inputValidData(firstName: string, middleName: string, lastName:string, employeeId: number){
+  async inputValidData(firstName: string, middleName: string, lastName:string, employeeId: string){
     employee.firstName = firstName+faker.number.int(1000);
     employee.middleName = middleName+faker.lorem.word(3);
     employee.lastName = lastName+faker.color.human();
-    employee.employeeId = employeeId+faker.number.int(10000).toString();
+    employee.employeeId = employeeId+faker.number.int(100);
     await this.elements.firstNameInput().fill(employee.firstName);
     await this.elements.middleNameInput().fill(employee.middleName);
     await this.elements.lastNameInput().fill(employee.lastName);
@@ -61,9 +68,9 @@ export default class addEmployeePage {
   async updateAvatar(){
     const uploadsDir = path.join(__dirname, "dataToUpload/H1_Avatar.jpg");
     await this.elements.importImage().setInputFiles(uploadsDir);
-    await this.elements.importImage().waitFor();
     //Verify
-    employee.changedSrc = await this.elements.importImage().getAttribute('src');
+    await this.elements.avatarSrc().waitFor();
+    employee.changedSrc = await this.elements.avatarSrc().getAttribute('src');
     expect(employee.changedSrc).not.toEqual(this.elements.initialSrc());
   }
   async clickSaveButton(){
@@ -73,14 +80,16 @@ export default class addEmployeePage {
     await expect(this.elements.successToast()).toBeVisible();
     await this.elements.listPageMainTitle().isVisible();
     await expect(this.elements.listPageMainTitle()).toBeVisible();
-    expect(this.elements.firstNameInput().inputValue()).toEqual(employee.firstName);
-    expect(this.elements.middleNameInput().inputValue()).toEqual(employee.middleName);
-    expect(this.elements.lastNameInput().inputValue()).toEqual(employee.lastName);
-    expect(this.elements.employeeIdInput().inputValue()).toEqual(employee.employeeId);
+    expect(await this.elements.firstNameInput().inputValue()).toEqual(employee.firstName);
+    expect(await this.elements.middleNameInput().inputValue()).toEqual(employee.middleName);
+    expect(await this.elements.lastNameInput().inputValue()).toEqual(employee.lastName);
+    expect(await this.elements.employeeIdInput().inputValue()).toEqual(employee.employeeId);
     expect(employee.changedSrc).not.toEqual(this.elements.initialSrc());
   }
-
-
+  async clickCreateLoginDetailsButton(){
+    await this.elements.createDetailToggle().click();
+  }
+  
 
 
 }

@@ -1,7 +1,7 @@
 import { setDefaultTimeout, BeforeAll, AfterAll, Before, After, Status, } from "@cucumber/cucumber";
 import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
-import { authConfig } from '../../auth.config';
+import { authConfig } from "../../auth.config";
 
 let browser: Browser;
 interface TestContext {
@@ -11,7 +11,7 @@ interface TestContext {
 setDefaultTimeout(60 * 1000);
 
 BeforeAll(async function () {
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({ headless: false });
 });
 
 AfterAll(async function () {
