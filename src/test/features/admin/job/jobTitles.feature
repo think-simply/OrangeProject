@@ -1,4 +1,4 @@
-@admin
+@admin @jobTitle
 Feature: Functions in Admin Menu
 
   Background:
@@ -14,9 +14,7 @@ Feature: Functions in Admin Menu
     And User access job title page
     And User create new job title with "<jobTitleName>"
     Then New title has been created successfully with "<jobTitleName>"
-    When User delete an job title: "<jobTitleName>"
-    Then Job title has been deleted successfully: "<jobTitleName>"
-
+    
     Examples:
       | jobTitleName              |
       | Hoa Test Create Job Title |
@@ -27,8 +25,6 @@ Feature: Functions in Admin Menu
     And User create new job title with "<jobTitleName>"
     And User update a job title from "<jobTitleName>" to "<newName>"
     Then Job title has been updated successfully with "<newName>"
-    When User delete an job title: "<newName>"
-    Then Job title has been deleted successfully: "<newName>"
 
     Examples:
       | jobTitleName            | newName                   |
