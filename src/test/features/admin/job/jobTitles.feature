@@ -44,10 +44,8 @@ Feature: Functions in Admin Menu
   @medium @jobTitle @demo @multiDeleteJob
   Scenario: JT_05 : User delete multi job titles
     When User access job title page
-    And User create new job title with "<jobTitleName>"
-    And User delete multi job title
-    Then Job title has been deleted successfully: "<jobTitleName>"
+    And User create new job title with "multi1"
+     And User create new job title with "multi2"
+    And User delete multi job title contains "multi"
+    Then Job title has been deleted successfully: "multi"
 
-    Examples:
-      | jobTitleName                    |
-      | Hoa Test Job Title multi delete |

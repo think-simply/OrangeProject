@@ -43,8 +43,8 @@ When("User delete an job title: {string}", async (jobTitleName: string) => {
 Then("Job title has been deleted successfully: {string}", async (jobTitleName: string) => {
     await jobTitlesPage.verifyDeleteJobTitleSuccessfully(jobTitleName);
 })
-When("User delete multi job title", async () => {
-    await jobTitlesPage.deleteMultiJobTitles();
+When("User delete multi job title contains {string}", async (text:string) => {
+    await jobTitlesPage.deleteMultiJobTitles(text);
 })
 Then("Job titles has been deleted successfully: {string}", async (jobTitleName: string) => {
     await jobTitlesPage.verifyDeleteMultiJobTitleSuccessfully(jobTitleName);
