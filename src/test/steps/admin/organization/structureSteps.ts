@@ -38,7 +38,6 @@ When("User updates data", async () => {
     await structurePage.inputData();
 });
 Then("Organization has been updated", async () => {
-    await structurePage.clickSaveButton();
     await structurePage.verifyOrganizationUpdated();
 });
 
