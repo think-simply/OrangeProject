@@ -144,7 +144,6 @@ export class SubUnitService {
     const subUnits = await this.listAllSubUnits();
 
     if (!subUnits || subUnits.length === 0) {
-      console.log("No subunits found to delete.");
       return;
     }
 
@@ -158,28 +157,19 @@ export class SubUnitService {
         );
 
         for (const level1SubUnit of level1SubUnits) {
-          console.log(
-            `Deleting subunit with ID ${level1SubUnit.id} and name ${level1SubUnit.name}`
-          );
           await this.deleteSubUnit(level1SubUnit.id);
-          console.log(`Subunit deleted: ${level1SubUnit.name}`);
           found = true;
         }
       }
     }
 
-    if (!found) {
-      console.log(
-        `No subunit found with the name "${subUnitName}" at level 1.`
-      );
-    }
   }
 
   async deleteAllLevel1SubUnits() {
     const subUnits = await this.listAllSubUnits();
 
     if (!subUnits || subUnits.length === 0) {
-      console.log("No subunits found to delete.");
+      //console.log("No subunits found to delete.");
       return;
     }
 
@@ -191,7 +181,7 @@ export class SubUnitService {
         );
 
         for (const level1SubUnit of level1SubUnits) {
-          console.log(level1SubUnit.id);
+          //console.log(level1SubUnit.id);
           await this.deleteSubUnit(level1SubUnit.id);
         }
       }

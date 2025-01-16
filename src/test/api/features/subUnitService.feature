@@ -1,4 +1,4 @@
-@apiSectionnow @admin
+@apiSection
 Feature: SubUnitService API testing
     As a user
     I want to test APIs of SubUnitService
