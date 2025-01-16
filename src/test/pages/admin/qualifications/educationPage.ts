@@ -16,7 +16,7 @@ export default class EducationPage {
         addLevel:()  => this.page.locator('//button[normalize-space()="Add"]'),
         eduLevel :() =>this.page.locator('//label[text()="Level"]//ancestor::div[@class="oxd-form-row"]//descendant::input'),
         saveLevel:()  => this.page.locator('//button[@type="submit"]'),
-        messageSuccess:()  => this.page.locator('//p[text()="Success"]'),
+        messageSuccess:()  => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'),
         checkbox:(text:string) => this.page.locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`),
         deleteSelectedbtn:() => this.page.locator('//button[normalize-space()="Delete Selected"]'),
         yesDeletebtn:()  => this.page.locator('//button[normalize-space()="Yes, Delete"]'),
