@@ -26,6 +26,7 @@ export default class JobTitlesPage {
         checkAllItem: () => this.page.locator('//div[@class="oxd-table-header"]//div[@class="oxd-checkbox-wrapper"]'),
         deleteSelectedBtn: () => this.page.locator('//button[text()=" Delete Selected "]'),
         messageSuccess: () => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'),
+        actionColumn: () => this.page.locator('//div[text()="Actions"]'),
     }
     async userGoToJobTitles() {
         await this.element.adminMenu().click();
@@ -40,14 +41,14 @@ export default class JobTitlesPage {
     async createJobTitle(jobTitleName: string) {
         await this.element.addJobTitleBtn().click()
         await this.element.jobTitleTxb().fill(jobTitleName)
-        // await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
+        await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
         await this.element.saveJobTitleBtn().click()
         await this.element.messageSuccess().waitFor({ state: "visible", timeout: 4000 });
         // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyCreateJobTitleSuccessfully(jobTitleName: string) {
-        await this.page.waitForTimeout(5000)
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
+        await this.page.waitForTimeout(6000)
+        await expect(this.element.actionColumn()).toBeVisible();
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
@@ -56,13 +57,14 @@ export default class JobTitlesPage {
         await this.element.jobTitleTxb().click()
         await this.element.jobTitleTxb().fill(newName)
         await this.element.jobDescriptionInput().click()
-        // await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
+        await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
         await this.element.saveJobTitleBtn().click(),
         await this.element.messageSuccess().waitFor({ state: "visible", timeout: 4000 });
         // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyUpdateJobTitleSuccessfully(jobTitleName: string) {
-        // await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
+        await this.page.waitForTimeout(6000)
+        await expect(this.element.actionColumn()).toBeVisible();
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
