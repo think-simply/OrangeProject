@@ -10,7 +10,7 @@ Feature: Functions in Admin Menu
     Then Job title page has been displayed
 
   @high @jobTitle @demo @addJobTitle
-  Scenario: JT_02 : User create new job title
+  Scenario: JT_02: User create new job title
     And User access job title page
     And User create new job title with "<jobTitleName>"
     Then New title has been created successfully with "<jobTitleName>"
@@ -21,11 +21,11 @@ Feature: Functions in Admin Menu
       | jobTitleName              |
       | Hoa Test Create Job Title |
 
-  @high @jobTitle @demo @updateJob
-  Scenario: JT_03 : User update an job title
+  @high @now
+  Scenario: JT_03: User update an job title
     When User access job title page
     And User create new job title with "<jobTitleName>"
-    And User update an job title from "<jobTitleName>" to "<newName>"
+    And User update a job title from "<jobTitleName>" to "<newName>"
     Then Job title has been updated successfully with "<newName>"
     When User delete an job title: "<newName>"
     Then Job title has been deleted successfully: "<newName>"

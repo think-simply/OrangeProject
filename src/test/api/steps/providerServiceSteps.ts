@@ -1,7 +1,7 @@
 import { Given, When, Then, DataTable } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
-import { ApiContextManager } from "#helper/ApiContextManager";
-import { ProviderService } from "#helper/ProviderService";
+import { ApiContextManager } from "#test/api/services/ApiContextManager";
+import { ProviderService } from "#test/api/services/ProviderService";
 
 let providerService: ProviderService;
 let response: any;

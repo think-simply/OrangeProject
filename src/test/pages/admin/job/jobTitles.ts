@@ -46,7 +46,8 @@ export default class JobTitlesPage {
         await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyCreateJobTitleSuccessfully(jobTitleName: string){
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
+        await this.page.waitForTimeout(5000)
+        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
@@ -59,7 +60,7 @@ export default class JobTitlesPage {
         await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyUpdateJobTitleSuccessfully(jobTitleName: string){
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})
+        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
@@ -67,7 +68,6 @@ export default class JobTitlesPage {
         await this.element.deleteJobTitleBtn(jobTtileName).click()
         await this.element.deleteConfirmBtn().click()
         await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
-        
     }
     async verifyDeleteJobTitleSuccessfully(jobTitleName: string){
         //await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`,{timeout: 35000})

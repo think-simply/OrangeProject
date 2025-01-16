@@ -1,8 +1,8 @@
 import { Given, When, Then, BeforeStep } from "@cucumber/cucumber";
 import UserPage from "#test/pages/admin/userManagement/userPage";
 import { pageFixture } from "#hooks/pageFixture";
-import { ApiContextManager } from "#helper/ApiContextManager";
-import UserService from "#helper/UserService";
+import { ApiContextManager } from "#test/api/services/ApiContextManager";
+import UserService from "#test/api/services/UserService";
 let userPage: UserPage;
 let userService: UserService;
 

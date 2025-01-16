@@ -18,7 +18,7 @@ When("User create new job title with {string}", async (jobTitleName: string) => 
 Then("New title has been created successfully with {string}", async (jobTitleName: string) => {
     await jobTitlesPage.verifyCreateJobTitleSuccessfully(jobTitleName);
 });
-When("User update an job title from {string} to {string}", async(jobTitleName: string, newName: string)=>{
+When("User update a job title from {string} to {string}", async(jobTitleName: string, newName: string)=>{
     await jobTitlesPage.updateJobTitles(jobTitleName,newName);
 })
 Then("Job title has been updated successfully with {string}", async (newName: string) => {
