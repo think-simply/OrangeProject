@@ -24,7 +24,8 @@ export default class StructurePage {
     addOrgDialog: () => this.page.locator("div.orangehrm-dialog-modal"),
     inputUnitId: () => this.page.locator('//label[text()="Unit Id"]/following::input[1]'),
     inputName: () => this.page.locator('//label[text()="Name"]/following::input[1]'),
-    saveBtn: () => this.page.locator('button[type="submit"]'),
+    inputDescription: () => this.page.locator('//label[text()="Name"]/following::textarea'),
+    saveBtn: () => this.page.locator('//button[@type="submit"]'),
     successToast: () => this.page.locator("div.oxd-toast-content--success"),
     treeNodes: () => this.page.locator("div.oxd-tree-node-content div.org-structure-card"),
     editOrgDialog: () => this.page.locator('//div[@class="orangehrm-modal-header"]/p[text()="Edit Organization Unit"]'),
@@ -54,6 +55,7 @@ export default class StructurePage {
     nameTest = generateRandomName(8);
     await this.elements.inputName().fill(nameTest);
     flexibleData = inputIDTest + ": " + nameTest;
+    await this.elements.inputDescription().fill(nameTest)
   }
   async clickSaveButton() {
     await this.elements.saveBtn().click();
