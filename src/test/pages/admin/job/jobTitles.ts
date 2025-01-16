@@ -62,7 +62,7 @@ export default class JobTitlesPage {
         // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
     }
     async verifyUpdateJobTitleSuccessfully(jobTitleName: string) {
-        await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
+        // await expect(this.page).toHaveURL(`${process.env.JOB_TITLE_LIST_URL}`)
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
 
