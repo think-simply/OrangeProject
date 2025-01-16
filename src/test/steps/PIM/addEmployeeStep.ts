@@ -28,7 +28,7 @@ When("User clicks Save button", async () => {
     await AddEmployeePage.clickSaveButton();
 });
 Then("The employee should be added successfully", async () => {
-    //await AddEmployeePage.verifyEmployeeAdded();
+    await AddEmployeePage.verifyEmployeeAdded();
 });
 
 // AE_03: Add Employee with login details

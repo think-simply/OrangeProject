@@ -8,7 +8,7 @@ Feature: Add Employee in PIM Menu
   Scenario: AE_01: Check UI
     Then The page should be displayed as expected
 
-  @high
+  @high @222
   Scenario: AE_02: Add Employee with valid basic data
     When User inputs all valid data for Firstname "<Firstname>", Middlename "<Middlename>" Lastname "<Lastname>" and EmployeeID "<EmployeeID>"
     And User update Avatar image
