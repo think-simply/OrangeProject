@@ -62,7 +62,6 @@ export default class StructurePage {
     await expect(this.elements.successToast()).toBeVisible();
   }
   async verifyData(dataTest: string){
-    await this.page.waitForTimeout(5000); //time to wait for adding done
     const nodeCount = await this.elements.treeNodes().count();
     let isMatch = false;
     for (let i = 0; i < nodeCount; i++) {
@@ -105,7 +104,6 @@ export default class StructurePage {
   async verifyOrganizationDeleted() {
     await expect(this.elements.deleteToast()).toBeVisible();
     //Verify deleted successfully
-    await this.page.waitForTimeout(5000);
     const nodeCount = await this.elements.treeNodes().count();
     let isMatch = false;
     for (let i = 0; i < nodeCount; i++) {

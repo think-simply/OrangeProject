@@ -68,20 +68,18 @@ export default class SocialMediaPage {
         await this.elements.clientSecret().click();
         await this.elements.clientSecret().fill(secret);
         await this.elements.saveBtn().click();
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
     }
     async verifyUpdateProvider(text: string) {
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
-        await this.page.waitForTimeout(5000);
         await expect(this.elements.actionColumn()).toBeVisible();
         await expect(this.elements.updatedProvider(text)).toBeVisible();
     }
     async deleteProvider(text: string) {
         await this.elements.deleteIcon(text).click();
         await this.elements.confirmDeleteBtn().click();
+        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     }
     async verifyDeleteProvider(text: string) {
-        await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
-        await this.page.waitForTimeout(5000);
         await expect(this.elements.actionColumn()).toBeVisible();
         await expect(this.elements.updatedProvider(text)).toBeHidden();
     }

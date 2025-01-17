@@ -90,7 +90,6 @@ export default class LocationsPage {
       return;
     }
     //await this.elements.actionIcon().nth(0).waitFor();
-    await this.page.waitForTimeout(5000);
     const rowCount = await columnData.count();
     const lowercasedDataChecking = dataChecking.toLowerCase();
     for (let i = 0; i < rowCount; i++) {
@@ -143,7 +142,6 @@ export default class LocationsPage {
   }
   async searchClick() {
     await this.elements.searchBtn().click();
-    await this.page.waitForTimeout(2000);
   }
   async searchAndClickEdit() {
     //Create data to update

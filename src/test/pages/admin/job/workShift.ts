@@ -55,7 +55,6 @@ export default class WorkShiftsPage {
     }
     async verifySaveSuccess(text:string) {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 4000 });
-        await this.page.waitForTimeout(5000);
         await this.elements.tableLocations().nth(0).waitFor();
         await expect(this.elements.workShift(text)).toBeVisible();
     }

@@ -46,10 +46,17 @@ export default class JobTitlesPage {
         await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
         await this.element.saveJobTitleBtn().click()
         await this.element.messageSuccess().waitFor({ state: "visible", timeout: 4000 });
-        // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
+        await Promise.all([
+            this.element.messageSuccess().waitFor({ state: "visible", timeout: 4000 }),
+            this.page.waitForURL("**/orangehrm/web/index.php/admin/saveJobTitle**", {
+              timeout: 10000,
+            }),
+          ]);
+        await this.page.waitForURL(`${process.env.JOB_TITLE_LIST_URL}`, {
+            timeout: 10000,
+        });          
     }
     async verifyCreateJobTitleSuccessfully(jobTitleName: string) {
-        await this.page.waitForTimeout(6000)
         await expect(this.element.actionColumn()).toBeVisible();
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }
@@ -61,11 +68,12 @@ export default class JobTitlesPage {
         await this.element.jobDescriptionInput().click()
         await this.element.jobDescriptionInput().fill(generateRandomString(data.jobTitle.jobDescription))
         await this.element.saveJobTitleBtn().click(),
-            await this.element.messageSuccess().waitFor({ state: "visible", timeout: 4000 });
-        // await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
+        await this.element.messageSuccess().waitFor({ state: "visible", timeout: 4000 });
+        await this.page.waitForURL(`${process.env.JOB_TITLE_LIST_URL}`, {
+            timeout: 10000,
+          });      
     }
     async verifyUpdateJobTitleSuccessfully(jobTitleName: string) {
-        await this.page.waitForTimeout(6000)
         await expect(this.element.actionColumn()).toBeVisible();
         await expect(this.element.jobTitleName(jobTitleName)).toBeVisible()
     }

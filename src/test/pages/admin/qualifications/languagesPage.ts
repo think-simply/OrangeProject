@@ -73,8 +73,6 @@ export default class LanguagesPage {
           const pageCount = await this.elements.pageNumber().count();
           for (let i = 0; i < pageCount; i++) {
             await this.elements.pageNumber().nth(i).click();
-            await this.page.waitForTimeout(3000);
-
             const isCreatedSuccess = await this.elements.languageData().isVisible();
             if (isCreatedSuccess) {
               await expect(this.elements.languageData()).toBeVisible();
@@ -121,7 +119,6 @@ export default class LanguagesPage {
           const pageCount = await this.elements.pageNumber().count();
           for (let i = 0; i < pageCount; i++) {
             await this.elements.pageNumber().nth(i).click();
-            await this.page.waitForTimeout(3000);
 
             const isUpdatedSuccess = await this.elements.languageData2().isVisible();
             if (isUpdatedSuccess) {
@@ -165,7 +162,6 @@ export default class LanguagesPage {
           const pageCount = await this.elements.pageNumber().count();
           for (let i = 0; i < pageCount; i++) {
             await this.elements.pageNumber().nth(i).click();
-            await this.page.waitForTimeout(3000);
 
             const isDeletedSuccess = await this.elements.languageData().isVisible();
             if (isDeletedSuccess) {
@@ -213,7 +209,6 @@ export default class LanguagesPage {
           const pageCount = await this.elements.pageNumber().count();
           for (let i = 0; i < pageCount; i++) {
             await this.elements.pageNumber().nth(i).click();
-            await this.page.waitForTimeout(3000);
 
             const isDeletedSuccess = await this.elements.languageData().isVisible();
             if (isDeletedSuccess) {

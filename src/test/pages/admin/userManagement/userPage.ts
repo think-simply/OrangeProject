@@ -161,7 +161,6 @@ export default class AdminMenuPage {
     await this.elements.passwordField().fill(pass);
     await this.elements.confirmPassword().fill(confirm);
     await this.elements.submitBtn().click();
-    // await this.page.waitForTimeout(3000);
     await this.elements
       .successToast()
       .waitFor({ state: "visible", timeout: 4000 });
@@ -174,7 +173,6 @@ export default class AdminMenuPage {
     await this.elements.adminMenu().click();
     await this.elements.usernameFieldSearch().fill(userName);
     await this.elements.searchBtn().click();
-    await this.page.waitForTimeout(5000);
     await expect(this.elements.actionColumn()).toBeVisible();
   }
   async verifySearchUserName(checkUser = false, text: string) {
@@ -199,7 +197,6 @@ export default class AdminMenuPage {
     await this.elements.userRole().click();
     await this.page.getByRole("option", { name: role }).click();
     await this.elements.searchBtn().click();
-    await this.page.waitForTimeout(5000);
     await expect(this.elements.actionColumn()).toBeVisible();
   }
   async verifySearchUserRole(checkUserRole = true, role: string) {
@@ -220,7 +217,6 @@ export default class AdminMenuPage {
     await this.elements.employeeName().fill(text);
     await this.elements.employeeOption().click();
     await this.elements.searchBtn().click();
-    await this.page.waitForTimeout(5000);
     await expect(this.elements.actionColumn()).toBeVisible();
     await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
       const response = await route.fetch();
@@ -242,7 +238,6 @@ export default class AdminMenuPage {
     await this.elements.status().click();
     await this.page.getByRole("option", { name: status }).locator('span').click();
     await this.elements.searchBtn().click();
-    await this.page.waitForTimeout(5000);
     await expect(this.elements.actionColumn()).toBeVisible();
   }
   async verifySearchStatus(status: string) {
@@ -299,7 +294,6 @@ export default class AdminMenuPage {
       const response = await route.fetch();
       expect(response.status()).toBe(200);
     });
-    await this.page.waitForTimeout(4000);
     await expect(this.elements.updatedAccount(updatetext)).toBeVisible();
   }
   async removeAccount(text: string) {
@@ -315,7 +309,6 @@ export default class AdminMenuPage {
       const response = await route.fetch();
       expect(response.status()).toBe(200);
     });
-    await this.page.waitForTimeout(3000);
     await expect(this.elements.updatedAccount(updatetext)).toBeHidden({
       timeout: 10000,
     });

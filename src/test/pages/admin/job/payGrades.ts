@@ -69,9 +69,7 @@ export default class PayGradePage {
   
   async deletePayGrade(payGradeName: string) {
     await this.element.deleteIcon(payGradeName).click()
-    //await this.page.pause()
     await this.element.confirmDeleteBtn().click()
-    //await this.page.waitForTimeout(4000);
     await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
   }
   async verifyDeletePayGradeSuccessfully(payGradeName: string) {

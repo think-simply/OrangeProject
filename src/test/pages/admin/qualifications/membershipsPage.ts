@@ -72,7 +72,6 @@ export default class MembershipsPage {
           const pageCount = await this.elements.pageNumber().count();
           for (let i = 0; i < pageCount; i++) {
             await this.elements.pageNumber().nth(i).click();
-            await this.page.waitForTimeout(3000);
 
             const isCreatedSuccess = await this.elements.membershipData().isVisible();
             if (isCreatedSuccess) {
@@ -120,7 +119,6 @@ export default class MembershipsPage {
           const pageCount = await this.elements.pageNumber().count();
           for (let i = 0; i < pageCount; i++) {
             await this.elements.pageNumber().nth(i).click();
-            await this.page.waitForTimeout(3000);
 
             const isUpdatedSuccess = await this.elements
               .membershipData2()
@@ -166,7 +164,6 @@ export default class MembershipsPage {
           const pageCount = await this.elements.pageNumber().count();
           for (let i = 0; i < pageCount; i++) {
             await this.elements.pageNumber().nth(i).click();
-            await this.page.waitForTimeout(3000);
 
             const isDeletedSuccess = await this.elements.membershipData().isVisible();
             if (isDeletedSuccess) {
@@ -214,8 +211,6 @@ export default class MembershipsPage {
           const pageCount = await this.elements.pageNumber().count();
           for (let i = 0; i < pageCount; i++) {
             await this.elements.pageNumber().nth(i).click();
-            await this.page.waitForTimeout(3000);
-
             const isDeletedSuccess = await this.elements.membershipData().isVisible();
             if (isDeletedSuccess) {
                 await expect(this.elements.membershipData()).toBeHidden();
