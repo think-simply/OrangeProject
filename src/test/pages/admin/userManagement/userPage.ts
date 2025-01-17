@@ -1,11 +1,9 @@
 import { Page, expect } from "@playwright/test";
-import { APIRequestContext } from "@playwright/test";
 import dotenv from "dotenv";
 dotenv.config();
 
 export default class AdminMenuPage {
   readonly page: Page;
-  private apiContext: any;
   constructor(page: Page) {
     this.page = page;
   }
@@ -124,6 +122,7 @@ export default class AdminMenuPage {
     await this.elements.userManagement().click();
   }
   async verifyUserPageUI() {
+    await this.page.waitForURL(`${process.env.SOCIAL_MEDIA_URL}`);
     await expect(this.elements.titlePage()).toBeVisible();
     await expect(this.elements.usernameLabel()).toBeVisible();
     await expect(this.elements.usernameFieldSearch()).toBeEditable();
