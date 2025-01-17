@@ -115,6 +115,10 @@ export default class AdminMenuPage {
       this.page.locator(
         `//label[text()="${validation}"]//ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::input`
       ),
+      authenMess: () =>
+        this.page.locator(
+          '//p[text()="Credential Required"]'
+        ),
   };
   async visit() {
     await this.page.goto(`${process.env.WEB_URL}`);
@@ -360,5 +364,11 @@ export default class AdminMenuPage {
     await this.elements.passwordField().fill(text1);
     await this.elements.confirmPassword().fill(text2);
     await this.elements.submitBtn().click();
+  }
+  async staffAccessAdminMenu() {
+    await this.page.goto(`${process.env.WEB_URL}/admin/viewSystemUsers`);
+  }
+  async verifyStaffAccessAdminMenu() {
+    await expect(this.elements.authenMess()).toBeVisible();
   }
 }
