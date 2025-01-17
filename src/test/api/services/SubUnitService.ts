@@ -168,18 +168,12 @@ export class SubUnitService {
       }
     }
 
-    if (!found) {
-      console.log(
-        `No subunit found with the name "${subUnitName}" at level 1.`
-      );
-    }
   }
 
   async deleteAllLevel1SubUnits() {
     const subUnits = await this.listAllSubUnits();
 
     if (!subUnits || subUnits.length === 0) {
-      console.log("No subunits found to delete.");
       return;
     }
 
