@@ -9,8 +9,8 @@ Feature: Functions in Admin Menu - Admin role
     When User access User management page
     Then User management page has been displayed
 
-  @high
-  Scenario Outline: US_02: Add new user : <role>
+  @high 
+  Scenario Outline: US_02: Add new user: <role>
     When User creates a new user with role "<role>" and employee "<employee>", username "<username>", password "<password>", confirm password "<confirm password>"
     Then New "<username>" user has been created successfully
 
@@ -22,15 +22,15 @@ Feature: Functions in Admin Menu - Admin role
   @medium
   Scenario: US_03: Search user by user name - return exactly result
     When User creates a new user with role "Admin" and employee "tina thi", username "searchname", password "Admin@1234", confirm password "Admin@1234"
-    And User search by username : "searchname"
+    And User search by username: "searchname"
     Then Result "searchname" has been displayed follow username
 
   @medium
   Scenario: US_04: Search user by user name - <return no result>
-    When User search by username : "usernamenoreturn"
+    When User search by username: "usernamenoreturn"
     Then Alert no result and "No Records Found" text has been displayed
 
-  @medium
+  @medium @now
   Scenario Outline: US_05: Search user by role
     When User creates a new user with role "<role>" and employee "tina thi", username "<searchRole>", password "Admin@1234", confirm password "Admin@1234"
     And User search by role: "<role>"
@@ -42,7 +42,7 @@ Feature: Functions in Admin Menu - Admin role
       | ESS   | roleESS    |
 
   @medium
-  Scenario: US_06: Search user by employee name- return result
+  Scenario: US_06: Search user by employee name - return result
     When User creates a new user with role "Admin" and employee "tina thi", username "searchEname", password "Admin@1234", confirm password "Admin@1234"
     And User search by employee name: "tina thi"
     Then Result has been displayed follow employee name: "tina Nguyen"
@@ -82,7 +82,7 @@ Feature: Functions in Admin Menu - Admin role
       | Admin | deleteAdmin    |
 
   @high
-  Scenario: US_11: Removes multi account
+  Scenario: US_11: Removes multi accounts
     When User creates a new user with role "Admin" and employee "tina thi", username "usernamenttheuRemove1", password "Admin@1234", confirm password "Admin@1234"
     And User creates a new user with role "ESS" and employee "tina thi", username "usernamenttheuRemove2", password "Admin@1234", confirm password "Admin@1234"
     And User removes all accounts contain text "usernamenttheu"

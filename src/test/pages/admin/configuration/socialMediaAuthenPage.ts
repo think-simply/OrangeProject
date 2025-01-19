@@ -37,6 +37,7 @@ export default class SocialMediaPage {
         await this.elements.socialMediaAuthenSubMenu().click();
     }
     async verifyPageUI() {
+        await this.page.waitForURL(`${process.env.SOCIAL_MEDIA_URL}`);
         await this.elements.pageTitle().waitFor();
         await expect(this.elements.pageTitle()).toBeVisible();
         await expect(this.elements.addBtn()).toBeEnabled();

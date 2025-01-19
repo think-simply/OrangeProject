@@ -19,7 +19,7 @@ Feature: Functions in Admin Menu
       | jobTitleName              |
       | Hoa Test Create Job Title |
 
-  @high @now1
+  @high 
   Scenario: JT_03: User update an job title
     When User access job title page
     And User create new job title with "<jobTitleName>"

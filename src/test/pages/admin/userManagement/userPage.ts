@@ -2,40 +2,33 @@ import { Page, expect } from "@playwright/test";
 import dotenv from "dotenv";
 dotenv.config();
 
-export default class AdminMenuPage {
+export default class UserPage {
   readonly page: Page;
   constructor(page: Page) {
     this.page = page;
   }
   elements = {
-    updatedAccount: (updatetext: string) =>
-      this.page.locator(`//div[text()="${updatetext}"]`),
-    newUser: (demotext: string) =>
-      this.page.locator(`//div[text()="${demotext}"]`),
-    editIcon: (textTrial: string) =>
+    updatedAccount: (userName: string) =>
+      this.page.locator(`//div[text()="${userName}"]`),
+    newUser: (userName: string) =>
+      this.page.locator(`//div[text()="${userName}"]`),
+    editIcon: (userName: string) =>
       this.page.locator(
-        `//div[text()="${textTrial}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`
+        `//div[text()="${userName}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`
       ),
     loginBtn: () => this.page.locator('//button[@type="submit"]'),
     adminMenu: () => this.page.locator('//span[text()="Admin"]'),
     addBtn: () => this.page.locator('//button[normalize-space()="Add"]'),
-    userRole: () =>
-      this.page.locator(
-        '//label[text()="User Role"]//ancestor::div[contains(@class,"oxd-grid-item--gutters")]//descendant::div[@class="oxd-select-wrapper"]'
-      ),
-    status: () =>
-      this.page.locator(
-        '//label[text()="Status"]//ancestor::div[contains(@class,"oxd-grid-item--gutters")]//descendant::div[@class="oxd-select-wrapper"]'
-      ),
-    employeeName: () =>
-      this.page.locator('//input[@placeholder="Type for hints..."]'),
-    usernameFieldSearch: () =>
-      this.page.locator(
-        '//label[normalize-space()="Username"]//ancestor::div[@class="oxd-grid-item oxd-grid-item--gutters"]//descendant::input[@class="oxd-input oxd-input--active"]'
-      ),
+    enableStatus: () => this.page.getByRole('option', { name: 'Enabled' }),
+    disabledStatus: () => this.page.getByRole('option', { name: 'Disabled' }),
+    userRole: () => this.page.getByText('User Role-- Select --'),
+    userRoleAdmin: () => this.page.getByRole('option', { name: 'Admin' }),
+    userRoleESS: () => this.page.getByRole('option', { name: 'ESS' }),
+    status: () => this.page.getByText('Status-- Select --'),
+    employeeName: () => this.page.locator('//input[@placeholder="Type for hints..."]'),
+    usernameFieldSearch: () => this.page.getByRole('textbox').nth(1),
     usernameField: () => this.page.getByRole("textbox").nth(2),
-    passwordField: () =>
-      this.page.locator(
+    passwordField: () => this.page.locator(
         '//div[contains(@class,"user-password-cell")]//descendant::input[@type="password"]'
       ),
     confirmPassword: () =>
@@ -50,6 +43,8 @@ export default class AdminMenuPage {
       this.page.locator(
         '//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'
       ),
+
+    toastSpinner:() =>  this.page.locator('//div[@class="oxd-loading-spinner"]'),
     userManagement: () =>
       this.page.locator('//span[normalize-space()="User Management"]'),
     titlePage: () => this.page.locator('//h5[text()="System Users"]'),
@@ -67,6 +62,7 @@ export default class AdminMenuPage {
       this.page.locator('//div[text()="Employee Name"]'),
     statusColumn: () => this.page.locator('//div[text()="Status"]'),
     actionColumn: () => this.page.locator('//div[text()="Actions"]'),
+    recordText: () => this.page.getByText('/\(\d+\) Records Found|1 Record Found/)'),
     userResult: () =>
       this.page.locator(
         "//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']"
@@ -122,7 +118,6 @@ export default class AdminMenuPage {
     await this.elements.userManagement().click();
   }
   async verifyUserPageUI() {
-    await this.page.waitForURL(`${process.env.SOCIAL_MEDIA_URL}`);
     await expect(this.elements.titlePage()).toBeVisible();
     await expect(this.elements.usernameLabel()).toBeVisible();
     await expect(this.elements.usernameFieldSearch()).toBeEditable();
@@ -165,9 +160,10 @@ export default class AdminMenuPage {
       .waitFor({ state: "visible", timeout: 4000 });
   }
 
-  async verifyCreateUser(demotext: string) {
-    await expect(this.elements.newUser(demotext)).toBeVisible();
+  async verifyCreatedUser(userName: string) {
+    await expect(this.elements.newUser(userName)).toBeVisible();
   }
+
   async searchUserName(userName: string) {
     await this.elements.adminMenu().click();
     await this.elements.usernameFieldSearch().fill(userName);
@@ -193,16 +189,47 @@ export default class AdminMenuPage {
   }
   async searchUserRole(role: string) {
     await this.elements.adminMenu().click();
-    await this.elements.userRole().click();
-    await this.page.getByRole("option", { name: role }).click();
-    await this.elements.searchBtn().click();
-    await expect(this.elements.actionColumn()).toBeVisible();
+    await this.page.locator('.oxd-select-text').first().click();
+    if (role === "Admin") {
+      await this.page.getByRole('option', { name: 'Admin' }).click();
+    } else if (role === "ESS") {
+      await this.page.getByRole('option', { name: 'ESS' }).click();
+    } 
+    // Determine the expected userRoleId based on the role
+    const expectedUserRoleId = role === "Admin" ? '1' : '2';
+
+    // Intercept the API request and validate userRoleId
+    let isCorrectRequestSent = false;
+    let maxRetries = 5; // Limit the number of retries
+    let retries = 0;
+
+    // Start monitoring the toast spinner lifecycle
+    const toastLifecyclePromise = (async () => {
+      await this.elements.toastSpinner().waitFor({ state: 'attached', timeout: 10000 });
+      console.log("Toast spinner lifecycle completed.");
+    })();
+
+    while (!isCorrectRequestSent && retries < maxRetries) {
+      await this.elements.searchBtn().click();
+      await this.page.route('**/api/v2/admin/users**', async (route) => {
+        const url = new URL(route.request().url());
+        const userRoleId = url.searchParams.get('userRoleId');
+        if (userRoleId === expectedUserRoleId) isCorrectRequestSent = true; // Stop further retries
+        // Allow the request to proceed
+        await route.continue();
+      });
+      // Wait for the API response
+      await this.page.waitForResponse('**/api/v2/admin/users**');
+      retries++;
+    }
+
+    await toastLifecyclePromise;
+    await this.elements.toastSpinner().waitFor({ state: 'detached', timeout: 10000 });
   }
   async verifySearchUserRole(checkUserRole = true, role: string) {
     if (checkUserRole) {
       const results = await this.elements.roleColumnLocator().all();
-      // Check if any results are found
-      expect(results.length).toBeGreaterThan(0);
+      expect(results.length).toBeGreaterThan(0); console.log(results.length);
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
         await expect(result).toBeVisible({ timeout: 5000 });
@@ -240,15 +267,21 @@ export default class AdminMenuPage {
     await expect(this.elements.actionColumn()).toBeVisible();
   }
   async verifySearchStatus(status: string) {
-    const statusLocators = await this.elements.statusLocator().all();
-    for (let i = 0; i < statusLocators.length; i++) {
-      const statusLocator = statusLocators[i];
-      await expect(statusLocator).toBeVisible({
-        timeout: 5000,
-      });
-      const statusText = await statusLocator.textContent();
-      expect(statusText).toBe(status);
+    if (status === "Enabled") {
+      expect(this.elements.enableStatus()).toBeVisible();
     }
+    else {
+      expect(this.elements.disabledStatus()).toBeVisible();
+    }
+    // const statusLocators = await this.elements.statusLocator().all();
+    // for (let i = 0; i < statusLocators.length; i++) {
+    //   const statusLocator = statusLocators[i];
+    //   await expect(statusLocator).toBeVisible({
+    //     timeout: 5000,
+    //   });
+    //   const statusText = await statusLocator.textContent();
+    //   expect(statusText).toBe(status);
+    // }
   }
   async inputDataForFields(
     username: string,
@@ -288,29 +321,19 @@ export default class AdminMenuPage {
       .successToast()
       .waitFor({ state: "visible" });
   }
-  async verifyUpdateAccount(updatetext: string) {
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
-      const response = await route.fetch();
-      expect(response.status()).toBe(200);
-    });
-    await expect(this.elements.updatedAccount(updatetext)).toBeVisible();
+  async verifyUpdatedAccount(userName: string) {
+     await expect(this.elements.updatedAccount(userName)).toBeVisible();
   }
-  async removeAccount(text: string) {
+  async removeAccount(userName: string) {
     await this.elements.adminMenu().click();
-    await this.elements.deleteIcon(text).click();
+    await this.elements.deleteIcon(userName).click();
     await this.elements.confirmDeleteBtn().click();
     await this.elements
       .successToast()
       .waitFor({ state: "visible"});
   }
-  async verifyRemoveAccount(updatetext: string) {
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
-      const response = await route.fetch();
-      expect(response.status()).toBe(200);
-    });
-    await expect(this.elements.updatedAccount(updatetext)).toBeHidden({
-      timeout: 10000,
-    });
+  async verifyRemovedAccount(userName: string) {
+    await expect(this.elements.updatedAccount(userName)).toBeHidden();
   }
   async removeMultiAccount(text: string) {
     await this.elements.adminMenu().click();

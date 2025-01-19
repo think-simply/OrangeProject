@@ -32,10 +32,10 @@ When(
   }
 );
 
-Then("New {string} user has been created successfully", async (text) => {
-  await userPage.verifyCreateUser(text);
+Then("New {string} user has been created successfully", async (userName) => {
+  await userPage.verifyCreatedUser(userName);
 });
-When("User search by username : {string}", async (userName) => {
+When("User search by username: {string}", async (userName) => {
   await userPage.searchUserName(userName);
 });
 Then("Alert no result and {string} text has been displayed", async (text) => {
@@ -89,25 +89,23 @@ When(
     await userPage.updateAccount(textTrial, newname);
   }
 );
-Then(
-  "Account has been updated to new username: {string}",
-  async (updatetext) => {
-    await userPage.verifyUpdateAccount(updatetext);
-  }
-);
+Then("Account has been updated to new username: {string}", async (newname) => {
+    await userPage.verifyUpdatedAccount(newname);
+});
+
 When("User removes an account: {string}", async (text) => {
   await userPage.removeAccount(text);
 });
-Then("Account {string} has been deleted", async (updatetext) => {
-  await userPage.verifyRemoveAccount(updatetext);
+Then("Account {string} has been deleted", async (userName) => {
+  await userPage.verifyRemovedAccount(userName);
 });
-When("User removes all accounts contain text {string}", async (text) => {
-  await userPage.removeMultiAccount(text);
+When("User removes all accounts contain text {string}", async (userName) => {
+  await userPage.removeMultiAccount(userName);
 });
 Then(
   "All selected account contain text {string} have been deleted",
-  async (demotext) => {
-    await userPage.verifyRemoveMultiAccount(demotext);
+  async (userName) => {
+    await userPage.verifyRemoveMultiAccount(userName);
   }
 );
 When("User enter on {string} value {string}", async (demotext, text) => {

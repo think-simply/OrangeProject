@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "npx ts-node src/helper/init.ts && npx ts-node global-setup.ts",
     "test": "cucumber-js --tags @admin test",
-    "now": "npx cucumber-js  --tags @now",
+    "now": "cucumber-js  --tags @now",
     "user": "npx cucumber-js  --tags @user",
     "education": "npx cucumber-js  --tags @education",
     "structure": "npx cucumber-js  --tags @structure",
