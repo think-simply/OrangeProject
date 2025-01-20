@@ -5,8 +5,12 @@ import { authConfig } from '../../auth.config';
 
 let browser: Browser;
 interface TestContext {
+  context: BrowserContext;
   adminContext: BrowserContext;
   Page: Page;
+  nonLoggedContext: BrowserContext;
+  nonLoggedPage: Page;
+  
 }
 setDefaultTimeout(60 * 1000);
 
@@ -18,9 +22,15 @@ AfterAll(async function () {
   await browser.close();
 });
 
-Before(async function (this: any, scenario) {
+Before(async function (this: TestContext, scenario) {
   const tags = scenario.pickle.tags.map(tag => tag.name);
-  // Determine user type based on tags
+  
+  // Tạo context cho user chưa login
+  this.nonLoggedContext = await browser.newContext();
+  this.nonLoggedPage = await this.nonLoggedContext.newPage();
+  pageFixture.nonLoggedPage = this.nonLoggedPage;
+
+  // Xác định user type cho context đã login
   let userType: 'admin' | 'staff';
   if (tags.includes('@admin') || tags.includes('@apiSection')) {
     userType = 'admin';
@@ -29,14 +39,14 @@ Before(async function (this: any, scenario) {
   } else {
     throw new Error('No user type tag (@admin or @staff) found in scenario');
   }
-  // Create context with stored credentials
+
+  // Tạo context cho user đã login
   this.context = await browser.newContext({
     storageState: authConfig[userType].storageState,
   });
 
-  const page = await this.context.newPage();
-  pageFixture["page"] = page; // Store page in fixture
-  this.Page = page; // Default to the page for the current user type
+  this.Page = await this.context.newPage();
+  pageFixture.page = this.Page;
 });
 
 After(async function (this: TestContext, { pickle, result }) {
@@ -47,6 +57,11 @@ After(async function (this: TestContext, { pickle, result }) {
       type: "png",
     });
   }
-  await this.Page.close();
+  if (this.context) {
+    await this.context.close();
+  }
+  if (this.nonLoggedContext) {
+    await this.nonLoggedContext.close();
+  }
 });
 
