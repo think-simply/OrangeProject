@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run automated admin testcase with cucumber
-        run: npm run test -- --parallel 10 
+        run: npm run test -- --parallel 5
       - name: Run automated API testcase with cucumber
         run: npm run api -- --parallel 1
         if: always()

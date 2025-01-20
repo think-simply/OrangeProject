@@ -58,17 +58,6 @@ Before(async function (this: TestContext, scenario) {
     pageFixture["page"] = staffPage;
   }
 
-  // Instantiate the page objects
-  // this.adminPage = new AdminPage(adminPage);
-  // this.staffPage = new BasePage(staffPage);
-
-  // Store the pages in the context to be used in your tests
-  // this.context = {
-  //   adminContext: this.adminContext,
-  //   staffContext: this.staffContext,
-  //   adminPage: this.adminPage,
-  //   staffPage: this.staffPage,
-  // };
 });
 
 After(async function (this: TestContext, { pickle, result }) {
