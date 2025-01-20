@@ -1,39 +1,39 @@
+import { BasePage } from '#test/pages/BasePage';
 import { Page, expect } from '@playwright/test'
 import dotenv from 'dotenv'
 dotenv.config()
 
-export default class PayGradePage {
-  readonly page: Page
+export default class PayGradePage extends BasePage {
   constructor(page: Page) {
-    this.page = page
+    super(page); // Pass the page instance to the BasePage constructor
   }
   element = {
-    adminMenu: () => this.page.locator('//span[text()="Admin"]'),
-    jobMenu: () => this.page.locator('//span[text()="Job "]'),
-    payGradeMenu: () => this.page.locator('//a[text()="Pay Grades"]'),
-    addPayGradeBtn: () => this.page.locator('//button[text()=" Add "]'),
+    adminMenu: () => this.getPage().locator('//span[text()="Admin"]'),
+    jobMenu: () => this.getPage().locator('//span[text()="Job "]'),
+    payGradeMenu: () => this.getPage().locator('//a[text()="Pay Grades"]'),
+    addPayGradeBtn: () => this.getPage().locator('//button[text()=" Add "]'),
     nameInput: () =>
-      this.page.locator(
+      this.getPage().locator(
         '//label[text()="Name"]/ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::input'
       ),      
-    saveBtn: () => this.page.locator('//button[text()=" Save "]'),
-    messageSuccess: () => this.page.locator('//p[text()="Success"]'),
-    editTitlePage: () => this.page.locator('//h6[text()="Edit Pay Grade"]'),
+    saveBtn: () => this.getPage().locator('//button[text()=" Save "]'),
+    messageSuccess: () => this.getPage().locator('//p[text()="Success"]'),
+    editTitlePage: () => this.getPage().locator('//h6[text()="Edit Pay Grade"]'),
     editIcon: (payGradeName: string) =>
-      this.page.locator(
+      this.getPage().locator(
         `//div[text()="${payGradeName}"]//ancestor::div[@role="row"]//button[i[contains(@class, "bi-pencil-fill")]]/i`
       ),
     nameColumn: (existName: string) =>
-      this.page.locator(`//div[text()="${existName}"]`),
+      this.getPage().locator(`//div[text()="${existName}"]`),
     updatedNameColumn: (newName: string) =>
-      this.page.locator(`//div[text()="${newName}"]`),
+      this.getPage().locator(`//div[text()="${newName}"]`),
     deleteIcon: (payGradeName: string) =>
-      this.page.locator(
+      this.getPage().locator(
         `//div[text()="${payGradeName}"]//ancestor::div[@role="row"]//button[i[contains(@class, "bi-trash")]]/i`
       ),
     confirmDeleteBtn: () =>
-      //this.page.locator('//button[text()=" Yes, Delete "]'),
-      this.page.locator('//*[@id="app"]/div[3]/div/div/div/div[3]/button[2]')
+      //this.getPage().locator('//button[text()=" Yes, Delete "]'),
+      this.getPage().locator('//*[@id="app"]/div[3]/div/div/div/div[3]/button[2]')
   }
   async goToPayGradePage(){
     await this.element.jobMenu().click()
@@ -70,7 +70,7 @@ export default class PayGradePage {
   async deletePayGrade(payGradeName: string) {
     await this.element.deleteIcon(payGradeName).click()
     await this.element.confirmDeleteBtn().click()
-    await this.page.waitForSelector('.oxd-loading-spinner', { state: 'detached' });
+    await this.getPage().waitForSelector('.oxd-loading-spinner', { state: 'detached' });
   }
   async verifyDeletePayGradeSuccessfully(payGradeName: string) {
     //await expect(this.element.editTitlePage()).toBeVisible()

@@ -1,27 +1,27 @@
+import { BasePage } from "#test/pages/BasePage";
 import { Page, expect } from "@playwright/test";
 import dotenv from "dotenv";
 dotenv.config();
-export default class SkillPage {
-   readonly page: Page;
-   constructor(page: Page) {
-      this.page = page;
-   }
+export default class SkillPage extends BasePage {
+  constructor(page: Page) {
+    super(page); // Pass the page instance to the BasePage constructor
+  }
    elements = {
-      adminMenu: () => this.page.locator('//span[text()="Admin"]'),
-      qualifications: () => this.page.locator('//span[normalize-space()="Qualifications"]'),
-      skillsOption: () => this.page.locator('//a[normalize-space()="Skills"]'),
-      skillElement: () => this.page.locator('//h6[@class="oxd-text oxd-text--h6 orangehrm-main-title"]'),
-      addSkillBtn: () => this.page.locator('//button[normalize-space()="Add"]'),
-      nameSkill: () => this.page.locator('//label[text()="Name"]/parent::div/following-sibling::div/input[@class="oxd-input oxd-input--active"]'),
-      descriptionSkill: () => this.page.locator('//label[text()="Description"]//ancestor::div[@class="oxd-form-row"]//descendant::textarea'),
-      saveSkillBtn: () => this.page.locator('//button[@type="submit"]'),
-      addSkillsuccessmsg: () => this.page.locator('//div[@class="oxd-toast-start"]//p[@class="oxd-text oxd-text--p oxd-text--toast-message oxd-toast-content-text"]'),
-      yesDeleteSkillbtn: () => this.page.locator('//button[normalize-space()="Yes, Delete"]'),
-      deleteSkillMsg: () => this.page.locator('//div[@id="oxd-toaster_1"]//following::p[text()="Successfully Deleted"]'),
-      editIcon: (text: string) => this.page.locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
-      deleteIcon: (text: string) => this.page.locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]`),
-      nameTextbox: () => this.page.locator('//label[text()="Name"]/parent::div/following-sibling::div/input'),
-      updateSuccessMsg: () => this.page.locator('//div[@id = "oxd-toaster_1"]//following::div[@class="oxd-toast-content oxd-toast-content--success"]'),
+      adminMenu: () => this.getPage().locator('//span[text()="Admin"]'),
+      qualifications: () => this.getPage().locator('//span[normalize-space()="Qualifications"]'),
+      skillsOption: () => this.getPage().locator('//a[normalize-space()="Skills"]'),
+      skillElement: () => this.getPage().locator('//h6[@class="oxd-text oxd-text--h6 orangehrm-main-title"]'),
+      addSkillBtn: () => this.getPage().locator('//button[normalize-space()="Add"]'),
+      nameSkill: () => this.getPage().locator('//label[text()="Name"]/parent::div/following-sibling::div/input[@class="oxd-input oxd-input--active"]'),
+      descriptionSkill: () => this.getPage().locator('//label[text()="Description"]//ancestor::div[@class="oxd-form-row"]//descendant::textarea'),
+      saveSkillBtn: () => this.getPage().locator('//button[@type="submit"]'),
+      addSkillsuccessmsg: () => this.getPage().locator('//div[@class="oxd-toast-start"]//p[@class="oxd-text oxd-text--p oxd-text--toast-message oxd-toast-content-text"]'),
+      yesDeleteSkillbtn: () => this.getPage().locator('//button[normalize-space()="Yes, Delete"]'),
+      deleteSkillMsg: () => this.getPage().locator('//div[@id="oxd-toaster_1"]//following::p[text()="Successfully Deleted"]'),
+      editIcon: (text: string) => this.getPage().locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
+      deleteIcon: (text: string) => this.getPage().locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]`),
+      nameTextbox: () => this.getPage().locator('//label[text()="Name"]/parent::div/following-sibling::div/input'),
+      updateSuccessMsg: () => this.getPage().locator('//div[@id = "oxd-toaster_1"]//following::div[@class="oxd-toast-content oxd-toast-content--success"]'),
    }
 
    async acessSkillPage() {
@@ -58,8 +58,6 @@ export default class SkillPage {
    async verifyUpdateSkill() {
       await expect(this.elements.updateSuccessMsg()).toBeVisible();
    }
-
-
 };
 
 

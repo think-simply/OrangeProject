@@ -1,117 +1,125 @@
 import { Page, expect } from "@playwright/test";
 import dotenv from "dotenv";
+import { BasePage } from "#test/pages/BasePage";
 dotenv.config();
 
-export default class UserPage {
-  readonly page: Page;
+export default class UserPage extends BasePage {
   constructor(page: Page) {
-    this.page = page;
+    super(page); // Pass the page instance to the BasePage constructor
   }
   elements = {
     updatedAccount: (userName: string) =>
-      this.page.locator(`//div[text()="${userName}"]`),
+      this.getPage().locator(`//div[text()="${userName}"]`),
     newUser: (userName: string) =>
-      this.page.locator(`//div[text()="${userName}"]`),
+      this.getPage().locator(`//div[text()="${userName}"]`),
     editIcon: (userName: string) =>
-      this.page.locator(
+      this.getPage().locator(
         `//div[text()="${userName}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`
       ),
-    loginBtn: () => this.page.locator('//button[@type="submit"]'),
-    adminMenu: () => this.page.locator('//span[text()="Admin"]'),
-    addBtn: () => this.page.locator('//button[normalize-space()="Add"]'),
-    enableStatus: () => this.page.getByRole('option', { name: 'Enabled' }),
-    disabledStatus: () => this.page.getByRole('option', { name: 'Disabled' }),
-    userRole: () => this.page.getByText('User Role-- Select --'),
-    userRoleAdmin: () => this.page.getByRole('option', { name: 'Admin' }),
-    userRoleESS: () => this.page.getByRole('option', { name: 'ESS' }),
-    status: () => this.page.getByText('Status-- Select --'),
-    employeeName: () => this.page.locator('//input[@placeholder="Type for hints..."]'),
-    usernameFieldSearch: () => this.page.getByRole('textbox').nth(1),
-    usernameField: () => this.page.getByRole("textbox").nth(2),
-    passwordField: () => this.page.locator(
+    loginBtn: () => this.getPage().locator('//button[@type="submit"]'),
+    adminMenu: () => this.getPage().locator('//span[text()="Admin"]'),
+    addBtn: () => this.getPage().locator('//button[normalize-space()="Add"]'),
+    enableStatus: () => this.getPage().getByRole("option", { name: "Enabled" }),
+    disabledStatus: () =>
+      this.getPage().getByRole("option", { name: "Disabled" }),
+    userRole: () => this.getPage().getByText("User Role-- Select --"),
+    userRoleAdmin: () => this.getPage().getByRole("option", { name: "Admin" }),
+    userRoleESS: () => this.getPage().getByRole("option", { name: "ESS" }),
+    status: () => this.getPage().getByText("Status-- Select --"),
+    employeeName: () =>
+      this.getPage().locator('//input[@placeholder="Type for hints..."]'),
+    usernameFieldSearch: () => this.getPage().getByRole("textbox").nth(1),
+    usernameField: () => this.getPage().getByRole("textbox").nth(2),
+    passwordField: () =>
+      this.getPage().locator(
         '//div[contains(@class,"user-password-cell")]//descendant::input[@type="password"]'
       ),
     confirmPassword: () =>
-      this.page.locator(
+      this.getPage().locator(
         '//label[normalize-space()="Confirm Password"]//ancestor::div[@class="oxd-grid-item oxd-grid-item--gutters"]//descendant::input[@type="password"]'
       ),
-    submitBtn: () => this.page.locator('//button[@type="submit"]'),
-    statusOption: () => this.page.getByRole("option", { name: "Enabled" }),
+    submitBtn: () => this.getPage().locator('//button[@type="submit"]'),
+    statusOption: () => this.getPage().getByRole("option", { name: "Enabled" }),
     employeeOption: () =>
-      this.page.getByRole("option", { name: "tina thi Nguyen" }),
+      this.getPage().getByRole("option", { name: "tina thi Nguyen" }),
     messageSuccess: () =>
-      this.page.locator(
+      this.getPage().locator(
         '//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'
       ),
 
-    toastSpinner:() =>  this.page.locator('//div[@class="oxd-loading-spinner"]'),
+    toastSpinner: () =>
+      this.getPage().locator('//div[@class="oxd-loading-spinner"]'),
     userManagement: () =>
-      this.page.locator('//span[normalize-space()="User Management"]'),
-    titlePage: () => this.page.locator('//h5[text()="System Users"]'),
-    usernameLabel: () => this.page.locator('//label[text()="Username"]'),
-    userRoleLabel: () => this.page.locator('//label[text()="User Role"]'),
+      this.getPage().locator('//span[normalize-space()="User Management"]'),
+    titlePage: () => this.getPage().locator('//h5[text()="System Users"]'),
+    usernameLabel: () => this.getPage().locator('//label[text()="Username"]'),
+    userRoleLabel: () => this.getPage().locator('//label[text()="User Role"]'),
     employeeNameLabel: () =>
-      this.page.locator('//label[text()="Employee Name"]'),
-    statusLabel: () => this.page.locator('//label[text()="Status"]'),
-    resetBtn: () => this.page.locator('//button[normalize-space()="Reset"]'),
-    searchBtn: () => this.page.locator('//button[@type="submit"]'),
-    addUserBtn: () => this.page.locator('//button[normalize-space()="Add"]'),
-    userRoleColumn: () => this.page.locator('//div[text()="Username"]'),
-    usernameColumn: () => this.page.locator('//div[text()="User Role"]'),
+      this.getPage().locator('//label[text()="Employee Name"]'),
+    statusLabel: () => this.getPage().locator('//label[text()="Status"]'),
+    resetBtn: () =>
+      this.getPage().locator('//button[normalize-space()="Reset"]'),
+    searchBtn: () => this.getPage().locator('//button[@type="submit"]'),
+    addUserBtn: () =>
+      this.getPage().locator('//button[normalize-space()="Add"]'),
+    userRoleColumn: () => this.getPage().locator('//div[text()="Username"]'),
+    usernameColumn: () => this.getPage().locator('//div[text()="User Role"]'),
     employeeNameColumn: () =>
-      this.page.locator('//div[text()="Employee Name"]'),
-    statusColumn: () => this.page.locator('//div[text()="Status"]'),
-    actionColumn: () => this.page.locator('//div[text()="Actions"]'),
-    recordText: () => this.page.getByText('/\(\d+\) Records Found|1 Record Found/)'),
+      this.getPage().locator('//div[text()="Employee Name"]'),
+    statusColumn: () => this.getPage().locator('//div[text()="Status"]'),
+    actionColumn: () => this.getPage().locator('//div[text()="Actions"]'),
+    recordText: () =>
+      this.getPage().getByText("/(d+) Records Found|1 Record Found/)"),
     userResult: () =>
-      this.page.locator(
+      this.getPage().locator(
         "//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']"
       ),
     deleteIcon: (text: string) =>
-      this.page.locator(
+      this.getPage().locator(
         `//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-trash"]`
       ),
     confirmDeleteBtn: () =>
-      this.page.locator("//button[normalize-space()='Yes, Delete']"),
+      this.getPage().locator("//button[normalize-space()='Yes, Delete']"),
     checkBox: (text: string) =>
-      this.page.locator(
+      this.getPage().locator(
         `//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`
       ),
     deleteMultiBtn: () =>
-      this.page.locator("//button[normalize-space()='Delete Selected']"),
+      this.getPage().locator("//button[normalize-space()='Delete Selected']"),
     successToast: () =>
-      this.page.locator(
+      this.getPage().locator(
         '//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'
       ),
     resultsRowLocator: () =>
-      this.page.locator(
+      this.getPage().locator(
         "//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']"
       ),
     roleColumnLocator: () =>
-      this.page.locator(
+      this.getPage().locator(
         "//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][3]"
       ),
     employeeNameLocator: () =>
-      this.page.locator(
+      this.getPage().locator(
         "//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][4]"
       ),
     statusLocator: () =>
-      this.page.locator(
+      this.getPage().locator(
         "//div[@class='oxd-table-row oxd-table-row--with-border']//parent::div[@class='oxd-table-card']//child::div[@class='oxd-table-cell oxd-padding-cell'][5]"
       ),
     noRecordText: (text: string) =>
-      this.page.locator(`//span[text()="${text}"]`),
+      this.getPage().locator(`//span[text()="${text}"]`),
     validationMessage: (validation: string) =>
-      this.page.locator(
+      this.getPage().locator(
         `//label[text()="${validation}"]//ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::span`
       ),
     inputField: (validation: string) =>
-      this.page.locator(
+      this.getPage().locator(
         `//label[text()="${validation}"]//ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::input`
       ),
   };
+
   async visit() {
-    await this.page.goto(`${process.env.WEB_URL}`);
+    await this.getPage().goto(`${process.env.WEB_URL}`);
   }
   async accessUserPage() {
     await this.elements.adminMenu().click();
@@ -146,7 +154,7 @@ export default class UserPage {
     await this.elements.adminMenu().click();
     await this.elements.addBtn().click();
     await this.elements.userRole().click();
-    await this.page.getByRole("option", { name: role }).click();
+    await this.getPage().getByRole("option", { name: role }).click();
     await this.elements.status().click();
     await this.elements.statusOption().click();
     await this.elements.employeeName().fill(employee);
@@ -171,10 +179,13 @@ export default class UserPage {
     await expect(this.elements.actionColumn()).toBeVisible();
   }
   async verifySearchUserName(checkUser = false, text: string) {
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
-      const response = await route.fetch();
-      expect(response.status()).toBe(200);
-    });
+    await this.getPage().route(
+      `${process.env.SEARCH_URL}`,
+      async function (route) {
+        const response = await route.fetch();
+        expect(response.status()).toBe(200);
+      }
+    );
     //checkUser = true
     if (checkUser) {
       await expect(this.elements.userResult()).toHaveCount(1);
@@ -189,47 +200,22 @@ export default class UserPage {
   }
   async searchUserRole(role: string) {
     await this.elements.adminMenu().click();
-    await this.page.locator('.oxd-select-text').first().click();
+    await this.getPage().locator(".oxd-select-text").first().click();
     if (role === "Admin") {
-      await this.page.getByRole('option', { name: 'Admin' }).click();
+      await this.getPage().getByRole("option", { name: "Admin" }).click();
     } else if (role === "ESS") {
-      await this.page.getByRole('option', { name: 'ESS' }).click();
-    } 
-    // Determine the expected userRoleId based on the role
-    const expectedUserRoleId = role === "Admin" ? '1' : '2';
-
-    // Intercept the API request and validate userRoleId
-    let isCorrectRequestSent = false;
-    let maxRetries = 5; // Limit the number of retries
-    let retries = 0;
-
-    // Start monitoring the toast spinner lifecycle
-    const toastLifecyclePromise = (async () => {
-      await this.elements.toastSpinner().waitFor({ state: 'attached', timeout: 10000 });
-      console.log("Toast spinner lifecycle completed.");
-    })();
-
-    while (!isCorrectRequestSent && retries < maxRetries) {
-      await this.elements.searchBtn().click();
-      await this.page.route('**/api/v2/admin/users**', async (route) => {
-        const url = new URL(route.request().url());
-        const userRoleId = url.searchParams.get('userRoleId');
-        if (userRoleId === expectedUserRoleId) isCorrectRequestSent = true; // Stop further retries
-        // Allow the request to proceed
-        await route.continue();
-      });
-      // Wait for the API response
-      await this.page.waitForResponse('**/api/v2/admin/users**');
-      retries++;
+      await this.getPage().getByRole("option", { name: "ESS" }).click();
     }
-
-    await toastLifecyclePromise;
-    await this.elements.toastSpinner().waitFor({ state: 'detached', timeout: 10000 });
+    await this.getPage().waitForTimeout(500);
+    await this.elements.searchBtn().click();
+    await this.getPage().waitForTimeout(3000);
+    //await this.searchWithQueryParams({ userRoleId: role === "Admin" ? "1" : "2" });
   }
+
   async verifySearchUserRole(checkUserRole = true, role: string) {
     if (checkUserRole) {
       const results = await this.elements.roleColumnLocator().all();
-      expect(results.length).toBeGreaterThan(0); console.log(results.length);
+      expect(results.length).toBeGreaterThan(0);
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
         await expect(result).toBeVisible({ timeout: 5000 });
@@ -244,10 +230,13 @@ export default class UserPage {
     await this.elements.employeeOption().click();
     await this.elements.searchBtn().click();
     await expect(this.elements.actionColumn()).toBeVisible();
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
-      const response = await route.fetch();
-      expect(response.status()).toBe(200);
-    });
+    await this.getPage().route(
+      `${process.env.SEARCH_URL}`,
+      async function (route) {
+        const response = await route.fetch();
+        expect(response.status()).toBe(200);
+      }
+    );
   }
   async verifySearchEmployeeName(searchResult: string) {
     const results = await this.elements.employeeNameLocator().all();
@@ -262,15 +251,17 @@ export default class UserPage {
   async searchStatus(status: string) {
     await this.elements.adminMenu().click();
     await this.elements.status().click();
-    await this.page.getByRole("option", { name: status }).locator('span').click();
+    await this.getPage()
+      .getByRole("option", { name: status })
+      .locator("span")
+      .click();
     await this.elements.searchBtn().click();
     await expect(this.elements.actionColumn()).toBeVisible();
   }
   async verifySearchStatus(status: string) {
     if (status === "Enabled") {
       expect(this.elements.enableStatus()).toBeVisible();
-    }
-    else {
+    } else {
       expect(this.elements.disabledStatus()).toBeVisible();
     }
     // const statusLocators = await this.elements.statusLocator().all();
@@ -292,11 +283,11 @@ export default class UserPage {
     await this.elements.adminMenu().click();
     await this.elements.usernameField().fill(username);
     await this.elements.userRole().click();
-    await this.page.getByRole("option", { name: role }).click();
+    await this.getPage().getByRole("option", { name: role }).click();
     await this.elements.employeeName().fill(text);
     await this.elements.employeeOption().click();
     await this.elements.status().click();
-    await this.page.getByRole("option", { name: status }).click();
+    await this.getPage().getByRole("option", { name: status }).click();
   }
   async pressReset() {
     await this.elements.resetBtn().click();
@@ -317,20 +308,16 @@ export default class UserPage {
     await this.elements.usernameField().click();
     await this.elements.usernameField().fill(newname);
     await this.elements.submitBtn().click();
-    await this.elements
-      .successToast()
-      .waitFor({ state: "visible" });
+    await this.elements.successToast().waitFor({ state: "visible" });
   }
   async verifyUpdatedAccount(userName: string) {
-     await expect(this.elements.updatedAccount(userName)).toBeVisible();
+    await expect(this.elements.updatedAccount(userName)).toBeVisible();
   }
   async removeAccount(userName: string) {
     await this.elements.adminMenu().click();
     await this.elements.deleteIcon(userName).click();
     await this.elements.confirmDeleteBtn().click();
-    await this.elements
-      .successToast()
-      .waitFor({ state: "visible"});
+    await this.elements.successToast().waitFor({ state: "visible" });
   }
   async verifyRemovedAccount(userName: string) {
     await expect(this.elements.updatedAccount(userName)).toBeHidden();
@@ -349,10 +336,13 @@ export default class UserPage {
       .waitFor({ state: "visible", timeout: 20000 });
   }
   async verifyRemoveMultiAccount(text: string) {
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
-      const response = await route.fetch();
-      expect(response.status()).toBe(200);
-    });
+    await this.getPage().route(
+      `${process.env.SEARCH_URL}`,
+      async function (route) {
+        const response = await route.fetch();
+        expect(response.status()).toBe(200);
+      }
+    );
     await expect(this.elements.newUser(text)).toBeHidden();
   }
   async enterValueOnFields(validation: string, text: string) {

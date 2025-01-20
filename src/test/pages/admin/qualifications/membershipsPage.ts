@@ -1,46 +1,46 @@
 import { Page, expect } from "@playwright/test";
 import { generateRandomNumber } from "#helper/randomString";
 import dotenv from 'dotenv';
+import { BasePage } from "#test/pages/BasePage";
 dotenv.config();
 
 let flexibleValue: string = ""; 
 let flexibleValue2: string = ""; 
 
-export default class MembershipsPage {
-    readonly page: Page;
-    constructor(page: Page) {
-        this.page = page;
-    }
+export default class MembershipsPage extends BasePage {
+  constructor(page: Page) {
+    super(page); // Pass the page instance to the BasePage constructor
+  }
     elements = {
-        adminSection: () => this.page.locator('//span[text()="Admin"]'),
-        qualificationsMenu: () => this.page.locator('//span[text()="Qualifications "]'),
-        membershipItem: () => this.page.locator('//a[text()="Memberships"]'),
-        mainTitle: () => this.page.locator('//h6[text()="Memberships"]'),
-        membershipTable: () => this.page.locator('div.oxd-table'),
-        addBtn: () => this.page.locator('//button/i[@class="oxd-icon bi-plus oxd-button-icon"]'),
-        addTable: () => this.page.locator('orangehrm-card-container'),
-        addTitle: () => this.page.locator('//h6[text()="Add Membership"]'),
-        inputName: () => this.page.locator('div.oxd-input-group div input.oxd-input--active'),
-        saveBtn: () => this.page.locator('//button[@type="submit"]'),
-        saveToastSuccess: () => this.page.locator('//p[text()="Successfully Saved"]'),
-        iconTable: () => this.page.locator('div.oxd-table-cell-actions'),
-        allNameTable: () => this.page.locator('//div[@class="oxd-table-row oxd-table-row--with-border"]/div[2]'),
-        updateTitle: () => this.page.locator('//h6[text()="Edit Membership"]'),
-        updatedToastSuccess: () => this.page.locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Updated"]'),
-        editIcon: () => this.page.locator(`//div[text()="${flexibleValue}"]//ancestor::div[@role="row"]//button/i[@class="oxd-icon bi-pencil-fill"]`),
-        deleteIcon: () => this.page.locator(`//div[text()="${flexibleValue}"]//ancestor::div[@role="row"]//button/i[@class="oxd-icon bi-trash"]`),
-        confirmDeletePopup: () => this.page.locator('div.orangehrm-dialog-popup'),
-        yesBtn: () => this.page.locator('//button[text()=" Yes, Delete "]'),
-        deleteToastSuccess: () => this.page.locator('//p[text()="Successfully Deleted"]'),
-        checkboxForData1: () => this.page.locator(`//div[text()="${flexibleValue}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//div[@class="oxd-checkbox-wrapper"]`),
-        checkboxForData2: () => this.page.locator(`//div[text()="${flexibleValue2}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//div[@class="oxd-checkbox-wrapper"]`),
-        deleteBtn: () => this.page.locator('button i.bi-trash-fill'),
+        adminSection: () => this.getPage().locator('//span[text()="Admin"]'),
+        qualificationsMenu: () => this.getPage().locator('//span[text()="Qualifications "]'),
+        membershipItem: () => this.getPage().locator('//a[text()="Memberships"]'),
+        mainTitle: () => this.getPage().locator('//h6[text()="Memberships"]'),
+        membershipTable: () => this.getPage().locator('div.oxd-table'),
+        addBtn: () => this.getPage().locator('//button/i[@class="oxd-icon bi-plus oxd-button-icon"]'),
+        addTable: () => this.getPage().locator('orangehrm-card-container'),
+        addTitle: () => this.getPage().locator('//h6[text()="Add Membership"]'),
+        inputName: () => this.getPage().locator('div.oxd-input-group div input.oxd-input--active'),
+        saveBtn: () => this.getPage().locator('//button[@type="submit"]'),
+        saveToastSuccess: () => this.getPage().locator('//p[text()="Successfully Saved"]'),
+        iconTable: () => this.getPage().locator('div.oxd-table-cell-actions'),
+        allNameTable: () => this.getPage().locator('//div[@class="oxd-table-row oxd-table-row--with-border"]/div[2]'),
+        updateTitle: () => this.getPage().locator('//h6[text()="Edit Membership"]'),
+        updatedToastSuccess: () => this.getPage().locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Updated"]'),
+        editIcon: () => this.getPage().locator(`//div[text()="${flexibleValue}"]//ancestor::div[@role="row"]//button/i[@class="oxd-icon bi-pencil-fill"]`),
+        deleteIcon: () => this.getPage().locator(`//div[text()="${flexibleValue}"]//ancestor::div[@role="row"]//button/i[@class="oxd-icon bi-trash"]`),
+        confirmDeletePopup: () => this.getPage().locator('div.orangehrm-dialog-popup'),
+        yesBtn: () => this.getPage().locator('//button[text()=" Yes, Delete "]'),
+        deleteToastSuccess: () => this.getPage().locator('//p[text()="Successfully Deleted"]'),
+        checkboxForData1: () => this.getPage().locator(`//div[text()="${flexibleValue}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//div[@class="oxd-checkbox-wrapper"]`),
+        checkboxForData2: () => this.getPage().locator(`//div[text()="${flexibleValue2}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//div[@class="oxd-checkbox-wrapper"]`),
+        deleteBtn: () => this.getPage().locator('button i.bi-trash-fill'),
         membershipData: () => this.elements.allNameTable().locator(`//div[text()="${flexibleValue}"]`),
         membershipData2: () => this.elements.allNameTable().locator(`//div[text()="${flexibleValue2}"]`),
-        pageNumber: () => this.page.locator('//button[contains(@class, "oxd-pagination-page-item--page")]')
+        pageNumber: () => this.getPage().locator('//button[contains(@class, "oxd-pagination-page-item--page")]')
     }
     async accessMemberships(){
-        await this.page.goto(`${process.env.WEB_URL}`);
+        await this.getPage().goto(`${process.env.WEB_URL}`);
         await this.elements.adminSection().click();
         await this.elements.qualificationsMenu().click();
         await this.elements.membershipItem().click();
@@ -102,7 +102,7 @@ export default class MembershipsPage {
     }
     async updateMembershipData(){
             //waifor all APIs loaded
-            await this.page.waitForResponse(response => 
+            await this.getPage().waitForResponse(response => 
                 response.status() === 200
             );
             //Update data

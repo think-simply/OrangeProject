@@ -1,13 +1,27 @@
-import { setDefaultTimeout, BeforeAll, AfterAll, Before, After, Status, } from "@cucumber/cucumber";
-import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
+import {
+  setDefaultTimeout,
+  BeforeAll,
+  AfterAll,
+  Before,
+  After,
+  Status,
+} from "@cucumber/cucumber";
+import { Browser, BrowserContext, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
-import { authConfig } from '../../auth.config';
+import { authConfig } from "../../auth.config";
+import { BasePage } from "#test/pages/BasePage";
+import { AdminPage } from "#test/pages/admin/AdminPage";
 
 let browser: Browser;
+
 interface TestContext {
   adminContext: BrowserContext;
-  Page: Page;
+  staffContext: BrowserContext;
+  Page: BasePage;
+  adminPage: BasePage;
+  staffPage: BasePage;
 }
+
 setDefaultTimeout(60 * 1000);
 
 BeforeAll(async function () {
@@ -18,35 +32,56 @@ AfterAll(async function () {
   await browser.close();
 });
 
-Before(async function (this: any, scenario) {
-  const tags = scenario.pickle.tags.map(tag => tag.name);
-  // Determine user type based on tags
-  let userType: 'admin' | 'staff';
-  if (tags.includes('@admin') || tags.includes('@apiSection')) {
-    userType = 'admin';
-  } else if (tags.includes('@staff')) {
-    userType = 'staff';
-  } else {
-    throw new Error('No user type tag (@admin or @staff) found in scenario');
-  }
-  // Create context with stored credentials
-  this.context = await browser.newContext({
-    storageState: authConfig[userType].storageState,
+Before(async function (this: TestContext, scenario) {
+  const tags = scenario.pickle.tags.map((tag) => tag.name);
+
+  this.adminContext = await browser.newContext({
+    storageState: authConfig["admin"].storageState,
   });
 
-  const page = await this.context.newPage();
-  pageFixture["page"] = page; // Store page in fixture
-  this.Page = page; // Default to the page for the current user type
+  this.staffContext = await browser.newContext({
+    storageState: authConfig["staff"].storageState,
+  });
+
+  // Create page instances for admin and staff
+  const adminPage = await this.adminContext.newPage();
+  const staffPage = await this.staffContext.newPage();
+  pageFixture["adminPage"] = adminPage;
+  pageFixture["staffPage"] = staffPage;
+
+  let userType: "admin" | "staff";
+  if (tags.includes("@admin")) {
+    userType = "admin";
+    pageFixture["page"] = adminPage;
+  } else if (tags.includes("@staff")) {
+    userType = "staff";
+    pageFixture["page"] = staffPage;
+  }
+
+  // Instantiate the page objects
+  // this.adminPage = new AdminPage(adminPage);
+  // this.staffPage = new BasePage(staffPage);
+
+  // Store the pages in the context to be used in your tests
+  // this.context = {
+  //   adminContext: this.adminContext,
+  //   staffContext: this.staffContext,
+  //   adminPage: this.adminPage,
+  //   staffPage: this.staffPage,
+  // };
 });
 
 After(async function (this: TestContext, { pickle, result }) {
   if (result?.status === Status.FAILED) {
-    const sanitizedName = pickle.name.replace(/:/g, ''); // Remove all colons
-    await this.Page.screenshot({
-      path: `./test-results/screenshots/${sanitizedName}.png`,
-      type: "png",
-    });
+    const sanitizedName = pickle.name.replace(/:/g, ""); // Remove all colons
+    await this.adminPage.takeScreenshot(
+      `./test-results/screenshots/admin-${sanitizedName}.png`
+    );
+    await this.staffPage.takeScreenshot(
+      `./test-results/screenshots/staff-${sanitizedName}.png`
+    );
   }
-  await this.Page.close();
-});
 
+  await this.adminContext.close();
+  await this.staffContext.close();
+});

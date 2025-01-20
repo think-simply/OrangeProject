@@ -1,42 +1,42 @@
 import { Page, expect } from "@playwright/test";
 import { generateRandomName } from "#helper/randomString";
 import dotenv from "dotenv";
+import { BasePage } from "#test/pages/BasePage";
 dotenv.config();
 
 let nameTest: string = "";
 let inputIDTest: string = "";
 let flexibleData: string = "";
 
-export default class StructurePage {
-  readonly page: Page;
+export default class StructurePage extends BasePage {
   constructor(page: Page) {
-    this.page = page;
+    super(page); // Pass the page instance to the BasePage constructor
   }
   elements = {
-    organizationItem: () => this.page.locator('//span[text()="Organization "]'),
-    adminSection: () => this.page.locator('//span[text()="Admin"]'),
-    mainTitle: () => this.page.locator('//h6[text()="Organization Structure"]'),
-    structureItem: () => this.page.locator('//a[@class="oxd-topbar-body-nav-tab-link" and text()="Structure"]'),
-    editToggle: () => this.page.locator("div.oxd-switch-wrapper"),
-    plusIcon: (dataName: string) => this.page.locator(`//div[text()="${dataName}"]/following-sibling::div//i[@class="oxd-icon bi-plus"]`),
-    editIcon: (dataName: string) => this.page.locator(`//div[text()="${dataName}"]/following-sibling::div//i[@class="oxd-icon bi-pencil-fill"]`),
-    addBtn: () => this.page.locator("button.org-structure-add"),
-    addOrgDialog: () => this.page.locator("div.orangehrm-dialog-modal"),
-    inputUnitId: () => this.page.locator('//label[text()="Unit Id"]/following::input[1]'),
-    inputName: () => this.page.locator('//label[text()="Name"]/following::input[1]'),
-    inputDescription: () => this.page.locator('//label[text()="Name"]/following::textarea'),
-    saveBtn: () => this.page.locator('//button[@type="submit"]'),
-    successToast: () => this.page.locator("div.oxd-toast-content--success"),
-    treeNodes: () => this.page.locator("div.oxd-tree-node-content div.org-structure-card"),
-    editOrgDialog: () => this.page.locator('//div[@class="orangehrm-modal-header"]/p[text()="Edit Organization Unit"]'),
-    deleteIcon:(dataName: string) => this.page.locator(`//div[text()="${dataName}"]/following-sibling::div//i[@class="oxd-icon bi-trash-fill"]`),
-    deletePopup: () => this.page.locator('//div[@class="oxd-dialog-container-default--inner"]//div[@class="orangehrm-modal-header"]/p[text()="Are you Sure?"]'),
-    yesBtn: () => this.page.locator("div.orangehrm-modal-footer button i.bi-trash"),
-    deleteToast: () => this.page.locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]'),
+    organizationItem: () => this.getPage().locator('//span[text()="Organization "]'),
+    adminSection: () => this.getPage().locator('//span[text()="Admin"]'),
+    mainTitle: () => this.getPage().locator('//h6[text()="Organization Structure"]'),
+    structureItem: () => this.getPage().locator('//a[@class="oxd-topbar-body-nav-tab-link" and text()="Structure"]'),
+    editToggle: () => this.getPage().locator("div.oxd-switch-wrapper"),
+    plusIcon: (dataName: string) => this.getPage().locator(`//div[text()="${dataName}"]/following-sibling::div//i[@class="oxd-icon bi-plus"]`),
+    editIcon: (dataName: string) => this.getPage().locator(`//div[text()="${dataName}"]/following-sibling::div//i[@class="oxd-icon bi-pencil-fill"]`),
+    addBtn: () => this.getPage().locator("button.org-structure-add"),
+    addOrgDialog: () => this.getPage().locator("div.orangehrm-dialog-modal"),
+    inputUnitId: () => this.getPage().locator('//label[text()="Unit Id"]/following::input[1]'),
+    inputName: () => this.getPage().locator('//label[text()="Name"]/following::input[1]'),
+    inputDescription: () => this.getPage().locator('//label[text()="Name"]/following::textarea'),
+    saveBtn: () => this.getPage().locator('//button[@type="submit"]'),
+    successToast: () => this.getPage().locator("div.oxd-toast-content--success"),
+    treeNodes: () => this.getPage().locator("div.oxd-tree-node-content div.org-structure-card"),
+    editOrgDialog: () => this.getPage().locator('//div[@class="orangehrm-modal-header"]/p[text()="Edit Organization Unit"]'),
+    deleteIcon:(dataName: string) => this.getPage().locator(`//div[text()="${dataName}"]/following-sibling::div//i[@class="oxd-icon bi-trash-fill"]`),
+    deletePopup: () => this.getPage().locator('//div[@class="oxd-dialog-container-default--inner"]//div[@class="orangehrm-modal-header"]/p[text()="Are you Sure?"]'),
+    yesBtn: () => this.getPage().locator("div.orangehrm-modal-footer button i.bi-trash"),
+    deleteToast: () => this.getPage().locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]'),
   }
 
   async accessStructure() {
-    await this.page.goto(`${process.env.WEB_URL}`);
+    await this.getPage().goto(`${process.env.WEB_URL}`);
     await this.elements.adminSection().click();
     await this.elements.organizationItem().click();
     await this.elements.structureItem().click();
