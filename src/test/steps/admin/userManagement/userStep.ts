@@ -9,12 +9,12 @@ let userService: UserService;
 
 BeforeStep(async function () {
   userPage = new UserPage(pageFixture.page);
-  staffPage = new UserPage(pageFixture.staffPage);
+  //staffPage = new UserPage(pageFixture.staffPage);
 });
 
 Given("User navigates to page", async function () {
   await userPage.visit();
-  await staffPage.visit();
+  //await staffPage.visit();
 });
 When("User access User management page", async function () {
   await userPage.accessUserPage();

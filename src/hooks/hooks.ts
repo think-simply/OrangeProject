@@ -35,29 +35,24 @@ AfterAll(async function () {
 Before(async function (this: TestContext, scenario) {
   const tags = scenario.pickle.tags.map((tag) => tag.name);
 
-  this.adminContext = await browser.newContext({
-    storageState: authConfig["admin"].storageState,
-  });
-
-  this.staffContext = await browser.newContext({
-    storageState: authConfig["staff"].storageState,
-  });
-
-  // Create page instances for admin and staff
-  const adminPage = await this.adminContext.newPage();
-  const staffPage = await this.staffContext.newPage();
-  pageFixture["adminPage"] = adminPage;
-  pageFixture["staffPage"] = staffPage;
-
   let userType: "admin" | "staff";
-  if (tags.includes("@admin")) {
-    userType = "admin";
+  if (tags.includes("@admin") || tags.includes("@all")) {
+    this.adminContext = await browser.newContext({
+      storageState: authConfig["admin"].storageState,
+    });
+    const adminPage = await this.adminContext.newPage();
+    pageFixture["adminPage"] = adminPage;
     pageFixture["page"] = adminPage;
-  } else if (tags.includes("@staff")) {
-    userType = "staff";
+  } 
+  
+  if (tags.includes("@staff") || tags.includes("@all")) {
+    this.staffContext = await browser.newContext({
+      storageState: authConfig["staff"].storageState,
+    });
+    const staffPage = await this.staffContext.newPage();
+    pageFixture["staffPage"] = staffPage;
     pageFixture["page"] = staffPage;
   }
-
 });
 
 After(async function (this: TestContext, { pickle, result }) {
@@ -71,6 +66,11 @@ After(async function (this: TestContext, { pickle, result }) {
     );
   }
 
-  await this.adminContext.close();
-  await this.staffContext.close();
+  if (this.adminContext) {
+    await this.adminContext.close();
+  }
+
+  if (this.staffContext) {
+    await this.staffContext.close();
+  }
 });
