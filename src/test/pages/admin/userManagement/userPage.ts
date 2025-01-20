@@ -367,7 +367,7 @@ export default class AdminMenuPage {
     await this.elements.submitBtn().click();
   }
   async staffAccessAdminMenu() {
-    await this.staffPage.goto(`${process.env.WEB_URL}`); ///admin/viewSystemUsers
+    await this.staffPage.goto(`${process.env.WEB_URL}/admin/viewSystemUsers`); 
   }
   async verifyStaffAccessAdminMenu() {
     await expect(this.elements.authenMess()).toBeVisible();
