@@ -6,7 +6,7 @@ let userPage: UserPage;
 
 Given('Staff access to sites', async function() {
     userPage = new UserPage(pageFixture.staffPage);
-    await userPage.visit();
+    await userPage.staffAccessAdminMenu();
 });
 
 When('Staff tries to access the admin menu', async function() {

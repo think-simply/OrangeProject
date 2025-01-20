@@ -5,6 +5,7 @@ dotenv.config();
 
 export default class AdminMenuPage {
   readonly page: Page;
+  staffPage: Page;
   private apiContext: any;
   constructor(page: Page) {
     this.page = page;
@@ -366,7 +367,7 @@ export default class AdminMenuPage {
     await this.elements.submitBtn().click();
   }
   async staffAccessAdminMenu() {
-    await this.page.goto(`${process.env.WEB_URL}/admin/viewSystemUsers`);
+    await this.staffPage.goto(`${process.env.WEB_URL}`); ///admin/viewSystemUsers
   }
   async verifyStaffAccessAdminMenu() {
     await expect(this.elements.authenMess()).toBeVisible();
