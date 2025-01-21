@@ -41,12 +41,12 @@ When('I try to login with XSS payload', async function (dataTable) {
 // });
 
 Then('I should see an error message', async function () {
-    const errorMessage = await pageFixture.page.locator('//p[text()="Credential Required"]');
-    await expect(errorMessage).toBeVisible();
-    // Verify error message doesn't contain technical details
-    const messageText = await errorMessage.textContent();
-    expect(messageText).not.toContain('SQL');
-    expect(messageText).not.toContain('syntax');
+    const errorMessage = await pageFixture.page.locator('//p[text()="Invalid credentials"]');
+        await expect(errorMessage).toBeVisible();
+        // Verify error message doesn't contain technical details
+        const messageText = await errorMessage.textContent();
+        expect(messageText).not.toContain('SQL');
+        expect(messageText).not.toContain('syntax');     
 });
 
 Then('I should not be logged in', async function () {

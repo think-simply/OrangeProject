@@ -10,13 +10,13 @@ export default class LoginPage {
         this.page = page;
     }
     elements = {
-        warningAuthorizationMessage: () => this.page.locator('//p[text()="Credential Required"]'),
+        warningAuthorizationMessage: () => this.page.locator('//p[text()="Invalid credentials"]'),
     }
     async visit() {
         await this.page.goto(`${process.env.WEB_URL}`);
       }
-    //   async verifyGuestAccess() {
-    //     await expect(this.elements.warningAuthorizationMessage()).toBeVisible();                                                                     
-    //   }
+      async verifyGuestAccess() {
+                                                                       
+      }
 
 }

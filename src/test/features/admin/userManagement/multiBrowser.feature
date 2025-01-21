@@ -1,5 +1,6 @@
-@admin @staff @all
+ @all
 Feature: Functions in Admin Menu 
+  @smoke
   Scenario: US_01: Check authorization
     When Access site as staff role
     Then Staff cannot see the Admin menu

@@ -16,7 +16,7 @@ interface TestContext {
 setDefaultTimeout(60 * 1000);
 
 BeforeAll(async function () {
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({ headless: false });
 });
 
 AfterAll(async function () {
@@ -45,8 +45,8 @@ Before(async function (this: TestContext, scenario) {
     pageFixture.page = staffPage;
   }
   if (tags.includes("@guest")) {
-    const Context = await this.browser.newContext();
-    const Page = await Context.newPage();
+    this.Context = await browser.newContext();
+    const Page = await this.Context.newPage();
     pageFixture.page = Page;
 
   }
@@ -74,8 +74,10 @@ After(async function (this: TestContext, { pickle, result }) {
   if (this.adminContext) {
     await this.adminContext.close();
   }
-
   if (this.staffContext) {
     await this.staffContext.close();
+  }
+  if (this.Context) {
+    await this.Context.close();
   }
 });

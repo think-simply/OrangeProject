@@ -9,7 +9,7 @@ Feature: Login Security Testing
         Then I should see an error message
         And I should not be logged in
 
-    @login @security
+    @login @security 
     Scenario: Login attempt with XSS payload
         Given User navigates to page
         When I try to login with XSS payload
