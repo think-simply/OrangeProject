@@ -14,4 +14,8 @@ BeforeStep(async function () {
 Given("2 users navigates to page", async function () {
   await userPage.visit();
   await staffPage.visit();
+  await userPage.accessUserPage();
+  await userPage.verifyUserPageUI();
+  // await staffPage.accessUserPage();
+  // await staffPage.verifyUserPageUI();
 });

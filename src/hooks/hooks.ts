@@ -44,7 +44,7 @@ Before(async function (this: TestContext, scenario) {
     pageFixture["adminPage"] = adminPage;
     pageFixture["page"] = adminPage;
   } 
-  
+
   if (tags.includes("@staff") || tags.includes("@all")) {
     this.staffContext = await browser.newContext({
       storageState: authConfig["staff"].storageState,
@@ -58,12 +58,18 @@ Before(async function (this: TestContext, scenario) {
 After(async function (this: TestContext, { pickle, result }) {
   if (result?.status === Status.FAILED) {
     const sanitizedName = pickle.name.replace(/:/g, ""); // Remove all colons
-    await this.adminPage.takeScreenshot(
-      `./test-results/screenshots/admin-${sanitizedName}.png`
-    );
-    await this.staffPage.takeScreenshot(
-      `./test-results/screenshots/staff-${sanitizedName}.png`
-    );
+    
+    if (this.adminPage) {
+      await this.adminPage.takeScreenshot(
+        `./test-results/screenshots/admin-${sanitizedName}.png`
+      );
+    }
+    if (this.staffPage) {
+      await this.staffPage.takeScreenshot(
+        `./test-results/screenshots/staff-${sanitizedName}.png`
+      );
+    }
+    
   }
 
   if (this.adminContext) {
