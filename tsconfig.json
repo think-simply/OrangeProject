@@ -10,5 +10,5 @@
       "#hooks/*": ["src/hooks/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/helper/*.ts"]
+  "include": ["src/**/*.ts", "src/helper/*.ts","tests/*.ts"]
 }

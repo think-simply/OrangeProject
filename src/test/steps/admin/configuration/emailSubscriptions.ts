@@ -3,26 +3,26 @@ import EmailConfigPage from "#test/pages/admin/configuration/emailSubscriptions"
 import { pageFixture } from "#hooks/pageFixture";
 
 let emailConfigPage: EmailConfigPage;
-BeforeStep(async () => {
-    emailConfigPage = new EmailConfigPage(pageFixture.page);
+BeforeStep(async function () {
+  emailConfigPage = new EmailConfigPage(pageFixture.page);
 });
-When("User access Email subscription page", async () => {
-    await emailConfigPage.navigateToEmailSubscription();
+When("User access Email subscription page", async function () {
+  await emailConfigPage.navigateToEmailSubscription();
 });
-Then("Email subscription page has displayed as expected", async () => {
-    await emailConfigPage.verifyPageUI();
+Then("Email subscription page has displayed as expected", async function () {
+  await emailConfigPage.verifyPageUI();
 });
-When("User turns on Toggle", async () => {
-    await emailConfigPage.navigateToEmailSubscription();
-    await emailConfigPage.toggleOnStatus();
+When("User turns on Toggle", async function () {
+  await emailConfigPage.navigateToEmailSubscription();
+  await emailConfigPage.toggleOnStatus();
 });
-Then("Toggle has displayed in on status as expected", async () => {
-    await emailConfigPage.verifyToggleOnStatus();
+Then("Toggle has displayed in on status as expected", async function () {
+  await emailConfigPage.verifyToggleOnStatus();
 });
-When("User turns off Toggle", async () => {
-    await emailConfigPage.navigateToEmailSubscription();
-    await emailConfigPage.toggleOffStatus();
+When("User turns off Toggle", async function () {
+  await emailConfigPage.navigateToEmailSubscription();
+  await emailConfigPage.toggleOffStatus();
 });
-Then("Toggle has displayed in off status as expected", async () => {
-    await emailConfigPage.verifyToggleOffStatus();
-}); 
+Then("Toggle has displayed in off status as expected", async function () {
+  await emailConfigPage.verifyToggleOffStatus();
+});

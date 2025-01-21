@@ -1,31 +1,31 @@
+import { BasePage } from "#test/pages/BasePage";
 import { Page, expect } from "@playwright/test";
 import dotenv from 'dotenv';
 dotenv.config();
 
-export default class EducationPage {
-    readonly page: Page;
-    constructor(page: Page) {
-        this.page = page;
-    }
+export default class EducationPage extends BasePage {
+  constructor(page: Page) {
+    super(page); // Pass the page instance to the BasePage constructor
+  }
     elements = {
-        passWord: () => this.page.locator('//input[@placeholder="Password"]'),
-        loginBtn: () => this.page.locator('//button[@type="submit"]'),
-        adminMenu: () => this.page.locator('//span[text()="Admin"]'),
-        qualifications:() => this.page.locator('//span[normalize-space()="Qualifications"]'),
-        education :() => this.page.locator('//a[normalize-space()="Education"]'),
-        addLevel:()  => this.page.locator('//button[normalize-space()="Add"]'),
-        eduLevel :() =>this.page.locator('//label[text()="Level"]//ancestor::div[@class="oxd-form-row"]//descendant::input'),
-        saveLevel:()  => this.page.locator('//button[@type="submit"]'),
-        messageSuccess:()  => this.page.locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'),
-        checkbox:(text:string) => this.page.locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`),
-        deleteSelectedbtn:() => this.page.locator('//button[normalize-space()="Delete Selected"]'),
-        yesDeletebtn:()  => this.page.locator('//button[normalize-space()="Yes, Delete"]'),
-        userName:()  => this.page.locator('//input[@placeholder="Username"]'),
-        messageDelete:() =>this.page.locator('//div[@class="oxd-toast oxd-toast--success oxd-toast-container--toast"]'),
-        editBtn:(text: string) => this.page.locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
-        saveUpdateBtn:() =>this.page.locator('//button[@type="submit"]'),
-        newRecord:(text:string) => this.page.locator(`//div[text()="${text}"]`),
-        actionColumn: () => this.page.locator('//div[text()="Actions"]'),
+        passWord: () => this.getPage().locator('//input[@placeholder="Password"]'),
+        loginBtn: () => this.getPage().locator('//button[@type="submit"]'),
+        adminMenu: () => this.getPage().locator('//span[text()="Admin"]'),
+        qualifications:() => this.getPage().locator('//span[normalize-space()="Qualifications"]'),
+        education :() => this.getPage().locator('//a[normalize-space()="Education"]'),
+        addLevel:()  => this.getPage().locator('//button[normalize-space()="Add"]'),
+        eduLevel :() =>this.getPage().locator('//label[text()="Level"]//ancestor::div[@class="oxd-form-row"]//descendant::input'),
+        saveLevel:()  => this.getPage().locator('//button[@type="submit"]'),
+        messageSuccess:()  => this.getPage().locator('//div[@class="oxd-toast-container oxd-toast-container--bottom"]//p[text()="Success"]'),
+        checkbox:(text:string) => this.getPage().locator(`//div[contains(text(), "${text}")]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-check oxd-checkbox-input-icon"]`),
+        deleteSelectedbtn:() => this.getPage().locator('//button[normalize-space()="Delete Selected"]'),
+        yesDeletebtn:()  => this.getPage().locator('//button[normalize-space()="Yes, Delete"]'),
+        userName:()  => this.getPage().locator('//input[@placeholder="Username"]'),
+        messageDelete:() =>this.getPage().locator('//div[@class="oxd-toast oxd-toast--success oxd-toast-container--toast"]'),
+        editBtn:(text: string) => this.getPage().locator(`//div[text()="${text}"]//ancestor::div[@role="row"]//descendant::i[@class="oxd-icon bi-pencil-fill"]`),
+        saveUpdateBtn:() =>this.getPage().locator('//button[@type="submit"]'),
+        newRecord:(text:string) => this.getPage().locator(`//div[text()="${text}"]`),
+        actionColumn: () => this.getPage().locator('//div[text()="Actions"]'),
     }
     async accessAdmin() {
         await this.elements.adminMenu().click();

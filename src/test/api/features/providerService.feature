@@ -32,7 +32,7 @@ Feature: OpenID Provider Validation API
             | url          | 1               |
         Then The response status should be 422
     @apiUpdate 
-    Scenario: Update a provider : Valid request PUT
+    Scenario: Update a provider: Valid request PUT
         When I send a PUT request to update a provider with parameters:
             | parameter    | value              |
             | clientId     | name1              |
@@ -50,7 +50,7 @@ Feature: OpenID Provider Validation API
             | url          | 1              |
         Then The response status should be 200
     @apiDelete
-    Scenario: Delete a provider : Valid request DELETE
+    Scenario: Delete a provider: Valid request DELETE
         When I send a delete request to delete a provider
         Then The response status should be 200
 

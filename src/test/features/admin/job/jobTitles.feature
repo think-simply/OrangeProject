@@ -19,7 +19,7 @@ Feature: Functions in Admin Menu
       | jobTitleName              |
       | Hoa Test Create Job Title |
 
-  @high @now1
+  @high 
   Scenario: JT_03: User update an job title
     When User access job title page
     And User create new job title with "<jobTitleName>"
@@ -31,7 +31,7 @@ Feature: Functions in Admin Menu
       | Job Title Edit | Job Title Update |
 
   @high @jobTitle @demo
-  Scenario: JT_04 : User delete an job title
+  Scenario: JT_04: User delete an job title
     When User access job title page
     And User create new job title with "<jobTitleName>"
     And User delete an job title: "<jobTitleName>"
@@ -42,7 +42,7 @@ Feature: Functions in Admin Menu
       | Hoa Test Job Title delete |
 
   @medium @jobTitle @demo @multiDeleteJob
-  Scenario: JT_05 : User delete multi job titles
+  Scenario: JT_05: User delete multi job titles
     When User access job title page
     And User create new job title with "multi1"
      And User create new job title with "multi2"

@@ -1,46 +1,46 @@
 import { Page, Locator, expect } from "@playwright/test";
 import { generateRandomNumber } from "#helper/randomString";
 import dotenv from "dotenv";
+import { BasePage } from "#test/pages/BasePage";
 dotenv.config();
 
 let flexibleValue: string = ""; 
 let flexibleValue2: string = "";
-export default class NationalitiesPage {
-    readonly page: Page;
-    constructor(page: Page) {
-        this.page = page;
-    }
+export default class NationalitiesPage extends BasePage {
+  constructor(page: Page) {
+    super(page); // Pass the page instance to the BasePage constructor
+  }
     elements = {
-        adminSection: () => this.page.locator('//span[text()="Admin"]'),
-        nationalitiesItem: () => this.page.locator('//a[text()="Nationalities"]'),
-        mainTitle: () => this.page.locator('div.orangehrm-header-container h6'),
-        tableNation: () => this.page.locator('div.orangehrm-container'),
-        iconTable: () => this.page.locator('div.oxd-table-cell-actions'),
-        tableRow: () => this.page.locator("div.oxd-table-row"),
-        addBtn: () => this.page.locator('//button[@type="button"]/i[@class="oxd-icon bi-plus oxd-button-icon"]'),
-        addNationCard: () => this.page.locator('//div[@class="orangehrm-card-container"]/h6[text()="Add Nationality"]'),
-        inputName: () => this.page.locator('div.oxd-input-group div input'),
+        adminSection: () => this.getPage().locator('//span[text()="Admin"]'),
+        nationalitiesItem: () => this.getPage().locator('//a[text()="Nationalities"]'),
+        mainTitle: () => this.getPage().locator('div.orangehrm-header-container h6'),
+        tableNation: () => this.getPage().locator('div.orangehrm-container'),
+        iconTable: () => this.getPage().locator('div.oxd-table-cell-actions'),
+        tableRow: () => this.getPage().locator("div.oxd-table-row"),
+        addBtn: () => this.getPage().locator('//button[@type="button"]/i[@class="oxd-icon bi-plus oxd-button-icon"]'),
+        addNationCard: () => this.getPage().locator('//div[@class="orangehrm-card-container"]/h6[text()="Add Nationality"]'),
+        inputName: () => this.getPage().locator('div.oxd-input-group div input'),
         targetData: (targetName: string) => this.elements.bodyTable().locator(`//div[text()="${targetName}"]`),
-        saveBtn: () => this.page.locator('//button[@type="submit"]'),
-        successToast: () => this.page.locator('//div[@id="oxd-toaster_1"]//p[text()="Successfully Saved"]'),
-        pageNumber: () => this.page.locator('//button[contains(@class, "oxd-pagination-page-item--page")]'),
-        recordsPerPage: () => this.page.locator('//div[@class="oxd-table-card"]//div[contains(@style,"flex-basis")]'),
-        nextBtn: () => this.page.locator('button.oxd-pagination-page-item--previous-next i.bi-chevron-right'),
-        updateSuccessToast: () => this.page.locator('//div[@id="oxd-toaster_1"]//p[text()="Successfully Updated"]'),
-        editTitle: () => this.page.locator('div.orangehrm-card-container h6'),
-        editIcon: (name: string) => this.page.locator(`//div[text()="${name}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//following-sibling::div/button/i[@class="oxd-icon bi-pencil-fill"]`),
-        deleteIcon: (name: string) => this.page.locator(`//div[text()="${name}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//following-sibling::div/button/i[@class="oxd-icon bi-trash"]`),
-        bodyTable: () => this.page.locator('div.oxd-table-body'),
-        deleteConfirmationPopup: () => this.page.locator('div.orangehrm-dialog-popup'),
-        yesBtn: () => this.page.locator('//button[text()=" Yes, Delete "]'),
-        deleteToast: () => this.page.locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]'),
-        //deleteIcon: () => this.page.locator('button i.bi-trash'),
+        saveBtn: () => this.getPage().locator('//button[@type="submit"]'),
+        successToast: () => this.getPage().locator('//div[@id="oxd-toaster_1"]//p[text()="Successfully Saved"]'),
+        pageNumber: () => this.getPage().locator('//button[contains(@class, "oxd-pagination-page-item--page")]'),
+        recordsPerPage: () => this.getPage().locator('//div[@class="oxd-table-card"]//div[contains(@style,"flex-basis")]'),
+        nextBtn: () => this.getPage().locator('button.oxd-pagination-page-item--previous-next i.bi-chevron-right'),
+        updateSuccessToast: () => this.getPage().locator('//div[@id="oxd-toaster_1"]//p[text()="Successfully Updated"]'),
+        editTitle: () => this.getPage().locator('div.orangehrm-card-container h6'),
+        editIcon: (name: string) => this.getPage().locator(`//div[text()="${name}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//following-sibling::div/button/i[@class="oxd-icon bi-pencil-fill"]`),
+        deleteIcon: (name: string) => this.getPage().locator(`//div[text()="${name}"]//ancestor::div[@class="oxd-table-row oxd-table-row--with-border"]//following-sibling::div/button/i[@class="oxd-icon bi-trash"]`),
+        bodyTable: () => this.getPage().locator('div.oxd-table-body'),
+        deleteConfirmationPopup: () => this.getPage().locator('div.orangehrm-dialog-popup'),
+        yesBtn: () => this.getPage().locator('//button[text()=" Yes, Delete "]'),
+        deleteToast: () => this.getPage().locator('//div[@class="oxd-toast-content oxd-toast-content--success"]/p[text()="Successfully Deleted"]'),
+        //deleteIcon: () => this.getPage().locator('button i.bi-trash'),
         deleteDataCheckbox:(name:string) => this.elements.bodyTable().locator(`//div[text()="${name}"]/parent::div/preceding-sibling::div/div[@class="oxd-table-card-cell-checkbox"]`),
         deleteIconLoad: () => "button i.bi-trash",
-        deleteSelectedBtn: () => this.page.locator('//button/i[@class="oxd-icon bi-trash-fill oxd-button-icon"]')
+        deleteSelectedBtn: () => this.getPage().locator('//button/i[@class="oxd-icon bi-trash-fill oxd-button-icon"]')
     }
     async accessNationalities() {
-        await this.page.goto(`${process.env.WEB_URL}`);
+        await this.getPage().goto(`${process.env.WEB_URL}`);
         await this.elements.adminSection().click();
         await this.elements.nationalitiesItem().click();
         await this.elements.iconTable().nth(0).waitFor();
