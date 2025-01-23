@@ -115,9 +115,19 @@ export default class AdminMenuPage {
       this.page.locator(
         `//label[text()="${validation}"]//ancestor::div[@class="oxd-input-group oxd-input-field-bottom-space"]//descendant::input`
       ),
+      warningAuthorizationMessage: () => this.page.locator('//p[text()="Credential Required"]'),
   };
   async visit() {
     await this.page.goto(`${process.env.WEB_URL}`);
+  }
+  async verifyAdminMenuHidden(){
+    await expect(this.elements.adminMenu()).toBeHidden();
+  }
+  async staffAccessUserLink() {
+    await this.page.goto(`${process.env.USER_PAGE}`);
+  }
+  async verifyStaffAccessUserLink() {
+    await expect(this.elements.warningAuthorizationMessage()).toBeVisible();                                                                     
   }
   async accessUserPage() {
     await this.elements.adminMenu().click();

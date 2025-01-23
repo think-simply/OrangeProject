@@ -6,7 +6,7 @@ export const authConfig = {
     storageState: path.join(process.cwd(), 'playwright/.auth/admin.json')
   },
   staff: {
-    username: "TinaNguyen",
+    username: "TinaNguyenEss",
     password: "Admin@1234",
     storageState: path.join(process.cwd(), 'playwright/.auth/staff.json')
   }
