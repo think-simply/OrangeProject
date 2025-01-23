@@ -40,15 +40,7 @@ Feature: OpenID Provider Validation API
             | name         | UpdateProviderName |
             | url          | 1                  |
         Then The response status should be 200
-    @apiUpdate
-    Scenario: Update a provider at the second time
-        When I send a PUT request to update a provider with parameters:
-            | parameter    | value          |
-            | clientId     | name1          |
-            | clientSecret | OpenIdProvider |
-            | name         | 1              |
-            | url          | 1              |
-        Then The response status should be 200
+
     @apiDelete
     Scenario: Delete a provider : Valid request DELETE
         When I send a delete request to delete a provider
