@@ -2,7 +2,7 @@ import { When, BeforeStep, Then } from "@cucumber/cucumber";
 import EducationPage from "#test/pages/admin/qualifications/educationPage";
 import { pageFixture } from "#hooks/pageFixture";
 import { ApiContextManager } from "#test/api/services/ApiContextManager";
-import EducationService from "#helper/educationService";
+import EducationService from "#test/api/services/educationService";
 
 let educationPage: EducationPage;
 let educationService: EducationService;
