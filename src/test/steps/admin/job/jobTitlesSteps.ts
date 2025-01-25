@@ -6,13 +6,13 @@ import JobTitleService from "#test/api/services/jobTitleService";
 
 let jobTitlesPage: JobTitlesPage
 let jobTitleService: JobTitleService
-BeforeStep(async () => {
+BeforeStep(async function () {
     jobTitlesPage = new JobTitlesPage(pageFixture.page)
 })
-When("User access job title page", async () => {
+When("User access job title page", async function () {
     await jobTitlesPage.userGoToJobTitles();
 });
-Then("Job title page has been displayed", async () => {
+Then("Job title page has been displayed", async function () {
     await jobTitlesPage.verifyJobTitlesPage();
 });
 When("User create new job title with {string}", async (jobTitleName: string) => {

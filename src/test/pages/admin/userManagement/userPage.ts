@@ -188,7 +188,7 @@ export default class AdminMenuPage {
     await expect(this.elements.actionColumn()).toBeVisible();
   }
   async verifySearchUserName(checkUser = false, text: string) {
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+    await this.page.route(`${process.env.SEARCH_URL}`, async function (route) {
       const response = await route.fetch();
       expect(response.status()).toBe(200);
     });
@@ -232,7 +232,7 @@ export default class AdminMenuPage {
     await this.elements.searchBtn().click();
     await this.page.waitForTimeout(5000);
     await expect(this.elements.actionColumn()).toBeVisible();
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+    await this.page.route(`${process.env.SEARCH_URL}`, async function (route) {
       const response = await route.fetch();
       expect(response.status()).toBe(200);
     });
@@ -305,7 +305,7 @@ export default class AdminMenuPage {
       .waitFor({ state: "visible" });
   }
   async verifyUpdateAccount(updatetext: string) {
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+    await this.page.route(`${process.env.SEARCH_URL}`, async function (route) {
       const response = await route.fetch();
       expect(response.status()).toBe(200);
     });
@@ -321,7 +321,7 @@ export default class AdminMenuPage {
       .waitFor({ state: "visible"});
   }
   async verifyRemoveAccount(updatetext: string) {
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+    await this.page.route(`${process.env.SEARCH_URL}`, async function (route) {
       const response = await route.fetch();
       expect(response.status()).toBe(200);
     });
@@ -344,7 +344,7 @@ export default class AdminMenuPage {
       .waitFor({ state: "visible", timeout: 20000 });
   }
   async verifyRemoveMultiAccount(text: string) {
-    await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+    await this.page.route(`${process.env.SEARCH_URL}`, async function (route) {
       const response = await route.fetch();
       expect(response.status()).toBe(200);
     });

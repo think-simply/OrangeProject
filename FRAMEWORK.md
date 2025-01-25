@@ -110,10 +110,10 @@ import { When, Then, BeforeStep } from "@cucumber/cucumber";
 import EmailConfigPage from "../../../pages/admin/configuration/emailSubscriptions";
 import { pageFixture } from "../../../../hooks/pageFixture";
 let emailConfigPage: EmailConfigPage;
-BeforeStep(async () => {
+BeforeStep(async function () {
     emailConfigPage = new EmailConfigPage(pageFixture.page);
 });
-When("User access Email subscription page", async () => {
+When("User access Email subscription page", async function () {
     await emailConfigPage.navigateToEmailSubscription();
 });
 ```
