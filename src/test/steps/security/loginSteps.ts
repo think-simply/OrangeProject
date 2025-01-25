@@ -4,7 +4,7 @@ import { expect } from '@playwright/test';
 import { pageFixture } from '../../../hooks/pageFixture';
 import LoginPage from "#test/pages/securityPage/loginPage";
 
-let guestPage:LoginPage;
+let guestPage: LoginPage;
 BeforeStep(async function () {
     guestPage = new LoginPage(pageFixture.page);
   });
