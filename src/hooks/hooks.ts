@@ -48,27 +48,19 @@ Before(async function (this: TestContext, scenario) {
     this.Context = await browser.newContext();
     const Page = await this.Context.newPage();
     pageFixture.page = Page;
-
   }
+  this.Page = pageFixture.page;
 });
 
 After(async function (this: TestContext, { pickle, result }) {
   if (result?.status === Status.FAILED) {
     const sanitizedName = pickle.name.replace(/:/g, ""); // Remove all colons
-
-    if (this.adminPage) {
-      await this.adminPage.screenshot({
-        path: `./test-results/screenshots/admin-${sanitizedName}.png`,
-        type: "png",
-      });
-    }
-    if (this.staffPage) {
+    if (this.Page) {
       await this.staffPage.screenshot({
         path: `./test-results/screenshots/staff-${sanitizedName}.png`,
         type: "png",
       });
     }
-
   }
 
   if (this.adminContext) {
