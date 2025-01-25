@@ -22,6 +22,8 @@ jobs:
         run: npm ci
       - name: Run automated admin testcase with cucumber
         run: npm run test -- --parallel 10 
+      - name: Run automated testcase multi users context demo
+        run: npx cucumber-js  --tags @all
       - name: Run automated API testcase with cucumber
         run: npm run api -- --parallel 1
         if: always()
