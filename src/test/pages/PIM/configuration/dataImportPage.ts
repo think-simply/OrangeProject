@@ -57,7 +57,7 @@ export default class dataImportPIMPage {
   }
   async verifyDownload() {
     //verified
-    console.log(`File has been downloaded and saved to: ${flexibleData}`);
+    //console.log(`File has been downloaded and saved to: ${flexibleData}`);
   }
   async uploadFile(){
     //upload

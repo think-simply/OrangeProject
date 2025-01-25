@@ -1,5 +1,5 @@
 import { chromium } from '@playwright/test';
-import { authConfig } from './auth.config';
+import { authConfig } from './src/config/auth.config';
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';

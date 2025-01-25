@@ -84,7 +84,7 @@ export default class WorkShiftsPage {
         await this.elements.successToast().waitFor({ state: 'visible', timeout: 20000 });
     }
     async verifyRemoveMultiShift(text: string) {
-        await this.page.route(`${process.env.SEARCH_URL}`, async (route) => {
+        await this.page.route(`${process.env.SEARCH_URL}`, async function (route) {
             const response = await route.fetch();
             expect(response.status()).toBe(200);
         });

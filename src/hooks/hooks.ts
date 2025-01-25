@@ -1,7 +1,7 @@
 import { setDefaultTimeout, BeforeAll, AfterAll, Before, After, Status, } from "@cucumber/cucumber";
 import { Browser, BrowserContext, Page, chromium } from "@playwright/test";
 import { pageFixture } from "./pageFixture";
-import { authConfig } from '../../auth.config';
+import { authConfig } from '#config/auth.config';
 
 let browser: Browser;
 interface TestContext {

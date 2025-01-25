@@ -32,8 +32,6 @@ export class SubUnitService {
       parentId: 1, // Always use 1 as the parentId
     };
 
-    console.log("Creating subunit with payload:", payload);
-
     const response = await this.apiContext.post(
       `${process.env.SUBUNIT_API_URL}`,
       {
@@ -54,7 +52,6 @@ export class SubUnitService {
 
     const responseBody = await response.json();
 
-    console.log(`Subunit created successfully:`, responseBody);
 
     // Extracting the important fields from the response
     const subUnitData = {
@@ -67,10 +64,8 @@ export class SubUnitService {
       right: responseBody.data.right,
     };
 
-    console.log(`Parsed Subunit Data:`, subUnitData);
     return subUnitData;
   }
-  // Method to update a subunit
   // Method to update a subunit
   async updateSubUnit(
     id: number,
@@ -84,8 +79,6 @@ export class SubUnitService {
       description: description,
       parentId: 1, // Assuming parentId remains fixed
     };
-
-    console.log(`Updating subunit with ID ${id} and payload:`, payload);
 
     const response = await this.apiContext.put(
       `${process.env.SUBUNIT_API_URL}/${id}`,
@@ -107,7 +100,6 @@ export class SubUnitService {
 
     const responseBody = await response.json();
 
-    console.log(`Subunit updated successfully:`, responseBody);
 
     // Extracting the updated fields from the response
     const updatedSubUnitData = {
@@ -119,8 +111,6 @@ export class SubUnitService {
       left: responseBody.data.left,
       right: responseBody.data.right,
     };
-
-    console.log(`Parsed Updated Subunit Data:`, updatedSubUnitData);
 
     return updatedSubUnitData;
   }
@@ -144,7 +134,7 @@ export class SubUnitService {
     const subUnits = await this.listAllSubUnits();
 
     if (!subUnits || subUnits.length === 0) {
-      console.log("No subunits found to delete.");
+      //console.log("No subunits found to delete.");
       return;
     }
 
@@ -158,11 +148,11 @@ export class SubUnitService {
         );
 
         for (const level1SubUnit of level1SubUnits) {
-          console.log(
-            `Deleting subunit with ID ${level1SubUnit.id} and name ${level1SubUnit.name}`
-          );
+          //console.log(
+          //  `Deleting subunit with ID ${level1SubUnit.id} and name ${level1SubUnit.name}`
+          //);
           await this.deleteSubUnit(level1SubUnit.id);
-          console.log(`Subunit deleted: ${level1SubUnit.name}`);
+          //console.log(`Subunit deleted: ${level1SubUnit.name}`);
           found = true;
         }
       }
@@ -179,7 +169,7 @@ export class SubUnitService {
     const subUnits = await this.listAllSubUnits();
 
     if (!subUnits || subUnits.length === 0) {
-      console.log("No subunits found to delete.");
+      //console.log("No subunits found to delete.");
       return;
     }
 
@@ -191,7 +181,7 @@ export class SubUnitService {
         );
 
         for (const level1SubUnit of level1SubUnits) {
-          console.log(level1SubUnit.id);
+          //console.log(level1SubUnit.id);
           await this.deleteSubUnit(level1SubUnit.id);
         }
       }

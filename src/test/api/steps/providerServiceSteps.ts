@@ -16,7 +16,7 @@ When(
   "I send a POST request to create new provider with parameters:",
   async function (dataTable: DataTable) {
     const requestBody: Record<string, string> = {};
-    dataTable.hashes().forEach((row) => {
+    dataTable.hashes().forEach(function (row) {
       requestBody[row.parameter] = row.value;
     });
     response = await providerService.createProvider(requestBody);
@@ -43,7 +43,7 @@ When(
   "I send a PUT request to update a provider with parameters:",
   async function (dataTable: DataTable) {
     const requestBody: Record<string, string> = {};
-    dataTable.hashes().forEach((row) => {
+    dataTable.hashes().forEach(function (row) {
       requestBody[row.parameter] = row.value;
     });
     response = await providerService.updateProvider(providerId, requestBody);

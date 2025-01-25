@@ -10,7 +10,7 @@ Feature: Functions in Admin Menu - Admin role
     Then User management page has been displayed
 
   @high
-  Scenario Outline: US_02: Add new user : <role>
+  Scenario Outline: US_02: Add new user: <role>
     When User creates a new user with role "<role>" and employee "<employee>", username "<username>", password "<password>", confirm password "<confirm password>"
     Then New "<username>" user has been created successfully
 
@@ -22,12 +22,12 @@ Feature: Functions in Admin Menu - Admin role
   @medium
   Scenario: US_03: Search user by user name - return exactly result
     When User creates a new user with role "Admin" and employee "tina thi", username "searchname", password "Admin@1234", confirm password "Admin@1234"
-    And User search by username : "searchname"
+    And User search by username: "searchname"
     Then Result "searchname" has been displayed follow username
 
   @medium
   Scenario: US_04: Search user by user name - <return no result>
-    When User search by username : "usernamenoreturn"
+    When User search by username: "usernamenoreturn"
     Then Alert no result and "No Records Found" text has been displayed
 
   @medium
