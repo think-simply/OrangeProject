@@ -36,9 +36,18 @@ jobs:
 
       - name: Run browser test
         run: |
-          export K6_BROWSER_HEADLESS=true 
+          export K6_BROWSER_HEADLESS=true
+          export K6_WEB_DASHBOARD=true
+          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report.html 
           export K6_BROWSER_ARGS='no-sandbox' 
           if [ "$ACT" = "true" ]; then
             export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
           fi
           k6 run performance/performance-test.js
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            test-results/performance-html-report.html 
+        if: always()
