@@ -14,9 +14,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install k6
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16 # or a suitable version
+          node-version: lts/* # or a suitable version
+
       - run: npm install -g k6@latest # or a specific k6 version (e.g., k6@0.47.0)
 
       - name: Run k6 browser test
