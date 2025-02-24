@@ -8,8 +8,8 @@ export const options = {
   scenarios: {
     ui: {
       executor: "shared-iterations",
-      vus: 5,
-      iterations: 5,
+      vus: 14,
+      iterations: 14,
       options: {
         browser: {
           type: "chromium",
