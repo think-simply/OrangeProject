@@ -21,7 +21,7 @@ jobs:
       - run: npm install -g k6@latest # or a specific k6 version (e.g., k6@0.47.0)
 
       - name: Run k6 browser test
-        run: npx k6 run performance/performance-test.js
+        run: k6 run performance/performance-test.js
 
       - name: Check k6 thresholds (Optional)
-        run: npx k6 check performance/performance-test.js
+        run: k6 check performance/performance-test.js
