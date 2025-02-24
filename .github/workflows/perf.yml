@@ -39,7 +39,8 @@ jobs:
           export K6_BROWSER_HEADLESS=true
           export K6_WEB_DASHBOARD=true
           export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report.html 
-          export K6_BROWSER_ARGS='no-sandbox' 
+          export K6_BROWSER_ARGS='no-sandbox'
+          mkdir -p test-results 
           if [ "$ACT" = "true" ]; then
             export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
           fi
@@ -48,6 +49,6 @@ jobs:
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          path: |
-            test-results/performance-html-report.html 
+          name: performance-html-report.html
+          path: test-results
         if: always()
