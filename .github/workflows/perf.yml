@@ -1,19 +1,25 @@
-name: k6 Load Test
+name: k6 Performance Test
+
 on:
   push:
     branches:
-      - "**"
+      - '**'
 
 jobs:
   run-test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest # Use macos-latest for browser support
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup K6
-        uses: grafana/setup-k6-action@v1
-      - name: Run local k6 test
-        uses: grafana/run-k6-action@v1
+        uses: grafana/k6-action@v0.2.0 # Use the latest version
         with:
-          path: performance/performance-test.js
+          version: latest
+
+      - name: Run k6 browser test
+        run: k6 run performance/performance-test.js # Replace with your script name
+
+      - name: Check k6 thresholds (Optional)
+        run: k6 check performance/performance-test.js
