@@ -7,19 +7,20 @@ on:
 
 jobs:
   run-test:
-    runs-on: macos-latest # Use macos-latest for browser support
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup K6
-        uses: grafana/k6-action@v0.2.0 # Use the latest version
+      - name: Install k6
+        uses: actions/setup-node@v3
         with:
-          version: latest
+          node-version: 16 # or a suitable version
+      - run: npm install -g k6@latest # or a specific k6 version (e.g., k6@0.47.0)
 
       - name: Run k6 browser test
-        run: k6 run performance/performance-test.js # Replace with your script name
+        run: k6 run performance/performance-test.js
 
       - name: Check k6 thresholds (Optional)
         run: k6 check performance/performance-test.js
