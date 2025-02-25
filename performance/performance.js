@@ -63,7 +63,7 @@ export default async function () {
       "https://buianthai.online/orangehrm/web/index.php/auth/login",
       { timeout: 60000 }
     );
-    await page.waitForSelector(".oxd-form",{timeout: 60000});
+    await page.waitForSelector(".oxd-form", { timeout: 60000 });
     const token = await page
       .locator('input[name="_token"]')
       .getAttribute("value", { timeout: 60000 });
@@ -72,8 +72,8 @@ export default async function () {
     check(token, { "token present": (t) => t != null && t !== "" });
     await page.locator('input[name="username"]').type(user.username);
     await page.locator('input[name="password"]').type(user.password);
-    await page.locator('button[type="submit"]').click( { timeout: 60000 });
-    await page.waitForNavigation({timeout: 60000}); // Wait for redirect after login
+    await page.locator('button[type="submit"]').click({ timeout: 60000 });
+    await page.waitForNavigation({ timeout: 60000 }); // Wait for redirect after login
     const cookies = await page.context().cookies({ timeout: 60000 });
     const orangehrmCookie = cookies.find((c) => c.name === "orangehrm");
     console.log(
@@ -85,6 +85,16 @@ export default async function () {
       "cookie present": (c) => c != null,
       "cookie contains orangehrm": (c) => c && c.name === "orangehrm",
     });
+  } catch (error) {
+    // This is the catch block
+    console.error(`Error in VU ${__VU}:`, error);
+    check(false, { "Test step failed": false }); // Or a more specific check
+    // You can add more specific error handling here, e.g.,
+    if (error.message.includes("Navigation Timeout")) {
+      console.error("Navigation timed out!");
+    } else if (error.message.includes("Element not found")) {
+      console.error("Element not found on the page!");
+    }
   } finally {
     await page.close();
   }
