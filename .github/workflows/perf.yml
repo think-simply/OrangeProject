@@ -34,21 +34,35 @@ jobs:
       # 2. Run ACT using the `--container-architecture linux/amd64` flag. For example: 
       #    act -W .github/workflows/browser.yml --container-architecture linux/amd64
 
-      - name: Run browser test
+      - name: Run smoke browser test
         run: |
           export K6_BROWSER_HEADLESS=true
           export K6_WEB_DASHBOARD=true
-          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report.html 
+          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-smoke.html 
           export K6_BROWSER_ARGS='no-sandbox'
           mkdir -p test-results 
           if [ "$ACT" = "true" ]; then
             export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
           fi
-          k6 run performance/performance-test.js
+          export SCENARIO=smoke
+          k6 run performance/performance.js
+
+      - name: Run load browser test
+        run: |
+          export K6_BROWSER_HEADLESS=true
+          export K6_WEB_DASHBOARD=true
+          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-load.html 
+          export K6_BROWSER_ARGS='no-sandbox'
+          mkdir -p test-results 
+          if [ "$ACT" = "true" ]; then
+            export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
+          fi
+          export SCENARIO=load
+          k6 run performance/performance.js
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          name: performance-html-report.html
+          name: performance-html-report*.html
           path: test-results
         if: always()
