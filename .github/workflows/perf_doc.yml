@@ -8,8 +8,7 @@ jobs:
     container: grafana/k6:latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Run smoke browser test
         run: |
@@ -24,7 +23,7 @@ jobs:
           export SCENARIO=smoke
           k6 run performance/performance.js
           ls -l test-results
-          
+
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:

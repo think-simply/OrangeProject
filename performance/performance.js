@@ -76,7 +76,7 @@ export default async function () {
     await page.locator('input[name="password"]').type(user.password);
     await page.locator('button[type="submit"]').click({ timeout: 60000 });
     await page.waitForNavigation({ timeout: 60000 }); // Wait for redirect after login
-    const cookies = await page.context().cookies({ timeout: 60000 });
+    const cookies = await page.context().cookies();
     const orangehrmCookie = cookies.find((c) => c.name === "orangehrm");
     console.log(
       `Cookie for VU ${__VU}:`,
