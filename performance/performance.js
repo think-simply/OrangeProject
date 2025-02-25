@@ -29,10 +29,10 @@ const scenarios = {
 let selectedScenario = __ENV.SCENARIO || "load"; // Default to "load"
 
 export const options = {
-  stages: scenarios[selectedScenario].stages,
   scenarios: {
     ui: {
       executor: "shared-iterations",
+      stages: scenarios[selectedScenario].stages,
       options: {
         browser: {
           type: "chromium",
