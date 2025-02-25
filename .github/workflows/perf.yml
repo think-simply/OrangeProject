@@ -47,7 +47,7 @@ jobs:
         run: |
           export K6_BROWSER_HEADLESS=true
           export K6_WEB_DASHBOARD=true
-          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-l.html
+          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-load.html
           echo $K6_WEB_DASHBOARD_EXPORT
           export K6_BROWSER_ARGS='no-sandbox'
           if [ "$ACT" = "true" ]; then
