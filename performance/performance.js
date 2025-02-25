@@ -14,8 +14,8 @@ const testConfigs = {
   },
   load: {
     executor: "shared-iterations",
-    vus: 14,
-    iterations: 14,
+    vus: 10,
+    iterations: 50,
     maxDuration: "5m",
   },
   normal: {
