@@ -41,7 +41,7 @@ jobs:
           fi
           export SCENARIO=smoke
           # Run k6 and time it, capturing resource usage
-          k6 run -o html=test-results/report-smoke.html -o json=test-results/results-smoke.json performance/performance.js &> test-results/k6_results.txt  # Redirect output
+          k6 run -o json=test-results/results-smoke.json performance/performance.js &> test-results/k6_results.txt  # Redirect output
           K6_PID=$?
           top -b -n 10 -d 1 > test-results/system_stats.txt &  
           TOP_PID=$?
