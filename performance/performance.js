@@ -4,35 +4,46 @@ import { check } from "k6";
 
 const csvData = papa.parse(open("users.csv"), { header: true }).data;
 
-const scenarios = {
+// Define test configurations for different scenarios
+const testConfigs = {
   smoke: {
-    stages: [{ duration: "1m", target: 2 }], // Short smoke test
+    executor: "shared-iterations",
+    vus: 2,
+    iterations: 10,
+    maxDuration: '1m'
   },
   load: {
-    stages: [
-      { duration: "1m", target: 6 },
-      { duration: "1m", target: 14 },
-      { duration: "1m", target: 14 }, // Maintain peak load
-      { duration: "1m", target: 0 },
-    ],
+    executor: "shared-iterations",
+    vus: 14,
+    iterations: 14,
+    maxDuration: '5m'
   },
-  stress: {
+  normal: {
+    executor: "ramping-vus",
     stages: [
-      { duration: "1m", target: 10 }, // Higher load for stress test
-      { duration: "1m", target: 15 },
-      { duration: "1m", target: 15 }, // Maintain peak load
-      { duration: "1m", target: 0 },
-    ],
-  },
+      { duration: '30s', target: 6 },   // Increase to 6 VUs in 30s
+      { duration: '30s', target: 14 },  // Increase to 14 VUs in next 30s
+      { duration: '30s', target: 6 },   // Reduce to 6 VUs in next 30s
+      { duration: '30s', target: 0 }    // Reduce to 0 VUs in final 30s
+    ]
+  }
 };
 
-let selectedScenario = __ENV.SCENARIO || "load"; // Default to "load"
+// Get scenario from environment variable, default to 'smoke' if not set
+const scenario = __ENV.SCENARIO || 'load';
 
+// Export dynamic options based on selected scenario
 export const options = {
   scenarios: {
     ui: {
-      executor: "shared-iterations",
-      stages: scenarios[selectedScenario].stages,
+      executor: testConfigs[scenario].executor,
+      // Apply stages if present (for ramping-vus), otherwise use shared-iterations properties
+      ...(testConfigs[scenario].stages ? { stages: testConfigs[scenario].stages } : {
+        vus: testConfigs[scenario].vus,
+        iterations: testConfigs[scenario].iterations,
+        maxDuration: testConfigs[scenario].maxDuration
+      }),
+      // Browser options remain at this level for all scenarios
       options: {
         browser: {
           type: "chromium",
