@@ -29,7 +29,7 @@ const testConfigs = {
   }
 };
 
-const scenario = __ENV.SCENARIO || 'load';
+const scenario = __ENV.SCENARIO ;
 
 // Export dynamic options based on selected scenario
 export const options = {
@@ -66,15 +66,15 @@ export default async function () {
     await page.waitForSelector(".oxd-form",{timeout: 60000});
     const token = await page
       .locator('input[name="_token"]')
-      .getAttribute("value");
+      .getAttribute("value", { timeout: 60000 });
 
     console.log("Token:", token);
     check(token, { "token present": (t) => t != null && t !== "" });
     await page.locator('input[name="username"]').type(user.username);
     await page.locator('input[name="password"]').type(user.password);
-    await page.locator('button[type="submit"]').click();
+    await page.locator('button[type="submit"]').click( { timeout: 60000 });
     await page.waitForNavigation({timeout: 60000}); // Wait for redirect after login
-    const cookies = await page.context().cookies();
+    const cookies = await page.context().cookies({ timeout: 60000 });
     const orangehrmCookie = cookies.find((c) => c.name === "orangehrm");
     console.log(
       `Cookie for VU ${__VU}:`,

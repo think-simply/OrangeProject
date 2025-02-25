@@ -41,12 +41,13 @@ jobs:
           fi
           export SCENARIO=smoke
           k6 run performance/performance.js
+          ls -l test-results
 
       - name: Run load browser test
         run: |
           export K6_BROWSER_HEADLESS=true
           export K6_WEB_DASHBOARD=true
-          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-load.html
+          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-l.html
           echo $K6_WEB_DASHBOARD_EXPORT
           export K6_BROWSER_ARGS='no-sandbox'
           if [ "$ACT" = "true" ]; then
@@ -68,6 +69,7 @@ jobs:
           fi
           export SCENARIO=normal
           k6 run performance/performance.js
+          ls -l test-results
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
