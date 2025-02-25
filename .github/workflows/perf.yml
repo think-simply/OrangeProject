@@ -29,11 +29,6 @@ jobs:
           sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
           sudo apt update && sudo apt install -y google-chrome-stable
 
-      # If you plan to run ACT on Apple Silicon, be aware that Chrome has not yet released an arm64 version. In this case, you have to:
-      # 1. Enable the option on Docker Desktop: `Use Rosetta for x86/amd64 emulation on Apple Silicon`
-      # 2. Run ACT using the `--container-architecture linux/amd64` flag. For example: 
-      #    act -W .github/workflows/browser.yml --container-architecture linux/amd64
-
       - name: Run smoke browser test
         run: |
           export K6_BROWSER_HEADLESS=true
@@ -53,11 +48,23 @@ jobs:
           export K6_WEB_DASHBOARD=true
           export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-load.html 
           export K6_BROWSER_ARGS='no-sandbox'
-          mkdir -p test-results 
           if [ "$ACT" = "true" ]; then
             export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
           fi
           export SCENARIO=load
+          k6 run performance/performance.js
+
+      - name: Run normal browser test
+        run: |
+          export K6_BROWSER_HEADLESS=true
+          export K6_WEB_DASHBOARD=true
+          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-normal.html
+          echo $K6_WEB_DASHBOARD_EXPORT
+          export K6_BROWSER_ARGS='no-sandbox'
+          if [ "$ACT" = "true" ]; then
+            export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
+          fi
+          export SCENARIO=normal
           k6 run performance/performance.js
 
       - name: Upload test results
