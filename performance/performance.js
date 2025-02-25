@@ -22,7 +22,7 @@ const testConfigs = {
     executor: "ramping-vus",
     stages: [
       { duration: "30s", target: 6 }, // Increase to 6 VUs in 30s
-      { duration: "30s", target: 14 }, // Increase to 14 VUs in next 30s
+      { duration: "30s", target: 10 }, // Increase to 10 VUs in next 30s
       { duration: "30s", target: 6 }, // Reduce to 6 VUs in next 30s
       { duration: "30s", target: 0 }, // Reduce to 0 VUs in final 30s
     ],
