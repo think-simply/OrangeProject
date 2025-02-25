@@ -29,7 +29,6 @@ const testConfigs = {
   }
 };
 
-// Get scenario from environment variable, default to 'smoke' if not set
 const scenario = __ENV.SCENARIO || 'load';
 
 // Export dynamic options based on selected scenario
@@ -61,9 +60,10 @@ export default async function () {
   let user = csvData[__VU - 1];
   try {
     await page.goto(
-      "https://buianthai.online/orangehrm/web/index.php/auth/login"
+      "https://buianthai.online/orangehrm/web/index.php/auth/login",
+      { timeout: 60000 }
     );
-    await page.waitForSelector(".oxd-form");
+    await page.waitForSelector(".oxd-form",{timeout: 60000});
     const token = await page
       .locator('input[name="_token"]')
       .getAttribute("value");
@@ -73,7 +73,7 @@ export default async function () {
     await page.locator('input[name="username"]').type(user.username);
     await page.locator('input[name="password"]').type(user.password);
     await page.locator('button[type="submit"]').click();
-    await page.waitForNavigation(); // Wait for redirect after login
+    await page.waitForNavigation({timeout: 60000}); // Wait for redirect after login
     const cookies = await page.context().cookies();
     const orangehrmCookie = cookies.find((c) => c.name === "orangehrm");
     console.log(
