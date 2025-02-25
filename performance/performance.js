@@ -10,26 +10,26 @@ const testConfigs = {
     executor: "shared-iterations",
     vus: 2,
     iterations: 10,
-    maxDuration: '1m'
+    maxDuration: "1m",
   },
   load: {
     executor: "shared-iterations",
     vus: 14,
     iterations: 14,
-    maxDuration: '5m'
+    maxDuration: "5m",
   },
   normal: {
     executor: "ramping-vus",
     stages: [
-      { duration: '30s', target: 6 },   // Increase to 6 VUs in 30s
-      { duration: '30s', target: 14 },  // Increase to 14 VUs in next 30s
-      { duration: '30s', target: 6 },   // Reduce to 6 VUs in next 30s
-      { duration: '30s', target: 0 }    // Reduce to 0 VUs in final 30s
-    ]
-  }
+      { duration: "30s", target: 6 }, // Increase to 6 VUs in 30s
+      { duration: "30s", target: 14 }, // Increase to 14 VUs in next 30s
+      { duration: "30s", target: 6 }, // Reduce to 6 VUs in next 30s
+      { duration: "30s", target: 0 }, // Reduce to 0 VUs in final 30s
+    ],
+  },
 };
 
-const scenario = __ENV.SCENARIO ;
+const scenario = __ENV.SCENARIO;
 
 // Export dynamic options based on selected scenario
 export const options = {
@@ -37,11 +37,13 @@ export const options = {
     ui: {
       executor: testConfigs[scenario].executor,
       // Apply stages if present (for ramping-vus), otherwise use shared-iterations properties
-      ...(testConfigs[scenario].stages ? { stages: testConfigs[scenario].stages } : {
-        vus: testConfigs[scenario].vus,
-        iterations: testConfigs[scenario].iterations,
-        maxDuration: testConfigs[scenario].maxDuration
-      }),
+      ...(testConfigs[scenario].stages
+        ? { stages: testConfigs[scenario].stages }
+        : {
+            vus: testConfigs[scenario].vus,
+            iterations: testConfigs[scenario].iterations,
+            maxDuration: testConfigs[scenario].maxDuration,
+          }),
       // Browser options remain at this level for all scenarios
       options: {
         browser: {
@@ -85,16 +87,6 @@ export default async function () {
       "cookie present": (c) => c != null,
       "cookie contains orangehrm": (c) => c && c.name === "orangehrm",
     });
-  } catch (error) {
-    // This is the catch block
-    console.error(`Error in VU ${__VU}:`, error);
-    check(false, { "Test step failed": false }); // Or a more specific check
-    // You can add more specific error handling here, e.g.,
-    if (error.message.includes("Navigation Timeout")) {
-      console.error("Navigation timed out!");
-    } else if (error.message.includes("Element not found")) {
-      console.error("Element not found on the page!");
-    }
   } finally {
     await page.close();
   }
