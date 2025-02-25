@@ -7,7 +7,6 @@ const csvData = papa.parse(open("users.csv"), { header: true }).data;
 const scenarios = {
   smoke: {
     stages: [{ duration: "1m", target: 2 }], // Short smoke test
-    iterations: 10,
   },
   load: {
     stages: [
@@ -16,7 +15,6 @@ const scenarios = {
       { duration: "1m", target: 14 }, // Maintain peak load
       { duration: "1m", target: 0 },
     ],
-    iterations: 200,
   },
   stress: {
     stages: [
@@ -25,7 +23,6 @@ const scenarios = {
       { duration: "1m", target: 15 }, // Maintain peak load
       { duration: "1m", target: 0 },
     ],
-    iterations: 500,
   },
 };
 
@@ -33,7 +30,6 @@ let selectedScenario = __ENV.SCENARIO || "load"; // Default to "load"
 
 export const options = {
   stages: scenarios[selectedScenario].stages,
-  iterations: scenarios[selectedScenario].iterations,
   scenarios: {
     ui: {
       executor: "shared-iterations",
