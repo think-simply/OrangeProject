@@ -1,0 +1,53 @@
+name: k6 Performance Test
+
+on:
+  push:
+    branches:
+      - '**'
+jobs:
+  k6_browser_test:
+    name: k6 browser test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install k6 in Ubuntu
+        run: |  
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      # Install Chrome (or chromium) when using ACT, as the default ACT image does not include it.
+      # Note that running the browser in a container like Snap or Flatpak is not supported.
+      - name: Install chrome
+        run: |  
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt update && sudo apt install -y google-chrome-stable
+
+      - name: Run smoke browser test
+        run: |
+          export K6_BROWSER_HEADLESS=true
+          export K6_WEB_DASHBOARD=true
+          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-smoke.html
+          export K6_BROWSER_ARGS='no-sandbox'
+          mkdir -p test-results 
+          if [ "$ACT" = "true" ]; then
+            export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
+          fi
+          export SCENARIO=smoke
+          # Run k6 and time it, capturing resource usage
+          time -v k6 run performance/performance.js &> k6_results.txt  # Redirect output
+          top -b -n 10 -d 1 > system_stats.txt &  
+          wait $!
+          cat k6_results.txt
+          cat system_stats.txt
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          path: test-results/performance-html-report-*.html
+        if: always()
