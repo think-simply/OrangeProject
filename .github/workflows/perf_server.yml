@@ -42,9 +42,9 @@ jobs:
           export SCENARIO=smoke
           # Run k6 and time it, capturing resource usage
           k6 run -o html=test-results/report-smoke.html -o json=test-results/results-smoke.json performance/performance.js &> test-results/k6_results.txt  # Redirect output
-          K6_PID=$!
+          K6_PID=$?
           top -b -n 10 -d 1 > test-results/system_stats.txt &  
-          TOP_PID=$!
+          TOP_PID=$?
           wait $K6_PID
           kill $TOP_PID
           cat test-results/k6_results.txt
@@ -52,5 +52,5 @@ jobs:
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          path: test-results/performance-html-report-*.html
+          path: test-results/*
         if: always()
