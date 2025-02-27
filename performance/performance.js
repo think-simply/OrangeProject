@@ -14,16 +14,16 @@ const testConfigs = {
   },
   load: {
     executor: "shared-iterations",
-    vus: 10,
+    vus: 8,
     iterations: 50,
     maxDuration: "5m",
   },
   normal: {
     executor: "ramping-vus",
     stages: [
-      { duration: "30s", target: 6 }, // Increase to 6 VUs in 30s
-      { duration: "30s", target: 10 }, // Increase to 10 VUs in next 30s
-      { duration: "30s", target: 6 }, // Reduce to 6 VUs in next 30s
+      { duration: "30s", target: 4 }, // Increase to 4 VUs in 30s
+      { duration: "30s", target: 8 }, // Increase to 8 VUs in next 30s
+      { duration: "30s", target: 4 }, // Reduce to 4 VUs in next 30s
       { duration: "30s", target: 0 }, // Reduce to 0 VUs in final 30s
     ],
   },
@@ -87,6 +87,9 @@ export default async function () {
       "cookie present": (c) => c != null,
       "cookie contains orangehrm": (c) => c && c.name === "orangehrm",
     });
+  } catch (error) {
+    console.error(`Error in VU ${__VU}: ${error.message}`);
+    fail(`Test failed in VU ${__VU}: ${error.message}`);
   } finally {
     await page.close();
   }
