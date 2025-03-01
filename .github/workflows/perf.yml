@@ -77,12 +77,21 @@ jobs:
           export K6_WEB_DASHBOARD=true
           export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-API.html
           export K6_BROWSER_ARGS='no-sandbox'
-          mkdir -p test-results 
           if [ "$ACT" = "true" ]; then
             export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
           fi
-          export SCENARIO=smoke
           k6 run performance/API-performance-test.js
+          ls -l test-results
+      - name: Run websocket-demo test
+        run: |
+          export K6_BROWSER_HEADLESS=true
+          export K6_WEB_DASHBOARD=true
+          export K6_WEB_DASHBOARD_EXPORT=test-results/performance-html-report-WebSocket.html
+          export K6_BROWSER_ARGS='no-sandbox'
+          if [ "$ACT" = "true" ]; then
+            export K6_BROWSER_EXECUTABLE_PATH=/usr/bin/google-chrome
+          fi
+          k6 run performance/websocket-demo.js
           ls -l test-results
 
       - name: Upload test results
